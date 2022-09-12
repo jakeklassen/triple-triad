@@ -1,0 +1,25 @@
+{
+  "folders": [
+    {
+      "name": "✨ root",
+      "path": "."
+    },
+    {
+      "name": "📦 frontend-react",
+      "path": "packages/frontend-react"
+    },
+    {
+      "name": "📦 game",
+      "path": "packages/game"
+    }
+  ],
+  "settings": {
+    "editor.inlayHints.enabled": "on",
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+    }
+    // "typescript.preferences.importModuleSpecifierEnding": "js"
+  }
+}
