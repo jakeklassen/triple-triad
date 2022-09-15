@@ -20,6 +20,7 @@ export class Player {
   static Two = 'two' as const;
 
   #hand: Hand;
+
   public readonly label: PlayerLabel;
 
   constructor({ label, hand }: PlayerOptions) {

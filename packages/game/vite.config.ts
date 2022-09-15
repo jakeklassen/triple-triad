@@ -11,6 +11,9 @@ const config = defineConfig({
   build: {
     target: 'node18',
   },
+  test: {
+    cache: false,
+  },
 });
 
 export default config;

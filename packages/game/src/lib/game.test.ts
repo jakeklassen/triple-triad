@@ -5,8 +5,13 @@ import { Game } from './game';
 import { Player } from './player';
 
 describe('game', () => {
-  it('should initialize an empty board', () => {
+  const firstFiveCards = [Cards[0], Cards[1], Cards[2], Cards[3], Cards[4]];
+
+  it.only('should initialize an empty board', () => {
     const game = new Game();
+
+    game.publicDoStuff(1, 2);
+    console.log(game.events);
 
     expect(game.board).toEqual([
       Array(3).fill(undefined),
@@ -112,7 +117,7 @@ describe('game', () => {
 
   it("should allow a player to flip an opponent's card", () => {
     const game = new Game({
-      cards: [Cards[0], Cards[1], Cards[2], Cards[3], Cards[4]],
+      cards: structuredClone(firstFiveCards),
     });
 
     const playerOneLosingCard = game.players.one.hand.find(
@@ -130,5 +135,74 @@ describe('game', () => {
 
     expect(game.whoOwnsPosition([0, 0])).toBe(Player.Two);
     expect(game.whoOwnsPosition([1, 0])).toBe(Player.Two);
+  });
+
+  it("should allow a player to cause a cascade on flip of an opponent's card", () => {
+    /**
+     * PlayerOne = x, PlayerTwo = o
+     */
+    const game = new Game({
+      cards: structuredClone(firstFiveCards),
+    });
+
+    // N, E, S, W
+    // 1, 4, 1, 5
+    const playerOneGeezard = game.players.one.hand.find(
+      (card) => card?.name === 'Geezard',
+    );
+    assert(playerOneGeezard);
+
+    // 5, 1, 1, 3
+    const playerOneFungar = game.players.one.hand.find(
+      (card) => card?.name === 'Fungar',
+    );
+    assert(playerOneFungar);
+
+    // 1, 4, 1, 5
+    const playerTwoGeezard = game.players.two.hand.find(
+      (card) => card?.name === 'Geezard',
+    );
+    assert(playerTwoGeezard);
+
+    // 2, 3, 1, 5
+    const playerTwoBlobra = game.players.two.hand.find(
+      (card) => card?.name === 'Blobra',
+    );
+    assert(playerTwoBlobra);
+
+    /**
+     * x, _, _
+     * _, _, _
+     * _, _, _
+     */
+    game.playCard(Player.One, playerOneFungar, [0, 0]);
+
+    /**
+     * x, _, _
+     * _, _, _
+     * _, _, o
+     */
+    game.playCard(Player.Two, playerTwoGeezard, [2, 2]);
+
+    /**
+     * x, x, _
+     * _, _, _
+     * _, _, o
+     */
+    game.playCard(Player.One, playerOneGeezard, [0, 1]);
+
+    /**
+     * x, x, o
+     * _, _, _
+     * _, _, o
+     */
+    game.playCard(Player.Two, playerTwoBlobra, [0, 2]);
+
+    expect(game.whoOwnsPosition([0, 0])).toBe(Player.Two);
+    expect(game.whoOwnsPosition([0, 1])).toBe(Player.Two);
+    expect(game.whoOwnsPosition([0, 2])).toBe(Player.Two);
+    expect(game.whoOwnsPosition([2, 2])).toBe(Player.Two);
+
+    console.log(game.events);
   });
 });
