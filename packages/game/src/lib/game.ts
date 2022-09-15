@@ -16,36 +16,7 @@ type Cell = {
 
 type Direction = 'north' | 'south' | 'east' | 'west';
 
-function trackEvent(event: string) {
-  console.log('trackEvent', event);
-
-  return function (
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor,
-  ) {
-    const originalMethod = descriptor.value;
-
-    console.log('decorator', {
-      target: target.constructor.name,
-      propertyKey,
-      descriptor,
-      originalMethod,
-    });
-
-    descriptor.value = function (...args: any[]) {
-      console.log('decorator', { event, args });
-      const results = originalMethod.apply(this, args);
-      console.log();
-
-      console.log(results * 2);
-
-      return results;
-    };
-  };
-}
-
-class _Game {
+export class Game {
   static readonly BoardSize = 3;
 
   #board: Cell[][] = [
@@ -176,35 +147,3 @@ class _Game {
     return false;
   }
 }
-
-const GameProxyHandler: ProxyHandler<_Game> = {
-  get(target, prop, receiver) {
-    console.log('get', { target, prop, receiver });
-
-    const value = Reflect.get(target, prop);
-
-    if (prop === 'doStuff') {
-      if (value instanceof Function) {
-        return function (this: _Game, ...args: any[]) {
-          this.events.push('doStuff');
-
-          return Reflect.apply(value, this === receiver ? target : this, args);
-        };
-      }
-    }
-
-    if (value instanceof Function) {
-      return function (this: _Game, ...args: any[]) {
-        return Reflect.apply(value, this === receiver ? target : this, args);
-      };
-    }
-
-    return value;
-  },
-};
-
-export const Game = new Proxy(_Game, {
-  construct(target, args) {
-    return new Proxy(new target(...args), GameProxyHandler);
-  },
-});
