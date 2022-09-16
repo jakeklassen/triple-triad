@@ -71,7 +71,7 @@ describe('game', () => {
     expect(getCardFromPosition(CARDS, board, [0, 0])).toBe(card);
   });
 
-  it('should throw an error if the position is occupied', () => {
+  it('should throw an error if the board position is occupied', () => {
     const { board, playerOne } = createGame();
 
     const whichCard = 0;
@@ -82,6 +82,19 @@ describe('game', () => {
     playCard(board, playerOne, card, [0, 0]);
 
     expect(() => playCard(board, playerOne, card, [0, 0])).toThrow();
+  });
+
+  it('should throw an error if the same player has played the same card', () => {
+    const { board, playerOne } = createGame();
+
+    const whichCard = 0;
+    const card = playerOne.hand[whichCard];
+
+    assert(card);
+
+    playCard(board, playerOne, card, [0, 0]);
+
+    expect(() => playCard(board, playerOne, card, [0, 1])).toThrow();
   });
 
   it('should throw an error if the position is out of bounds', () => {
@@ -115,6 +128,72 @@ describe('game', () => {
 
     expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
     expect(whoOwnsPosition(board, [1, 0])).toBe(Player.Two);
+  });
+
+  it("should allow a player to flip an opponent's southern card", () => {
+    const { board, playerOne, playerTwo } = createGame({
+      cards: structuredClone(firstFiveCards),
+    });
+
+    const playerOneLosingCard = playerOne.hand.find(
+      (card) => card?.name === 'Geezard',
+    );
+    assert(playerOneLosingCard);
+
+    const playerTwoWinningCard = playerTwo.hand.find(
+      (card) => card?.name === 'Bite Bug',
+    );
+    assert(playerTwoWinningCard);
+
+    playCard(board, playerOne, playerOneLosingCard, [1, 0]);
+    playCard(board, playerTwo, playerTwoWinningCard, [0, 0]);
+
+    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
+    expect(whoOwnsPosition(board, [1, 0])).toBe(Player.Two);
+  });
+
+  it("should allow a player to flip an opponent's eastern card", () => {
+    const { board, playerOne, playerTwo } = createGame({
+      cards: structuredClone(firstFiveCards),
+    });
+
+    const playerOneLosingCard = playerOne.hand.find(
+      (card) => card?.name === 'Fungar',
+    );
+    assert(playerOneLosingCard);
+
+    const playerTwoWinningCard = playerTwo.hand.find(
+      (card) => card?.name === 'Geezard',
+    );
+    assert(playerTwoWinningCard);
+
+    playCard(board, playerOne, playerOneLosingCard, [0, 1]);
+    playCard(board, playerTwo, playerTwoWinningCard, [0, 0]);
+
+    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
+    expect(whoOwnsPosition(board, [0, 1])).toBe(Player.Two);
+  });
+
+  it("should allow a player to flip an opponent's western card", () => {
+    const { board, playerOne, playerTwo } = createGame({
+      cards: structuredClone(firstFiveCards),
+    });
+
+    const playerOneLosingCard = playerOne.hand.find(
+      (card) => card?.name === 'Fungar',
+    );
+    assert(playerOneLosingCard);
+
+    const playerTwoWinningCard = playerTwo.hand.find(
+      (card) => card?.name === 'Geezard',
+    );
+    assert(playerTwoWinningCard);
+
+    playCard(board, playerOne, playerOneLosingCard, [0, 0]);
+    playCard(board, playerTwo, playerTwoWinningCard, [0, 1]);
+
+    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
+    expect(whoOwnsPosition(board, [0, 1])).toBe(Player.Two);
   });
 
   it("should allow a player to cause a cascade on flip of an opponent's card", () => {
