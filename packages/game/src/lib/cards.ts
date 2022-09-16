@@ -19,7 +19,7 @@ export type Card = {
   };
 };
 
-export const Cards: Card[] = [
+export const CARDS: Card[] = [
   {
     name: 'Geezard',
     stats: {

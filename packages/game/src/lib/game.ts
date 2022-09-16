@@ -1,5 +1,5 @@
 import shuffle from 'just-shuffle';
-import { Card, Cards } from './cards';
+import { Card, CARDS } from './cards';
 import { Hand, Player, PlayerLabel } from './player';
 
 type Position = [row: number, column: number];
@@ -8,142 +8,180 @@ export type GameOptions = {
   cards: Card[];
 };
 
-type Cell = {
-  originalOwner: PlayerLabel;
-  currentOwner: PlayerLabel;
-  card: Card;
-};
+type Cell = string;
+
+type Board = Cell[][];
 
 type Direction = 'north' | 'south' | 'east' | 'west';
 
-export class Game {
-  static readonly BoardSize = 3;
+export const BOARD_SIZE = 3;
 
-  #board: Cell[][] = [
+export const createGame = ({ cards }: GameOptions = { cards: CARDS }) => {
+  const [cardOne, cardTwo, cardThree, cardFour, cardFive] = shuffle(cards);
+  const hand: Hand = [cardOne, cardTwo, cardThree, cardFour, cardFive];
+
+  const playerOne = new Player({ label: Player.One, hand });
+  const playerTwo = new Player({ label: Player.Two, hand });
+  const board: Board = [
     Array(3).fill(undefined),
     Array(3).fill(undefined),
     Array(3).fill(undefined),
   ];
 
-  #players: {
-    one: Player;
-    two: Player;
-  };
+  return { playerOne, playerTwo, board };
+};
 
-  events: any[] = [];
+export const playCard = (
+  board: Board,
+  player: Player,
+  card: Card,
+  position: Position,
+) => {
+  const [row, column] = position;
 
-  constructor({ cards }: GameOptions = { cards: Cards }) {
-    const [cardOne, cardTwo, cardThree, cardFour, cardFive] = shuffle(cards);
-    const hand: Hand = [cardOne, cardTwo, cardThree, cardFour, cardFive];
-
-    this.#players = {
-      one: new Player({ label: Player.One, hand }),
-      two: new Player({ label: Player.Two, hand }),
-    };
+  if (row >= BOARD_SIZE || column >= BOARD_SIZE) {
+    throw new Error('Position is out of bounds');
   }
 
-  public get board() {
-    return this.#board;
+  if (board[row][column] != null) {
+    throw new Error('Position is already occupied');
   }
 
-  public get players() {
-    return this.#players;
+  const duplicateCard = findDuplicatePlayerCard(board, player.label, card);
+
+  if (duplicateCard === true) {
+    throw new Error('Card is already in play');
   }
 
-  public publicDoStuff(a: number, b: number) {
-    return this.#doStuff(a, b);
+  const playerLabel = player.label.toLowerCase();
+  const cardName = card.name.toLowerCase();
+
+  board[row][column] = `${playerLabel}:${cardName}`;
+
+  // changing ownership of cards
+  determineCardCascade(CARDS, board, player, card, row, column);
+
+  // check if game is over and who won
+};
+
+export const determineCardCascade = (
+  cards: Card[],
+  board: Board,
+  player: Player,
+  card: Card,
+  row: number,
+  column: number,
+) => {
+  const northCard = getCardFromPosition(cards, board, [row - 1, column]);
+  const northCardOwner = whoOwnsPosition(board, [row - 1, column]);
+
+  const southCard = getCardFromPosition(cards, board, [row + 1, column]);
+  const southCardOwner = whoOwnsPosition(board, [row + 1, column]);
+
+  const eastCard = getCardFromPosition(cards, board, [row, column + 1]);
+  const eastCardOwner = whoOwnsPosition(board, [row, column + 1]);
+
+  const westCard = getCardFromPosition(cards, board, [row, column - 1]);
+  const westCardOwner = whoOwnsPosition(board, [row, column - 1]);
+
+  // For every card that is not null, determine if it should be flipped
+  // If flip occurs, call this function again
+  if (
+    northCard &&
+    northCardOwner !== player.label &&
+    canFlipCard(card, northCard, 'north') === true
+  ) {
+    board[row - 1][
+      column
+    ] = `${player.label.toLowerCase()}:${northCard.name.toLowerCase()}`;
+
+    determineCardCascade(CARDS, board, player, card, row - 1, column);
   }
 
-  #doStuff(a: number, b: number) {
-    return a + b;
+  if (
+    southCard &&
+    southCardOwner !== player.label &&
+    canFlipCard(card, southCard, 'south') === true
+  ) {
+    board[row + 1][
+      column
+    ] = `${player.label.toLowerCase()}:${southCard.name.toLowerCase()}`;
+
+    determineCardCascade(CARDS, board, player, card, row + 1, column);
   }
 
-  public playCard(player: PlayerLabel, card: Card, position: Position) {
-    const [row, column] = position;
+  if (
+    eastCard &&
+    eastCardOwner !== player.label &&
+    canFlipCard(card, eastCard, 'east') === true
+  ) {
+    board[row][
+      column + 1
+    ] = `${player.label.toLowerCase()}:${eastCard.name.toLowerCase()}`;
 
-    if (row >= Game.BoardSize || column >= Game.BoardSize) {
-      throw new Error('Position is out of bounds');
-    }
-
-    if (this.#board[row][column] != null) {
-      throw new Error('Position is already occupied');
-    }
-
-    // event
-    this.#board[row][column] = {
-      originalOwner: player,
-      currentOwner: player,
-      card,
-    };
-
-    // event
-    this.#players[player].removeCard(card);
-
-    // changing ownership of cards
-    this.determineCardCascade(row, column);
-
-    // check if game is over and who won
+    determineCardCascade(CARDS, board, player, card, row, column + 1);
   }
 
-  public whoOwnsPosition(position: [row: number, column: number]) {
-    const [row, column] = position;
+  if (
+    westCard &&
+    westCardOwner !== player.label &&
+    canFlipCard(card, westCard, 'west') === true
+  ) {
+    board[row][
+      column - 1
+    ] = `${player.label.toLowerCase()}:${westCard.name.toLowerCase()}`;
 
-    return this.#board.at(row)?.at(column)?.currentOwner;
+    determineCardCascade(CARDS, board, player, card, row, column - 1);
+  }
+};
+
+export const getCardFromPosition = (
+  cards: Card[],
+  board: Board,
+  position: Position,
+) => {
+  const [row, column] = position;
+  const cell = board[row]?.[column];
+
+  if (cell == null) {
+    return;
   }
 
-  private determineCardCascade(row: number, column: number) {
-    const cell = this.#board[row][column];
+  const cardName = cell.split(':').pop();
 
-    const northCell = this.#board[row - 1]?.[column];
-    const southCell = this.#board[row + 1]?.[column];
-    const eastCell = this.#board[row]?.[column + 1];
-    const westCell = this.#board[row]?.[column - 1];
+  return cards.find((card) => card.name.toLowerCase() === cardName);
+};
 
-    // For every card that is not null, determine if it should be flipped
-    // If flip occurs, call this function again
-    if (this.tryFlipCard(cell, northCell, 'north') === true) {
-      this.determineCardCascade(row - 1, column);
-    }
+export const findDuplicatePlayerCard = (
+  board: Board,
+  playerLabel: PlayerLabel,
+  card: Card,
+) => {
+  const needle = `${playerLabel.toLowerCase()}:${card.name.toLowerCase()}`;
+  const cells = board.flatMap((row) => row.filter((card) => card != null));
 
-    if (this.tryFlipCard(cell, southCell, 'south') === true) {
-      this.determineCardCascade(row + 1, column);
-    }
+  return cells.includes(needle);
+};
 
-    if (this.tryFlipCard(cell, eastCell, 'east') === true) {
-      this.determineCardCascade(row, column + 1);
-    }
+export const whoOwnsPosition = (board: Board, position: Position) => {
+  const [row, column] = position;
 
-    if (this.tryFlipCard(cell, westCell, 'west') === true) {
-      this.determineCardCascade(row, column - 1);
-    }
+  return board.at(row)?.at(column)?.split(':')?.[0];
+};
+
+export const canFlipCard = (
+  challenger: Card,
+  defender: Card,
+  direction: Direction,
+) => {
+  switch (direction) {
+    case 'north':
+      return challenger.stats.north > defender.stats.south;
+    case 'south':
+      return challenger.stats.south > defender.stats.north;
+    case 'east':
+      return challenger.stats.east > defender.stats.west;
+    case 'west':
+      return challenger.stats.west > defender.stats.east;
   }
-
-  private canFlipCard(challenger: Card, defender: Card, direction: Direction) {
-    switch (direction) {
-      case 'north':
-        return challenger.stats.north > defender.stats.south;
-      case 'south':
-        return challenger.stats.south > defender.stats.north;
-      case 'east':
-        return challenger.stats.east > defender.stats.west;
-      case 'west':
-        return challenger.stats.west > defender.stats.east;
-    }
-  }
-
-  private tryFlipCard(
-    challenger: Cell,
-    defender: Cell,
-    direction: Direction,
-  ): boolean {
-    if (defender == null) return false;
-
-    if (this.canFlipCard(challenger.card, defender.card, direction)) {
-      defender.currentOwner = challenger.currentOwner;
-
-      return true;
-    }
-
-    return false;
-  }
-}
+};
