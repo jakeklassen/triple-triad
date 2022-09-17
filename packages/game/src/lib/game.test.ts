@@ -1,45 +1,14 @@
 import assert from 'node:assert';
 import { describe, expect, it } from 'vitest';
 import { CARDS } from './cards';
-import {
-  createGame,
-  getCardFromPosition,
-  playCard,
-  whoOwnsPosition,
-} from './game';
+import { createGame } from './create-game';
+import { getCardFromPosition } from './get-card-from-position';
+import { playCard } from './play-card';
 import { Player } from './player';
+import { whoOwnsPosition } from './who-owns-position';
 
 describe('game', () => {
   const firstFiveCards = [CARDS[0], CARDS[1], CARDS[2], CARDS[3], CARDS[4]];
-
-  it('should initialize an empty board', () => {
-    const { board } = createGame();
-
-    expect(board).toEqual([
-      Array(3).fill(undefined),
-      Array(3).fill(undefined),
-      Array(3).fill(undefined),
-    ]);
-  });
-
-  it('should reflect two distinct players', () => {
-    const { playerOne, playerTwo } = createGame();
-
-    expect(playerOne.label).toBe('one');
-    expect(playerTwo.label).toBe('two');
-  });
-
-  it('should reflect that each player has the same hand', () => {
-    const { playerOne, playerTwo } = createGame();
-
-    expect(playerOne.hand.length).toBe(5);
-    expect(playerTwo.hand.length).toBe(5);
-
-    // TODO: Should we elevate this to a custom predicate and use toSatisfy?
-    for (const card of playerOne.hand) {
-      expect(playerTwo.hand).toContain(card);
-    }
-  });
 
   it('should allow player one to play a card', () => {
     const { board, playerOne } = createGame();
@@ -49,11 +18,11 @@ describe('game', () => {
 
     assert(card);
 
-    playCard(board, playerOne, card, [0, 0]);
+    const { newBoard } = playCard(board, playerOne, card, [0, 0]);
 
-    expect(board[0][0]).toBeDefined();
-    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.One);
-    expect(getCardFromPosition(CARDS, board, [0, 0])).toBe(card);
+    expect(newBoard[0][0]).toBeDefined();
+    expect(whoOwnsPosition(newBoard, [0, 0])).toBe(Player.One);
+    expect(getCardFromPosition(newBoard, CARDS, [0, 0])).toBe(card);
   });
 
   it('should allow player two to play a card', () => {
@@ -64,11 +33,11 @@ describe('game', () => {
 
     assert(card);
 
-    playCard(board, playerTwo, card, [0, 0]);
+    const { newBoard } = playCard(board, playerTwo, card, [0, 0]);
 
-    expect(board[0][0]).toBeDefined();
-    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
-    expect(getCardFromPosition(CARDS, board, [0, 0])).toBe(card);
+    expect(newBoard[0][0]).toBeDefined();
+    expect(whoOwnsPosition(newBoard, [0, 0])).toBe(Player.Two);
+    expect(getCardFromPosition(newBoard, CARDS, [0, 0])).toBe(card);
   });
 
   it('should throw an error if the board position is occupied', () => {
@@ -79,9 +48,9 @@ describe('game', () => {
 
     assert(card);
 
-    playCard(board, playerOne, card, [0, 0]);
+    const { newBoard } = playCard(board, playerOne, card, [0, 0]);
 
-    expect(() => playCard(board, playerOne, card, [0, 0])).toThrow();
+    expect(() => playCard(newBoard, playerOne, card, [0, 0])).toThrow();
   });
 
   it('should throw an error if the same player has played the same card', () => {
@@ -92,9 +61,9 @@ describe('game', () => {
 
     assert(card);
 
-    playCard(board, playerOne, card, [0, 0]);
+    const { newBoard } = playCard(board, playerOne, card, [0, 0]);
 
-    expect(() => playCard(board, playerOne, card, [0, 1])).toThrow();
+    expect(() => playCard(newBoard, playerOne, card, [0, 1])).toThrow();
   });
 
   it('should throw an error if the position is out of bounds', () => {
@@ -108,7 +77,7 @@ describe('game', () => {
     expect(() => playCard(board, playerOne, card, [0, 3])).toThrow();
   });
 
-  it("should allow a player to flip an opponent's card", () => {
+  it("should allow a player to flip an opponent's northern card", () => {
     const { board, playerOne, playerTwo } = createGame({
       cards: structuredClone(firstFiveCards),
     });
@@ -123,11 +92,21 @@ describe('game', () => {
     );
     assert(playerTwoWinningCard);
 
-    playCard(board, playerOne, playerOneLosingCard, [0, 0]);
-    playCard(board, playerTwo, playerTwoWinningCard, [1, 0]);
+    const { newBoard: turnOneBoard } = playCard(
+      board,
+      playerOne,
+      playerOneLosingCard,
+      [0, 0],
+    );
+    const { newBoard: turnTwoBoard } = playCard(
+      turnOneBoard,
+      playerTwo,
+      playerTwoWinningCard,
+      [1, 0],
+    );
 
-    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
-    expect(whoOwnsPosition(board, [1, 0])).toBe(Player.Two);
+    expect(whoOwnsPosition(turnTwoBoard, [0, 0])).toBe(Player.Two);
+    expect(whoOwnsPosition(turnTwoBoard, [1, 0])).toBe(Player.Two);
   });
 
   it("should allow a player to flip an opponent's southern card", () => {
@@ -145,11 +124,22 @@ describe('game', () => {
     );
     assert(playerTwoWinningCard);
 
-    playCard(board, playerOne, playerOneLosingCard, [1, 0]);
-    playCard(board, playerTwo, playerTwoWinningCard, [0, 0]);
+    const { newBoard: turnOneBoard } = playCard(
+      board,
+      playerOne,
+      playerOneLosingCard,
+      [1, 0],
+    );
 
-    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
-    expect(whoOwnsPosition(board, [1, 0])).toBe(Player.Two);
+    const { newBoard: turnTwoBoard } = playCard(
+      turnOneBoard,
+      playerTwo,
+      playerTwoWinningCard,
+      [0, 0],
+    );
+
+    expect(whoOwnsPosition(turnTwoBoard, [0, 0])).toBe(Player.Two);
+    expect(whoOwnsPosition(turnTwoBoard, [1, 0])).toBe(Player.Two);
   });
 
   it("should allow a player to flip an opponent's eastern card", () => {
@@ -167,11 +157,22 @@ describe('game', () => {
     );
     assert(playerTwoWinningCard);
 
-    playCard(board, playerOne, playerOneLosingCard, [0, 1]);
-    playCard(board, playerTwo, playerTwoWinningCard, [0, 0]);
+    const { newBoard: turnOneBoard } = playCard(
+      board,
+      playerOne,
+      playerOneLosingCard,
+      [0, 1],
+    );
 
-    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
-    expect(whoOwnsPosition(board, [0, 1])).toBe(Player.Two);
+    const { newBoard: turnTwoBoard } = playCard(
+      turnOneBoard,
+      playerTwo,
+      playerTwoWinningCard,
+      [0, 0],
+    );
+
+    expect(whoOwnsPosition(turnTwoBoard, [0, 0])).toBe(Player.Two);
+    expect(whoOwnsPosition(turnTwoBoard, [0, 1])).toBe(Player.Two);
   });
 
   it("should allow a player to flip an opponent's western card", () => {
@@ -189,11 +190,22 @@ describe('game', () => {
     );
     assert(playerTwoWinningCard);
 
-    playCard(board, playerOne, playerOneLosingCard, [0, 0]);
-    playCard(board, playerTwo, playerTwoWinningCard, [0, 1]);
+    const { newBoard: turnOneBoard } = playCard(
+      board,
+      playerOne,
+      playerOneLosingCard,
+      [0, 0],
+    );
 
-    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
-    expect(whoOwnsPosition(board, [0, 1])).toBe(Player.Two);
+    const { newBoard: turnTwoBoard } = playCard(
+      turnOneBoard,
+      playerTwo,
+      playerTwoWinningCard,
+      [0, 1],
+    );
+
+    expect(whoOwnsPosition(turnTwoBoard, [0, 0])).toBe(Player.Two);
+    expect(whoOwnsPosition(turnTwoBoard, [0, 1])).toBe(Player.Two);
   });
 
   it("should allow a player to cause a cascade on flip of an opponent's card", () => {
@@ -234,32 +246,52 @@ describe('game', () => {
      * _, _, _
      * _, _, _
      */
-    playCard(board, playerOne, playerOneFungar, [0, 0]);
+    const { newBoard: turnOneBoard } = playCard(
+      board,
+      playerOne,
+      playerOneFungar,
+      [0, 0],
+    );
 
     /**
      * x, _, _
      * _, _, _
      * _, _, o
      */
-    playCard(board, playerTwo, playerTwoGeezard, [2, 2]);
+    const { newBoard: turnTwoBoard } = playCard(
+      turnOneBoard,
+      playerTwo,
+      playerTwoGeezard,
+      [2, 2],
+    );
 
     /**
      * x, x, _
      * _, _, _
      * _, _, o
      */
-    playCard(board, playerOne, playerOneGeezard, [0, 1]);
+    const { newBoard: turnThreeBoard } = playCard(
+      turnTwoBoard,
+      playerOne,
+      playerOneGeezard,
+      [0, 1],
+    );
 
     /**
      * x, x, o
      * _, _, _
      * _, _, o
      */
-    playCard(board, playerTwo, playerTwoBlobra, [0, 2]);
+    const { newBoard: turnFourBoard } = playCard(
+      turnThreeBoard,
+      playerTwo,
+      playerTwoBlobra,
+      [0, 2],
+    );
 
-    expect(whoOwnsPosition(board, [0, 0])).toBe(Player.Two);
-    expect(whoOwnsPosition(board, [0, 1])).toBe(Player.Two);
-    expect(whoOwnsPosition(board, [0, 2])).toBe(Player.Two);
-    expect(whoOwnsPosition(board, [2, 2])).toBe(Player.Two);
+    expect(whoOwnsPosition(turnFourBoard, [0, 0])).toBe(Player.Two);
+    expect(whoOwnsPosition(turnFourBoard, [0, 1])).toBe(Player.Two);
+    expect(whoOwnsPosition(turnFourBoard, [0, 2])).toBe(Player.Two);
+    expect(whoOwnsPosition(turnFourBoard, [2, 2])).toBe(Player.Two);
   });
 });

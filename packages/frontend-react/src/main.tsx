@@ -9,5 +9,5 @@ console.log(`Using version: ${VERSION} of @tripletriad/game`);
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
