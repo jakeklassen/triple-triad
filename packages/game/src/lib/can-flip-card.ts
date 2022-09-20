@@ -16,5 +16,7 @@ export const canFlipCard = (
       return challenger.stats.east > defender.stats.west;
     case 'west':
       return challenger.stats.west > defender.stats.east;
+    default:
+      throw new Error('Invalid direction');
   }
 };
