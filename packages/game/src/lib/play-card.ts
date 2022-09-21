@@ -3,11 +3,15 @@ import { Card, CARDS } from './cards';
 import { Board, Position } from './common-types';
 import { BOARD_SIZE } from './create-game';
 import { findDuplicatePlayerCard } from './find-duplicate-player-card';
-import { performCardCascade } from './perform-card-cascade';
+import { getCardFlips } from './get-card-flips';
+import { isBoardFull } from './is-board-full';
 import { Player } from './player';
 
 type PlayCardsResults = {
+  flips: Position[][];
+  gameOver: boolean;
   newBoard: ReadonlyDeep<Board>;
+  scoreChange: number;
 };
 
 export const playCard = (
@@ -38,9 +42,9 @@ export const playCard = (
   const newBoard = structuredClone(board) as Board;
   newBoard[row][column] = `${playerLabel}:${cardName}`;
 
-  // changing ownership of cards
-  performCardCascade(newBoard, CARDS, player, card, row, column);
+  const flips = getCardFlips(newBoard, CARDS, player, card, row, column);
+  const scoreChange = flips.flat().length;
+  const gameOver = isBoardFull(newBoard);
 
-  // check if game is over and who won
-  return { newBoard };
+  return { newBoard, flips, scoreChange, gameOver };
 };
