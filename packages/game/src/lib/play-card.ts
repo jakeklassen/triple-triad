@@ -4,8 +4,9 @@ import { Board, Position } from './common-types';
 import { BOARD_SIZE } from './create-game';
 import { findDuplicatePlayerCard } from './find-duplicate-player-card';
 import { getCardFlips } from './get-card-flips';
+import { isBoardEmpty } from './is-board-empty';
 import { isBoardFull } from './is-board-full';
-import { Player } from './player';
+import { Player, PlayerLabel } from './player';
 
 type PlayCardsResults = {
   flips: Position[][];
@@ -16,11 +17,20 @@ type PlayCardsResults = {
 
 export const playCard = (
   board: ReadonlyDeep<Board>,
+  whoWentFirst: PlayerLabel,
   player: ReadonlyDeep<Player>,
   card: ReadonlyDeep<Card>,
   position: ReadonlyDeep<Position>,
 ): PlayCardsResults => {
   const [row, column] = position;
+
+  // If board is empty, perform illegal start check
+  if (isBoardEmpty(board) && whoWentFirst !== player.label) {
+    throw new Error('Illegal start');
+  }
+
+  // If board is not empty, perform illegal move check
+  // TODO: Write this logic + test
 
   if (row >= BOARD_SIZE || column >= BOARD_SIZE) {
     throw new Error('Position is out of bounds');
