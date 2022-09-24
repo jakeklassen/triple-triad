@@ -1,3 +1,4 @@
+import { ReadonlyDeep } from 'type-fest';
 import { Card } from './cards';
 
 export type PlayerLabel = typeof Player.One | typeof Player.Two;
@@ -12,7 +13,7 @@ export type Hand = [
 
 export type PlayerOptions = {
   label: PlayerLabel;
-  hand: Hand;
+  hand: ReadonlyDeep<Hand>;
 };
 
 export class Player {
@@ -25,7 +26,7 @@ export class Player {
 
   constructor({ label, hand }: PlayerOptions) {
     this.label = label;
-    this.#hand = hand;
+    this.#hand = structuredClone(hand) as Hand;
   }
 
   public get hand(): Readonly<Hand> {
@@ -33,7 +34,10 @@ export class Player {
   }
 
   public removeCard(card: Card) {
-    const idx = this.#hand.findIndex((ele) => ele?.name == card.name);
+    const idx = this.#hand.findIndex(
+      (_card) => _card?.name?.toLowerCase() == card.name.toLowerCase(),
+    );
+
     this.#hand[idx] = undefined;
   }
 }

@@ -30,7 +30,7 @@ describe('game', () => {
 
     // TODO: Should we elevate this to a custom predicate and use toSatisfy?
     for (const card of playerOne.hand) {
-      expect(playerTwo.hand).toContain(card);
+      expect(playerTwo.hand).toContainEqual(card);
     }
   });
 
@@ -41,7 +41,7 @@ describe('game', () => {
 
     // TODO: Should we elevate this to a custom predicate and use toSatisfy?
     for (const card of playerOne.hand) {
-      expect(playerTwo.hand).toContain(card);
+      expect(playerTwo.hand).toContainEqual(card);
     }
   });
 });

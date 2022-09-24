@@ -2,11 +2,20 @@ import { ReadonlyDeep } from 'type-fest';
 import { Card, CARDS } from './cards';
 import { Board, Position } from './common-types';
 import { BOARD_SIZE } from './create-game';
+import {
+  BoardIsFullError,
+  DuplicateCardError,
+  IllegalMoveError,
+  IllegalStartError,
+  OutOfBoundsError,
+  PositionAlreadyOccupiedError,
+} from './errors';
 import { findDuplicatePlayerCard } from './find-duplicate-player-card';
 import { getCardFlips } from './get-card-flips';
 import { isBoardEmpty } from './is-board-empty';
 import { isBoardFull } from './is-board-full';
 import { Player, PlayerLabel } from './player';
+import { sumPlayerTurns } from './sum-player-turns';
 
 type PlayCardsResults = {
   flips: Position[][];
@@ -22,28 +31,56 @@ export const playCard = (
   card: ReadonlyDeep<Card>,
   position: ReadonlyDeep<Position>,
 ): PlayCardsResults => {
+  if (isBoardFull(board)) {
+    throw new BoardIsFullError();
+  }
+
   const [row, column] = position;
 
-  // If board is empty, perform illegal start check
   if (isBoardEmpty(board) && whoWentFirst !== player.label) {
-    throw new Error('Illegal start');
+    throw new IllegalStartError();
   }
 
   // If board is not empty, perform illegal move check
-  // TODO: Write this logic + test
+  if (isBoardEmpty(board) === false) {
+    const { playerOneMoveCount, playerTwoMoveCount } = sumPlayerTurns(board);
+
+    if (
+      whoWentFirst === Player.One &&
+      player.label === Player.One &&
+      playerOneMoveCount > playerTwoMoveCount
+    ) {
+      throw new IllegalMoveError();
+    }
+
+    if (
+      whoWentFirst === Player.Two &&
+      player.label === Player.Two &&
+      playerTwoMoveCount > playerOneMoveCount
+    ) {
+      throw new IllegalMoveError();
+    }
+
+    if (
+      playerOneMoveCount === playerTwoMoveCount &&
+      player.label !== whoWentFirst
+    ) {
+      throw new IllegalMoveError();
+    }
+  }
 
   if (row >= BOARD_SIZE || column >= BOARD_SIZE) {
-    throw new Error('Position is out of bounds');
+    throw new OutOfBoundsError();
   }
 
   if (board[row][column] != null) {
-    throw new Error('Position is already occupied');
+    throw new PositionAlreadyOccupiedError();
   }
 
   const duplicateCard = findDuplicatePlayerCard(board, player.label, card);
 
   if (duplicateCard === true) {
-    throw new Error('Card is already in play');
+    throw new DuplicateCardError(`${card.name} is already in play`);
   }
 
   const playerLabel = player.label.toLowerCase();

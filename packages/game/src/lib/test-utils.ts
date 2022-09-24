@@ -36,5 +36,9 @@ export const createBoardFromHand = (
     ++cardIndex;
   }
 
+  while (cells.length < 9) {
+    cells.push(undefined);
+  }
+
   return justSplit(cells, 3);
 };

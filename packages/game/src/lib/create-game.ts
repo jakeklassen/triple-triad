@@ -11,12 +11,19 @@ export type GameOptions = {
 
 export const BOARD_SIZE = 3;
 
+const PLAYER_LABELS: [one: PlayerLabel, two: PlayerLabel] = [
+  Player.One,
+  Player.Two,
+];
+
 export const createGame = (
-  { cards, whoGoesFirst }: GameOptions = {
+  options: GameOptions = {
     cards: CARDS,
-    whoGoesFirst: shuffle([Player.One, Player.Two]).pop(),
   },
 ) => {
+  const { cards } = options;
+  const whoGoesFirst = options.whoGoesFirst || shuffle(PLAYER_LABELS)[0];
+
   const [cardOne, cardTwo, cardThree, cardFour, cardFive] = shuffle(cards);
   const hand: Hand = [cardOne, cardTwo, cardThree, cardFour, cardFive];
 

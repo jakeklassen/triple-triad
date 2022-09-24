@@ -1,7 +1,8 @@
+import { ReadonlyDeep } from 'type-fest';
 import { Board } from './common-types';
 import { Player } from './player';
 
-export const sumPlayerTurns = (board: Board) => {
+export const sumPlayerTurns = (board: ReadonlyDeep<Board>) => {
   const flat = board.flat();
 
   const playerOneMoveCount = flat.filter((cell) =>

@@ -1,7 +1,9 @@
 import { ReadonlyDeep } from 'type-fest';
 import { Card } from './cards';
 import { Board, Position } from './common-types';
+import { CardNotFoundError } from './errors';
 import { getCardFromPosition } from './get-card-from-position';
+import { orThrow } from './or-throw';
 import { performCardCascade } from './perform-card-cascade';
 import { Player } from './player';
 
@@ -28,11 +30,10 @@ export const getCardFlips = (
     const layer: Position[] = [];
 
     for (const position of flips) {
-      const nextCard = getCardFromPosition(board, cards, position);
-
-      if (nextCard == null) {
-        throw new Error('Card not found');
-      }
+      const nextCard = orThrow(
+        () => getCardFromPosition(board, cards, position),
+        new CardNotFoundError(`No card found at position ${position}`),
+      );
 
       layer.push(
         ...performCardCascade(board, cards, player, nextCard, ...position),

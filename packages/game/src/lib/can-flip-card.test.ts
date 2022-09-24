@@ -1,6 +1,7 @@
 import { assert, describe, expect, it } from 'vitest';
 import { canFlipCard } from './can-flip-card';
 import { CARDS } from './cards';
+import { InvalidDirectionError } from './errors';
 
 describe('canFlipCard', () => {
   const fungar = CARDS.find((card) => card?.name?.toLowerCase() === 'fungar');
@@ -15,7 +16,9 @@ describe('canFlipCard', () => {
 
   it('should throw on bad direction', () => {
     // @ts-expect-error Test purposes
-    expect(() => canFlipCard(fungar, geezard, 'bad-direction')).toThrow();
+    expect(() => canFlipCard(fungar, geezard, 'bad-direction')).toThrow(
+      new InvalidDirectionError(),
+    );
   });
 
   describe('challenger', () => {
