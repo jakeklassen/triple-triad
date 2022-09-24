@@ -12,7 +12,7 @@ const BOARD_HEIGHT = 224;
 
 export const Board = () => {
   // TODO: react to window resize and update scale factor using Jake's pixel art game code
-  const [scaleFactor] = useState(3);
+  const [scaleFactor] = useState(1);
 
   return (
     <div
