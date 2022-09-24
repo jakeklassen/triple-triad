@@ -1,4 +1,5 @@
 import { CARDS } from '@tripletriad/game';
+import clsx from 'clsx';
 import random from 'just-random';
 import { useState } from 'react';
 import boardUrl from '../../assets/board.png';
@@ -20,7 +21,7 @@ export const Board = () => {
 
   return (
     <div
-      className="grid grid-cols-[97px_190px_97px] grid-rows-[1fr]"
+      className={clsx('grid', 'grid-cols-[97px_190px_97px]', 'grid-rows-[1fr]')}
       style={{
         backgroundImage: `url(${boardUrl})`,
         backgroundSize: `${BOARD_WIDTH * scaleFactor}px`,
@@ -38,7 +39,17 @@ export const Board = () => {
       </div>
 
       <div
-        className={`col-span-1 row-span-1 grid grid-cols-3 grid-rows-3 gap-[2px] mt-[18px] mb-[16px] text-black`}
+        className={clsx(
+          'col-span-1',
+          'row-span-1',
+          'grid',
+          'grid-cols-3',
+          'grid-rows-3',
+          'gap-[2px]',
+          'mt-[18px]',
+          'mb-[16px]',
+          'text-black',
+        )}
       >
         <div>
           <Card
