@@ -30,7 +30,6 @@ export const Card = ({ card, style }: CardProps) => {
           height: card.image.height,
           minWidth: card.image.width,
           minHeight: card.image.height,
-          transformOrigin: 'top left',
           ...style,
         }}
       />

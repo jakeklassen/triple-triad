@@ -11,27 +11,19 @@ const BOARD_WIDTH = 384;
 const BOARD_HEIGHT = 224;
 
 export const Board = () => {
+  // TODO: react to window resize and update scale factor using Jake's pixel art game code
   const [scaleFactor] = useState(3);
-
-  const leftHandWidth = 97 * scaleFactor;
-  const rightHandWidth = 97 * scaleFactor;
-  const gridWidth = 190 * scaleFactor;
-
-  // 97px_190px_97px
 
   return (
     <div
-      className={clsx(
-        'grid',
-        `grid-cols-[${leftHandWidth}px_${gridWidth}px_${rightHandWidth}px]`,
-        'grid-rows-[1fr]',
-      )}
+      className={clsx('grid', `grid-cols-[97px_190px_97px]`, 'grid-rows-[1fr]')}
       style={{
         backgroundImage: `url(${boardUrl})`,
-        backgroundSize: `${BOARD_WIDTH * scaleFactor}px`,
+        backgroundSize: `${BOARD_WIDTH}px`,
         imageRendering: 'pixelated',
-        width: `${BOARD_WIDTH * scaleFactor}px`,
-        height: `${BOARD_HEIGHT * scaleFactor}px`,
+        width: `${BOARD_WIDTH}px`,
+        height: `${BOARD_HEIGHT}px`,
+        transform: `scale(${scaleFactor})`,
       }}
     >
       <div className="flex-row col-span-1 row-span-1 justify-center">
@@ -49,56 +41,29 @@ export const Board = () => {
           'grid',
           'grid-cols-3',
           'grid-rows-3',
-          `gap-[${2 * scaleFactor}px]`,
-          `mt-[${18 * scaleFactor}px]`,
-          `mb-[${16 * scaleFactor}px]`,
+          `gap-[2px]`,
+          `mt-[18px]`,
+          `mb-[16px]`,
           'text-black',
         )}
       >
-        <Card
-          card={{ ...random(CARDS), color: randomColor() }}
-          style={{ transform: `scale(${scaleFactor})` }}
-        />
+        <Card card={{ ...random(CARDS), color: randomColor() }} />
 
-        <Card
-          card={{ ...random(CARDS), color: randomColor() }}
-          style={{ transform: `scale(${scaleFactor})` }}
-        />
+        <Card card={{ ...random(CARDS), color: randomColor() }} />
 
-        <Card
-          card={{ ...random(CARDS), color: randomColor() }}
-          style={{ transform: `scale(${scaleFactor})` }}
-        />
+        <Card card={{ ...random(CARDS), color: randomColor() }} />
 
-        <Card
-          card={{ ...random(CARDS), color: randomColor() }}
-          style={{ transform: `scale(${scaleFactor})` }}
-        />
+        <Card card={{ ...random(CARDS), color: randomColor() }} />
 
-        <Card
-          card={{ ...random(CARDS), color: randomColor() }}
-          style={{ transform: `scale(${scaleFactor})` }}
-        />
+        <Card card={{ ...random(CARDS), color: randomColor() }} />
 
-        <Card
-          card={{ ...random(CARDS), color: randomColor() }}
-          style={{ transform: `scale(${scaleFactor})` }}
-        />
+        <Card card={{ ...random(CARDS), color: randomColor() }} />
 
-        <Card
-          card={{ ...random(CARDS), color: randomColor() }}
-          style={{ transform: `scale(${scaleFactor})` }}
-        />
+        <Card card={{ ...random(CARDS), color: randomColor() }} />
 
-        <Card
-          card={{ ...random(CARDS), color: randomColor() }}
-          style={{ transform: `scale(${scaleFactor})` }}
-        />
+        <Card card={{ ...random(CARDS), color: randomColor() }} />
 
-        <Card
-          card={{ ...random(CARDS), color: randomColor() }}
-          style={{ transform: `scale(${scaleFactor})` }}
-        />
+        <Card card={{ ...random(CARDS), color: randomColor() }} />
       </div>
 
       <div className="col-span-1 row-span-1">right</div>
