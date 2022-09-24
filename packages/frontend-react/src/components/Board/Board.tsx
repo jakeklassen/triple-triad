@@ -10,24 +10,17 @@ const BOARD_WIDTH = 384;
 const BOARD_HEIGHT = 224;
 
 export const Board = () => {
-  const [scaleFactor] = useState(2);
+  const [scaleFactor] = useState(1);
 
   const leftHandWidth = 97 * scaleFactor;
   const rightHandWidth = 97 * scaleFactor;
   const gridWidth = 190 * scaleFactor;
 
   // 97px_190px_97px
-  const gridClassNames = [
-    'grid',
-    `grid-cols-[${leftHandWidth * scaleFactor}px_${gridWidth * scaleFactor}px_${
-      rightHandWidth * scaleFactor
-    }px]`,
-    'grid-rows-[1fr]',
-  ];
 
   return (
     <div
-      className={gridClassNames.join(' ')}
+      className="grid grid-cols-[97px_190px_97px] grid-rows-[1fr]"
       style={{
         backgroundImage: `url(${boardUrl})`,
         backgroundSize: `${BOARD_WIDTH * scaleFactor}px`,
@@ -45,9 +38,7 @@ export const Board = () => {
       </div>
 
       <div
-        className={`col-span-1 row-span-1 grid grid-cols-3 grid-rows-3 gap-[${
-          2 * scaleFactor
-        }px] mt-[${18 * scaleFactor}px] mb-[${16 * scaleFactor}px] text-black`}
+        className={`col-span-1 row-span-1 grid grid-cols-3 grid-rows-3 gap-[2px] mt-[18px] mb-[16px] text-black`}
       >
         <div>
           <Card
