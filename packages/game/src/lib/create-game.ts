@@ -1,8 +1,8 @@
 import shuffle from 'just-shuffle';
 import { ReadonlyDeep } from 'type-fest';
-import { Card, CARDS } from './cards';
-import { Board } from './common-types';
-import { Hand, Player, PlayerLabel } from './player';
+import { CARDS } from './cards';
+import { Board, Card, Hand } from './common-types';
+import { Player, PlayerLabel } from './player';
 
 export type GameOptions = {
   cards: Card[];

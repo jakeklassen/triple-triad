@@ -1,15 +1,7 @@
 import { ReadonlyDeep } from 'type-fest';
-import { Card } from './cards';
+import { Card, Hand } from './common-types';
 
 export type PlayerLabel = typeof Player.One | typeof Player.Two;
-
-export type Hand = [
-  Card | undefined,
-  Card | undefined,
-  Card | undefined,
-  Card | undefined,
-  Card | undefined,
-];
 
 export type PlayerOptions = {
   label: PlayerLabel;

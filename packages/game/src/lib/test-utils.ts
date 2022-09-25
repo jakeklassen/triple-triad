@@ -1,6 +1,5 @@
 import justSplit from 'just-split';
-import { Card } from './cards';
-import { Board, Cell } from './common-types';
+import { Board, Card, Cell } from './common-types';
 import { PlayerLabel } from './player';
 
 export const createBoardFromHand = (

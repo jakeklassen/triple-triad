@@ -1,6 +1,5 @@
 import { ReadonlyDeep } from 'type-fest';
-import { Card } from './cards';
-import { Direction } from './common-types';
+import { Card, Direction } from './common-types';
 import { InvalidDirectionError } from './errors';
 
 export const canFlipCard = (

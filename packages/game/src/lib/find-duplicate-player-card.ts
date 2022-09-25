@@ -1,6 +1,5 @@
 import { ReadonlyDeep } from 'type-fest';
-import { Card } from './cards';
-import { Board } from './common-types';
+import { Board, Card } from './common-types';
 import { PlayerLabel } from './player';
 
 export const findDuplicatePlayerCard = (

@@ -1,7 +1,6 @@
 import { ReadonlyDeep } from 'type-fest';
 import { canFlipCard } from './can-flip-card';
-import { Card } from './cards';
-import { Board, Position } from './common-types';
+import { Board, Card, Position } from './common-types';
 import { getCardFromPosition } from './get-card-from-position';
 import { Player } from './player';
 import { whoOwnsPosition } from './who-owns-position';

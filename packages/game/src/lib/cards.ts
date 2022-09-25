@@ -1,23 +1,4 @@
-export type Card = {
-  name: string;
-  // add it
-  // description: string;
-
-  element?: string;
-
-  stats: {
-    north: number;
-    south: number;
-    east: number;
-    west: number;
-  };
-
-  image: {
-    base64: string;
-    width: number;
-    height: number;
-  };
-};
+import { Card } from './common-types';
 
 export const CARDS: Card[] = [
   {

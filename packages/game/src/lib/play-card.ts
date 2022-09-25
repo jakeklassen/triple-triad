@@ -1,6 +1,6 @@
 import { ReadonlyDeep } from 'type-fest';
-import { Card, CARDS } from './cards';
-import { Board, Position } from './common-types';
+import { CARDS } from './cards';
+import { Board, Card, Position } from './common-types';
 import { BOARD_SIZE } from './create-game';
 import {
   BoardIsFullError,

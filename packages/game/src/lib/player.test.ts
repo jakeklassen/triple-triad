@@ -1,6 +1,7 @@
 import { assert, describe, expect, it } from 'vitest';
 import { CARDS } from './cards';
-import { Hand, Player } from './player';
+import { Hand } from './common-types';
+import { Player } from './player';
 
 describe('player', () => {
   const firstFiveCards: Hand = [

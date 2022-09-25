@@ -1,0 +1,34 @@
+.statContainer {
+  font-family: 'Press Start 2P';
+  font-size: 8px;
+  z-index: 1;
+  color: white;
+  position: relative;
+  top: 2px;
+  left: 4px;
+}
+
+.stat {
+  position: absolute;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.statNorth {
+  top: 0;
+  left: 7px;
+}
+
+.statEast {
+  top: 7px;
+  left: 14px;
+}
+
+.statSouth {
+  top: 14px;
+  left: 7px;
+}
+
+.statWest {
+  top: 7px;
+  left: 0;
+}

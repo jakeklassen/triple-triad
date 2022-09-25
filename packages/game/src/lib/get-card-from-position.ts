@@ -1,6 +1,5 @@
 import { ReadonlyDeep } from 'type-fest';
-import { Card } from './cards';
-import { Board, Position } from './common-types';
+import { Board, Card, Position } from './common-types';
 
 export const getCardFromPosition = (
   board: ReadonlyDeep<Board>,

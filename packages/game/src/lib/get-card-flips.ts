@@ -1,6 +1,5 @@
 import { ReadonlyDeep } from 'type-fest';
-import { Card } from './cards';
-import { Board, Position } from './common-types';
+import { Board, Card, Position } from './common-types';
 import { CardNotFoundError } from './errors';
 import { getCardFromPosition } from './get-card-from-position';
 import { orThrow } from './or-throw';
