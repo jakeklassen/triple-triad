@@ -1,13 +1,9 @@
 import * as TripleTriad from '@tripletriad/game';
 import clsx from 'clsx';
-import random from 'just-random';
 import { useState } from 'react';
 import { ReadonlyDeep } from 'type-fest';
 import boardUrl from '../../assets/board.png';
-import { Card } from '../Card';
 import { Hand } from '../Hand/Hand';
-
-const randomColor = (): 'red' | 'blue' => random(['red', 'blue']);
 
 const BOARD_WIDTH = 384;
 const BOARD_HEIGHT = 224;
@@ -16,26 +12,21 @@ type BoardProps = {
   board: ReadonlyDeep<TripleTriad.CommonTypes.Board>;
   playerOne: TripleTriad.Player;
   playerTwo: TripleTriad.Player;
+  whoGoesFirst: TripleTriad.PlayerLabel;
 };
 
-export const Board = ({ board, playerOne, playerTwo }: BoardProps) => {
+export const Board = ({
+  board,
+  playerOne,
+  playerTwo,
+  whoGoesFirst,
+}: BoardProps) => {
+  const [currentTurn] = useState<TripleTriad.PlayerLabel>(whoGoesFirst);
+
   // TODO: react to window resize and update scale factor using Jake's pixel art game code
   const [scaleFactor] = useState(3);
 
-  const cards = board.flat().map((cell, cellIndex) => {
-    const [, cardName]: Array<string | undefined> = cell?.split(':') ?? [];
-    const card = TripleTriad.CARDS.find(
-      (card) => card.name.toLowerCase() === cardName?.toLowerCase(),
-    );
-
-    if (card == null) {
-      return <Card key={`${cellIndex}`} />;
-    }
-
-    return (
-      <Card key={`${cellIndex}`} card={{ ...card, color: randomColor() }} />
-    );
-  });
+  const cards = board.flat();
 
   return (
     <div
@@ -49,7 +40,7 @@ export const Board = ({ board, playerOne, playerTwo }: BoardProps) => {
         transform: `scale(${scaleFactor})`,
       }}
     >
-      <Hand player={playerOne} />
+      <Hand player={playerOne} active={currentTurn === playerOne.label} />
 
       {/* Grid */}
       <div
@@ -68,7 +59,7 @@ export const Board = ({ board, playerOne, playerTwo }: BoardProps) => {
         {cards}
       </div>
 
-      <Hand player={playerTwo} />
+      <Hand player={playerTwo} active={currentTurn === playerTwo.label} />
     </div>
   );
 };

@@ -1,3 +1,6 @@
+import clsx from 'clsx';
+import React from 'react';
+import styles from './Card.module.css';
 import { CardStats } from './CardStats';
 
 type CardProps = {
@@ -13,13 +16,22 @@ type CardProps = {
     image: { base64: string; width: number; height: number };
     color: 'red' | 'blue';
   };
+  direction: 'left' | 'right';
+  selected?: boolean;
   style?: React.CSSProperties;
+  onClick?: (cardName: string) => void;
 };
 
 const blueGradient = `linear-gradient(to bottom, #b4c4f3, #343a81)`;
 const redGradient = `linear-gradient(to bottom, #f3b4d2, #813442)`;
 
-export const Card = ({ card, style }: CardProps) => {
+export const Card = ({
+  card,
+  style,
+  direction,
+  onClick,
+  selected = false,
+}: CardProps) => {
   if (card == null) {
     return (
       <div
@@ -41,6 +53,9 @@ export const Card = ({ card, style }: CardProps) => {
         minWidth: '62px',
         minHeight: '62px',
       }}
+      data-hand={direction}
+      className={clsx(styles.card, selected === true && styles.selected)}
+      onClick={() => onClick?.(card.name)}
     >
       <CardStats card={card} />
       <img
