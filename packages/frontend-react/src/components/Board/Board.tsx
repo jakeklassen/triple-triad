@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { ReadonlyDeep } from 'type-fest';
 import boardUrl from '../../assets/board.png';
-import { Hand } from '../Hand/Hand';
+import { Hand } from '../Hand';
+import { Cell } from './Cell';
 
 const BOARD_WIDTH = 384;
 const BOARD_HEIGHT = 224;
@@ -21,12 +22,33 @@ export const Board = ({
   playerTwo,
   whoGoesFirst,
 }: BoardProps) => {
+  const [selectedCard, setSelectedCard] = useState<string>();
   const [currentTurn] = useState<TripleTriad.PlayerLabel>(whoGoesFirst);
 
   // TODO: react to window resize and update scale factor using Jake's pixel art game code
   const [scaleFactor] = useState(3);
 
-  const cards = board.flat();
+  // TODO: Don't flat, store row and column idx in cell component for position prop
+  const cells = board.flat().map((cell, idx) => {
+    const [playerLabel, cardName] = cell?.split(':') ?? [];
+
+    const card = TripleTriad.CARDS.find(
+      (card) => card.name.toLowerCase() === cardName?.toLowerCase(),
+    );
+
+    return (
+      <Cell
+        key={idx} // TODO: Use row and column idx
+        card={card}
+        playerLabel={playerLabel as TripleTriad.PlayerLabel}
+        selectable={selectedCard != null}
+      />
+    );
+  });
+
+  const onCardSelected = (player: TripleTriad.Player, cardName: string) => {
+    setSelectedCard(`${player.label}${cardName}`);
+  };
 
   return (
     <div
@@ -40,7 +62,11 @@ export const Board = ({
         transform: `scale(${scaleFactor})`,
       }}
     >
-      <Hand player={playerOne} active={currentTurn === playerOne.label} />
+      <Hand
+        player={playerOne}
+        active={currentTurn === playerOne.label}
+        onCardSelected={onCardSelected}
+      />
 
       {/* Grid */}
       <div
@@ -56,10 +82,14 @@ export const Board = ({
           'text-black',
         )}
       >
-        {cards}
+        {cells}
       </div>
 
-      <Hand player={playerTwo} active={currentTurn === playerTwo.label} />
+      <Hand
+        player={playerTwo}
+        active={currentTurn === playerTwo.label}
+        onCardSelected={onCardSelected}
+      />
     </div>
   );
 };

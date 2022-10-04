@@ -3,20 +3,22 @@ import React from 'react';
 import styles from './Card.module.css';
 import { CardStats } from './CardStats';
 
-type CardProps = {
-  card?: {
-    name: string;
-    element?: string;
-    stats: {
-      north: number;
-      east: number;
-      south: number;
-      west: number;
-    };
-    image: { base64: string; width: number; height: number };
-    color: 'red' | 'blue';
+export type CardPropsCard = {
+  name: string;
+  element?: string;
+  stats: {
+    north: number;
+    east: number;
+    south: number;
+    west: number;
   };
-  direction: 'left' | 'right';
+  image: { base64: string; width: number; height: number };
+  color: 'red' | 'blue';
+};
+
+type CardProps = {
+  card?: CardPropsCard;
+  direction?: 'left' | 'right';
   selected?: boolean;
   style?: React.CSSProperties;
   onClick?: (cardName: string) => void;

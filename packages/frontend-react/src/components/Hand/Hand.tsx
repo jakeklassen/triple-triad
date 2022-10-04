@@ -1,17 +1,20 @@
 import * as TripleTriad from '@tripletriad/game';
+import clsx from 'clsx';
 import React from 'react';
 import { Card } from '../Card';
+import styles from './Hand.module.css';
 
 type HandProps = {
   player: TripleTriad.Player;
   active?: boolean;
+  onCardSelected: (player: TripleTriad.Player, cardName: string) => void;
 };
 
 const nonNullCard = (
   card: TripleTriad.CommonTypes.Hand[number],
 ): card is NonNullable<typeof card> => card != null;
 
-export const Hand = ({ player, active = false }: HandProps) => {
+export const Hand = ({ player, active = false, onCardSelected }: HandProps) => {
   const [selectedCard, setSelectedCard] = React.useState<string>();
 
   const onCardClicked = (cardName: string) => {
@@ -20,6 +23,7 @@ export const Hand = ({ player, active = false }: HandProps) => {
     }
 
     setSelectedCard(cardName);
+    onCardSelected(player, cardName);
   };
 
   const cards = player.hand.filter(nonNullCard).map((card, cardIndex) => {
@@ -38,7 +42,19 @@ export const Hand = ({ player, active = false }: HandProps) => {
   });
 
   return (
-    <div className="flex flex-col col-span-1 row-span-1 m-auto mt-[18px] mb-[16px] space-y-[-30px]">
+    <div
+      className={clsx(
+        'flex',
+        'flex-col',
+        'col-span-1',
+        'row-span-1',
+        'm-auto',
+        'mt-[18px]',
+        'mb-[16px]',
+        'space-y-[-30px]',
+        active ? styles.active : null,
+      )}
+    >
       {cards}
     </div>
   );
