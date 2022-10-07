@@ -10,26 +10,68 @@ const BOARD_WIDTH = 384;
 const BOARD_HEIGHT = 224;
 
 type BoardProps = {
-  board: ReadonlyDeep<TripleTriad.CommonTypes.Board>;
+  initialBoard: ReadonlyDeep<TripleTriad.CommonTypes.Board>;
   playerOne: TripleTriad.Player;
   playerTwo: TripleTriad.Player;
   whoGoesFirst: TripleTriad.PlayerLabel;
+  size: number;
 };
 
 export const Board = ({
-  board,
+  initialBoard,
   playerOne,
   playerTwo,
   whoGoesFirst,
+  size,
 }: BoardProps) => {
   const [selectedCard, setSelectedCard] = useState<string>();
-  const [currentTurn] = useState<TripleTriad.PlayerLabel>(whoGoesFirst);
+  const [currentTurn, setCurrentTurn] =
+    useState<TripleTriad.PlayerLabel>(whoGoesFirst);
+  const [board, setBoard] = useState<typeof initialBoard>(initialBoard);
 
   // TODO: react to window resize and update scale factor using Jake's pixel art game code
   const [scaleFactor] = useState(3);
 
-  // TODO: Don't flat, store row and column idx in cell component for position prop
+  const onCardSelected = (player: TripleTriad.Player, cardName: string) => {
+    console.log(`${player.label}:${cardName.toLowerCase()}`);
+
+    setSelectedCard(`${player.label}:${cardName.toLowerCase()}`);
+  };
+
+  const onCellSelected = (row: number, column: number) => {
+    if (selectedCard == null) {
+      return;
+    }
+
+    console.log({ row, column, selectedCard });
+
+    const [, cardName] = selectedCard.split(':');
+
+    const player = currentTurn === 'one' ? playerOne : playerTwo;
+    const card = player.hand.find(
+      (card) => card?.name.toLowerCase() === cardName,
+    );
+
+    if (card == null) {
+      throw new Error('Card not found');
+    }
+
+    const { newBoard } = TripleTriad.playCard(
+      board,
+      whoGoesFirst,
+      player,
+      card,
+      [row, column],
+    );
+
+    setBoard(newBoard);
+    player.removeCard(card);
+    setSelectedCard(undefined);
+    setCurrentTurn(currentTurn === 'one' ? 'two' : 'one');
+  };
+
   const cells = board.flat().map((cell, idx) => {
+    const [row, column] = [Math.trunc(idx / size), idx % size];
     const [playerLabel, cardName] = cell?.split(':') ?? [];
 
     const card = TripleTriad.CARDS.find(
@@ -38,17 +80,16 @@ export const Board = ({
 
     return (
       <Cell
-        key={idx} // TODO: Use row and column idx
+        key={`${row}:${column}`}
+        row={row}
+        column={column}
         card={card}
         playerLabel={playerLabel as TripleTriad.PlayerLabel}
         selectable={selectedCard != null}
+        onClick={onCellSelected}
       />
     );
   });
-
-  const onCardSelected = (player: TripleTriad.Player, cardName: string) => {
-    setSelectedCard(`${player.label}${cardName}`);
-  };
 
   return (
     <div

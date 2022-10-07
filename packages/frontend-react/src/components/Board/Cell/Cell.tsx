@@ -7,12 +7,25 @@ type CellProps = {
   card?: tripleTriad.CommonTypes.Card;
   playerLabel?: tripleTriad.PlayerLabel;
   selectable?: boolean;
+  row: number;
+  column: number;
+  onClick: (row: number, column: number) => void;
 };
 
-export const Cell = ({ card, playerLabel, selectable }: CellProps = {}) => {
+export const Cell = ({
+  card,
+  playerLabel,
+  selectable,
+  row,
+  column,
+  onClick,
+}: CellProps) => {
   if (card == null || playerLabel == null) {
     return (
-      <div className={selectable === true ? styles.cellHover : undefined}>
+      <div
+        className={selectable === true ? styles.cellHover : undefined}
+        onClick={() => onClick(row, column)}
+      >
         <Card />
       </div>
     );

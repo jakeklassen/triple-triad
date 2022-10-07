@@ -36,5 +36,14 @@ export const createGame = (
     Array(3).fill(undefined),
   ];
 
-  return { playerOne, playerTwo, board, whoGoesFirst };
+  return {
+    playerOne,
+    playerTwo,
+    board,
+    whoGoesFirst,
+    /**
+     * This is the width of the board.
+     */
+    boardSize: BOARD_SIZE,
+  };
 };
