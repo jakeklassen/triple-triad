@@ -65,7 +65,7 @@ export const CardStats = ({ card }: CardStatsProps) => {
       </span>
 
       <span className={clsx(styles.stat, styles.statWest)}>
-        {convertStat(card.stats.south)}
+        {convertStat(card.stats.west)}
       </span>
 
       {cardElement}
