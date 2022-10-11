@@ -42,20 +42,29 @@ export const Hand = ({ player, active = false, onCardSelected }: HandProps) => {
   });
 
   return (
-    <div
-      className={clsx(
-        'flex',
-        'flex-col',
-        'col-span-1',
-        'row-span-1',
-        'm-auto',
-        'mt-[18px]',
-        'mb-[16px]',
-        'space-y-[-30px]',
-        active ? styles.active : null,
-      )}
-    >
-      {cards}
+    <div className={clsx('flex', 'flex-col', 'm-auto')}>
+      {/* Active hand indicator */}
+      <span
+        className={clsx('m-auto', active ? styles.active : null)}
+        hidden={active ? false : true}
+      />
+
+      {/* Card container */}
+      <div
+        className={clsx(
+          'flex',
+          'flex-col',
+          'm-auto',
+          'col-span-1',
+          'row-span-1',
+          'mt-[18px]',
+          'mb-[16px]',
+          'space-y-[-30px]',
+          'hand',
+        )}
+      >
+        {cards}
+      </div>
     </div>
   );
 };

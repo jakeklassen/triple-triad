@@ -4,20 +4,18 @@ import { Board, Card, Position } from './common-types';
 import { BOARD_SIZE } from './create-game';
 import {
   BoardIsFullError,
-  DuplicateCardError,
   IllegalMoveError,
   IllegalStartError,
   OutOfBoundsError,
   PositionAlreadyOccupiedError,
 } from './errors';
-import { findDuplicatePlayerCard } from './find-duplicate-player-card';
 import { getCardFlips } from './get-card-flips';
 import { isBoardEmpty } from './is-board-empty';
 import { isBoardFull } from './is-board-full';
 import { Player, PlayerLabel } from './player';
 import { sumPlayerTurns } from './sum-player-turns';
 
-type PlayCardsResults = {
+type PlayCardResults = {
   flips: Position[][];
   gameOver: boolean;
   newBoard: ReadonlyDeep<Board>;
@@ -30,7 +28,7 @@ export const playCard = (
   player: ReadonlyDeep<Player>,
   card: ReadonlyDeep<Card>,
   position: ReadonlyDeep<Position>,
-): PlayCardsResults => {
+): PlayCardResults => {
   if (isBoardFull(board)) {
     throw new BoardIsFullError();
   }
@@ -75,12 +73,6 @@ export const playCard = (
 
   if (board[row][column] != null) {
     throw new PositionAlreadyOccupiedError();
-  }
-
-  const duplicateCard = findDuplicatePlayerCard(board, player.label, card);
-
-  if (duplicateCard === true) {
-    throw new DuplicateCardError(`${card.name} is already in play`);
   }
 
   const playerLabel = player.label.toLowerCase();
