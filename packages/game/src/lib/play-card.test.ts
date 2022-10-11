@@ -3,6 +3,7 @@ import { CARDS } from './cards';
 import { createGame } from './create-game';
 import {
   BoardIsFullError,
+  DuplicateCardError,
   IllegalMoveError,
   IllegalStartError,
   OutOfBoundsError,
@@ -241,5 +242,23 @@ describe('playCard', () => {
     expect(() =>
       playCard(turnOneBoard, Player.One, playerTwo, firstFiveCards[1], [0, 0]),
     ).toThrowError(PositionAlreadyOccupiedError);
+  });
+
+  it('should throw error when player attempts to play a duplicate card', () => {
+    const { playerTwo } = createGame({
+      cards: firstFiveCards,
+      whoGoesFirst: Player.Two,
+    });
+
+    const board = createBoardFromHand(
+      firstFiveCards,
+      Player.Two,
+      Player.One,
+      7,
+    );
+
+    expect(() =>
+      playCard(board, Player.Two, playerTwo, firstFiveCards[0], [0, 2]),
+    ).toThrowError(DuplicateCardError);
   });
 });
