@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { Board, Position } from './common-types';
-import { whoOwnsPosition } from './who-owns-position';
+import { whoPlayedCard } from './who-played-card';
 
-describe('whoOwnsPosition', () => {
+describe('whoPlayedCard', () => {
   const cases = [
     [
       'one',
       [0, 0] as Position,
       [
-        ['one:one:geezard', undefined, undefined],
+        ['one:two:geezard', undefined, undefined],
         [undefined, undefined, undefined],
         [undefined, undefined, undefined],
       ] as Board,
@@ -19,14 +19,14 @@ describe('whoOwnsPosition', () => {
       [
         ['one:one:geezard', undefined, undefined],
         [undefined, undefined, undefined],
-        [undefined, undefined, 'two:two:fungar'],
+        [undefined, undefined, 'two:one:fungar'],
       ] as Board,
     ],
     [
       undefined,
       [-1, -1] as Position,
       [
-        ['one:one:geezard', undefined, undefined],
+        ['two:one:geezard', undefined, undefined],
         [undefined, undefined, undefined],
         [undefined, undefined, undefined],
       ] as Board,
@@ -36,7 +36,7 @@ describe('whoOwnsPosition', () => {
   it.each(cases)(
     'should return %o as the owner of %s',
     (expected, position, board) => {
-      expect(whoOwnsPosition(board, position)).toBe(expected);
+      expect(whoPlayedCard(board, position)).toBe(expected);
     },
   );
 });

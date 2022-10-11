@@ -5,9 +5,10 @@ import { PlayerLabel } from './player';
 export const findDuplicatePlayerCard = (
   board: ReadonlyDeep<Board>,
   playerLabel: PlayerLabel,
+  ownerLabel: PlayerLabel,
   card: ReadonlyDeep<Card>,
 ) => {
-  const needle = `${playerLabel.toLowerCase()}:${card.name.toLowerCase()}`;
+  const needle = `${playerLabel.toLowerCase()}:${ownerLabel}:${card.name.toLowerCase()}`;
   const cells = board.flatMap((row) => row.filter((card) => card != null));
 
   return cells.includes(needle);

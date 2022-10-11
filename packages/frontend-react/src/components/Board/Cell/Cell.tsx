@@ -6,6 +6,7 @@ import styles from './Cell.module.css';
 type CellProps = {
   card?: tripleTriad.CommonTypes.Card;
   playerLabel?: tripleTriad.PlayerLabel;
+  ownerLabel?: tripleTriad.PlayerLabel;
   selectable?: boolean;
   row: number;
   column: number;
@@ -15,12 +16,13 @@ type CellProps = {
 export const Cell = ({
   card,
   playerLabel,
+  ownerLabel,
   selectable,
   row,
   column,
   onClick,
 }: CellProps) => {
-  if (card == null || playerLabel == null) {
+  if (card == null || playerLabel == null || ownerLabel == null) {
     return (
       <div
         className={selectable === true ? styles.cellHover : undefined}
@@ -33,10 +35,10 @@ export const Cell = ({
 
   const newCard: CardPropsCard = {
     ...structuredClone(card),
-    color: playerLabel === 'one' ? 'red' : 'blue',
+    color: ownerLabel === 'one' ? 'red' : 'blue',
   };
 
-  const direction = playerLabel === 'one' ? 'left' : 'right';
+  const direction = ownerLabel === 'one' ? 'left' : 'right';
 
   return (
     <div>

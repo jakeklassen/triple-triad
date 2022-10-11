@@ -79,7 +79,7 @@ export const playCard = (
   const cardName = card.name.toLowerCase();
 
   const newBoard = structuredClone(board) as Board;
-  newBoard[row][column] = `${playerLabel}:${cardName}`;
+  newBoard[row][column] = `${playerLabel}:${playerLabel}:${cardName}`;
 
   const flips = getCardFlips(newBoard, CARDS, player, card, row, column);
   const scoreChange = flips.flat().length;
