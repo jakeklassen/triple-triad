@@ -4,11 +4,13 @@ import { Board, Card, Position } from './common-types';
 import { BOARD_SIZE } from './create-game';
 import {
   BoardIsFullError,
+  DuplicateCardError,
   IllegalMoveError,
   IllegalStartError,
   OutOfBoundsError,
   PositionAlreadyOccupiedError,
 } from './errors';
+import { findDuplicatePlayerCard } from './find-duplicate-player-card';
 import { getCardFlips } from './get-card-flips';
 import { isBoardEmpty } from './is-board-empty';
 import { isBoardFull } from './is-board-full';
@@ -73,6 +75,17 @@ export const playCard = (
 
   if (board[row][column] != null) {
     throw new PositionAlreadyOccupiedError();
+  }
+
+  const duplicateCard = findDuplicatePlayerCard(
+    board,
+    player.label,
+    player.label,
+    card,
+  );
+
+  if (duplicateCard === true) {
+    throw new DuplicateCardError(`${card.name} is already in play`);
   }
 
   const playerLabel = player.label.toLowerCase();
