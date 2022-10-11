@@ -13,9 +13,9 @@ describe('getCardFlips', () => {
     assert(laguna);
 
     const board: Board = [
-      ['one:red bat', 'one:fungar', 'one:geezard'],
+      ['one:one:red bat', 'one:one:fungar', 'one:one:geezard'],
       Array(3).fill(undefined),
-      [undefined, undefined, 'one:blobra'],
+      [undefined, undefined, 'one:one:blobra'],
     ];
 
     const flips = getCardFlips(board, CARDS, playerTwo, laguna, 1, 2);
@@ -38,9 +38,9 @@ describe('getCardFlips', () => {
     assert(laguna);
 
     const board: Board = [
-      [undefined, 'one:fungar', undefined],
-      ['one:red bat', undefined, 'one:geezard'],
-      [undefined, 'one:blobra', undefined],
+      [undefined, 'one:one:fungar', undefined],
+      ['one:one:red bat', undefined, 'one:one:geezard'],
+      [undefined, 'one:one:blobra', undefined],
     ];
 
     const flips = getCardFlips(board, CARDS, playerTwo, laguna, 1, 1);

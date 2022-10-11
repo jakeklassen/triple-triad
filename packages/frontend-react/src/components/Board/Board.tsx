@@ -64,6 +64,8 @@ export const Board = ({
       [row, column],
     );
 
+    console.log(newBoard);
+
     setBoard(newBoard);
     player.removeCard(card);
     setSelectedCard(undefined);
@@ -72,7 +74,7 @@ export const Board = ({
 
   const cells = board.flat().map((cell, idx) => {
     const [row, column] = [Math.trunc(idx / size), idx % size];
-    const [playerLabel, cardName] = cell?.split(':') ?? [];
+    const [playerLabel, ownerLabel, cardName] = cell?.split(':') ?? [];
 
     const card = TripleTriad.CARDS.find(
       (card) => card.name.toLowerCase() === cardName?.toLowerCase(),
@@ -85,6 +87,7 @@ export const Board = ({
         column={column}
         card={card}
         playerLabel={playerLabel as TripleTriad.PlayerLabel}
+        ownerLabel={ownerLabel as TripleTriad.PlayerLabel}
         selectable={selectedCard != null}
         onClick={onCellSelected}
       />

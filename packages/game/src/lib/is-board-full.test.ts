@@ -5,9 +5,9 @@ import { isBoardFull } from './is-board-full';
 describe('isBoardFull', () => {
   it('should return true if every cell is not null or undefined', () => {
     const board: Board = [
-      ['one:red bat', 'one:fungar', 'one:geezard'],
-      ['one:red bat', 'one:fungar', 'one:geezard'],
-      ['one:red bat', 'one:fungar', 'one:geezard'],
+      ['one:one:red bat', 'one:one:fungar', 'one:one:geezard'],
+      ['one:one:red bat', 'one:one:fungar', 'one:one:geezard'],
+      ['one:one:red bat', 'one:one:fungar', 'one:one:geezard'],
     ];
 
     expect(isBoardFull(board)).toBe(true);
@@ -15,9 +15,9 @@ describe('isBoardFull', () => {
 
   it('should return false if any cell is null or undefined', () => {
     const board: Board = [
-      ['one:red bat', 'one:fungar', 'one:geezard'],
-      ['one:red bat', 'one:fungar', 'one:geezard'],
-      ['one:red bat', 'one:fungar', undefined],
+      ['one:one:red bat', 'one:one:fungar', 'one:one:geezard'],
+      ['one:one:red bat', 'one:one:fungar', 'one:one:geezard'],
+      ['one:one:red bat', 'one:one:fungar', undefined],
     ];
 
     expect(isBoardFull(board)).toBe(false);

@@ -5,9 +5,9 @@
 
   width: 0;
   height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 15px solid yellow;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid yellow;
 
   -webkit-animation: roty 4s linear infinite;
   -moz-animation: roty 4s linear infinite;

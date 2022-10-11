@@ -10,7 +10,7 @@ describe('getCardFromPosition', () => {
 
   it('should return card if found', () => {
     const board: Board = [
-      ['one:fungar', undefined, undefined],
+      ['one:one:fungar', undefined, undefined],
       Array(3).fill(undefined),
       Array(3).fill(undefined),
     ];

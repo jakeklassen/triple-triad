@@ -15,9 +15,9 @@ describe('isBoardEmpty', () => {
 
   it('should return false if any cell is not null or undefined', () => {
     const board: Board = [
-      ['one:red bat', 'one:fungar', 'one:geezard'],
-      ['one:red bat', 'one:fungar', 'one:geezard'],
-      ['one:red bat', 'one:fungar', undefined],
+      ['one:one:red bat', 'one:one:fungar', 'one:one:geezard'],
+      ['one:one:red bat', 'one:one:fungar', 'one:one:geezard'],
+      ['one:one:red bat', 'one:one:fungar', undefined],
     ];
 
     expect(isBoardEmpty(board)).toBe(false);

@@ -16,7 +16,7 @@ export const createBoardFromHand = (
   while (moveCount > movesRemaining) {
     const card = hand[cardIndex];
 
-    cells.push(`${firstMove}:${card.name.toLowerCase()}`);
+    cells.push(`${firstMove}:${firstMove}:${card.name.toLowerCase()}`);
 
     --moveCount;
 
@@ -24,7 +24,7 @@ export const createBoardFromHand = (
       break;
     }
 
-    cells.push(`${otherPlayer}:${card.name.toLowerCase()}`);
+    cells.push(`${otherPlayer}:${otherPlayer}:${card.name.toLowerCase()}`);
 
     --moveCount;
 
