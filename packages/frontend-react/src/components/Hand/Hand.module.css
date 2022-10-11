@@ -1,3 +1,32 @@
 .active {
-  border: 1px solid red;
+  z-index: 99;
+  position: relative;
+  top: 2px;
+
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 15px solid yellow;
+
+  -webkit-animation: roty 4s linear infinite;
+  -moz-animation: roty 4s linear infinite;
+  animation: roty 4s linear infinite;
+}
+
+@-moz-keyframes roty {
+  100% {
+    -moz-transform: rotate3d(0, 1, 0, 360deg);
+  }
+}
+@-webkit-keyframes roty {
+  100% {
+    -webkit-transform: rotate3d(0, 1, 0, 360deg);
+  }
+}
+@keyframes roty {
+  100% {
+    -webkit-transform: rotate3d(0, 1, 0, 360deg);
+    transform: rotate3d(0, 1, 0, 360deg);
+  }
 }
