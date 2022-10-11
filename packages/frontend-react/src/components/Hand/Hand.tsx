@@ -47,6 +47,9 @@ export const Hand = ({ player, active = false, onCardSelected }: HandProps) => {
       <span
         className={clsx('m-auto', active ? styles.active : null)}
         hidden={active ? false : true}
+        data-direction={
+          player.label == TripleTriad.Player.One ? 'left' : 'right'
+        }
       />
 
       {/* Card container */}

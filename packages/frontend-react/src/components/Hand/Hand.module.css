@@ -1,6 +1,6 @@
 .active {
   z-index: 99;
-  position: relative;
+  position: absolute;
   top: 2px;
 
   width: 0;
@@ -12,6 +12,13 @@
   -webkit-animation: roty 4s linear infinite;
   -moz-animation: roty 4s linear infinite;
   animation: roty 4s linear infinite;
+}
+
+.active[data-direction='left'] {
+  left: 39px;
+}
+.active[data-direction='right'] {
+  right: 39px;
 }
 
 @-moz-keyframes roty {
