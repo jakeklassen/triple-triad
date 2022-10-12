@@ -28,6 +28,8 @@ export const Board = ({
   const [currentTurn, setCurrentTurn] =
     useState<TripleTriad.PlayerLabel>(whoGoesFirst);
   const [board, setBoard] = useState<typeof initialBoard>(initialBoard);
+  const [playerOneScore, setPlayerOneScore] = useState<number>(5);
+  const [playerTwoScore, setPlayerTwoScore] = useState<number>(5);
 
   // TODO: react to window resize and update scale factor using Jake's pixel art game code
   const [scaleFactor] = useState(3);
@@ -56,7 +58,7 @@ export const Board = ({
       throw new Error('Card not found');
     }
 
-    const { newBoard } = TripleTriad.playCard(
+    const { newBoard, scoreChange } = TripleTriad.playCard(
       board,
       whoGoesFirst,
       player,
@@ -64,7 +66,13 @@ export const Board = ({
       [row, column],
     );
 
-    console.log(newBoard);
+    if (player.label === 'one') {
+      setPlayerOneScore(playerOneScore + scoreChange);
+      setPlayerTwoScore(playerTwoScore + -scoreChange);
+    } else {
+      setPlayerTwoScore(playerTwoScore + scoreChange);
+      setPlayerOneScore(playerOneScore + -scoreChange);
+    }
 
     setBoard(newBoard);
     player.removeCard(card);
@@ -109,6 +117,7 @@ export const Board = ({
       <Hand
         player={playerOne}
         active={currentTurn === playerOne.label}
+        score={playerOneScore}
         onCardSelected={onCardSelected}
       />
 
@@ -132,6 +141,7 @@ export const Board = ({
       <Hand
         player={playerTwo}
         active={currentTurn === playerTwo.label}
+        score={playerTwoScore}
         onCardSelected={onCardSelected}
       />
     </div>
