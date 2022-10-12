@@ -66,13 +66,12 @@ export const Board = ({
       [row, column],
     );
 
-    if (player.label === 'one') {
-      setPlayerOneScore(playerOneScore + scoreChange);
-      setPlayerTwoScore(playerTwoScore + -scoreChange);
-    } else {
-      setPlayerTwoScore(playerTwoScore + scoreChange);
-      setPlayerOneScore(playerOneScore + -scoreChange);
-    }
+    setPlayerOneScore(
+      playerOneScore + player.label === 'one' ? scoreChange : -scoreChange,
+    );
+    setPlayerTwoScore(
+      playerTwoScore + player.label === 'two' ? scoreChange : -scoreChange,
+    );
 
     setBoard(newBoard);
     player.removeCard(card);
