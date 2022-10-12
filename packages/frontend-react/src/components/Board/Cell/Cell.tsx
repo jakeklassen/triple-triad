@@ -25,7 +25,7 @@ export const Cell = ({
   if (card == null || playerLabel == null || ownerLabel == null) {
     return (
       <div
-        className={selectable === true ? styles.cellHover : undefined}
+        className={selectable === true ? styles.cellSelectable : undefined}
         onClick={() => onClick(row, column)}
       >
         <Card />
