@@ -1,5 +1,4 @@
 .active {
-  z-index: 99;
   position: absolute;
   top: 2px;
 
@@ -9,8 +8,6 @@
   border-right: 10px solid transparent;
   border-top: 10px solid yellow;
 
-  -webkit-animation: roty 4s linear infinite;
-  -moz-animation: roty 4s linear infinite;
   animation: roty 4s linear infinite;
 }
 
@@ -40,19 +37,8 @@
   right: 42px;
 }
 
-@-moz-keyframes roty {
-  100% {
-    -moz-transform: rotate3d(0, 1, 0, 360deg);
-  }
-}
-@-webkit-keyframes roty {
-  100% {
-    -webkit-transform: rotate3d(0, 1, 0, 360deg);
-  }
-}
 @keyframes roty {
   100% {
-    -webkit-transform: rotate3d(0, 1, 0, 360deg);
     transform: rotate3d(0, 1, 0, 360deg);
   }
 }

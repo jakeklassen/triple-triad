@@ -1,7 +1,5 @@
 .card {
   cursor: pointer;
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
   user-select: none;
 }
 
