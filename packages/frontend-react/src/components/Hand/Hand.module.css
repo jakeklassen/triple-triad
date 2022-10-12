@@ -17,8 +17,26 @@
 .active[data-direction='left'] {
   left: 39px;
 }
+
 .active[data-direction='right'] {
   right: 39px;
+}
+
+.score {
+  z-index: 99;
+  position: absolute;
+  color: white;
+  bottom: 1px;
+  font-size: 25px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.score[data-direction='left'] {
+  left: 42px;
+}
+
+.score[data-direction='right'] {
+  right: 42px;
 }
 
 @-moz-keyframes roty {
