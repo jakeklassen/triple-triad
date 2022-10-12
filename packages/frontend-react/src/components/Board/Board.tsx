@@ -67,10 +67,10 @@ export const Board = ({
     );
 
     setPlayerOneScore(
-      playerOneScore + player.label === 'one' ? scoreChange : -scoreChange,
+      playerOneScore + (currentTurn === 'one' ? scoreChange : -scoreChange),
     );
     setPlayerTwoScore(
-      playerTwoScore + player.label === 'two' ? scoreChange : -scoreChange,
+      playerTwoScore + (currentTurn === 'two' ? scoreChange : -scoreChange),
     );
 
     setBoard(newBoard);
