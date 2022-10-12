@@ -1,20 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { CARDS } from './cards';
-import { Board } from './common-types';
+import { Board, Hand } from './common-types';
 import { Player } from './player';
 import { sumPlayerTurns } from './sum-player-turns';
 import { createBoardFromHand } from './test-utils';
 
 describe('sumPlayerTurns', () => {
   const firstFiveCards = [CARDS[0], CARDS[1], CARDS[2], CARDS[3], CARDS[4]];
+  const hand = firstFiveCards as Hand;
 
   it('should return accurate player one and player two turn counts for non-empty board', () => {
-    const board = createBoardFromHand(
-      firstFiveCards,
-      Player.One,
-      Player.Two,
-      2,
-    );
+    const board = createBoardFromHand(hand, Player.One, Player.Two, 2);
 
     const turnSums = sumPlayerTurns(board);
 

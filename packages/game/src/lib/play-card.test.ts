@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CARDS } from './cards';
+import { Hand } from './common-types';
 import { createGame } from './create-game';
 import {
   BoardIsFullError,
@@ -15,6 +16,7 @@ import { createBoardFromHand } from './test-utils';
 
 describe('playCard', () => {
   const firstFiveCards = [CARDS[0], CARDS[1], CARDS[2], CARDS[3], CARDS[4]];
+  const hand = firstFiveCards as Hand;
 
   describe('when player one starts', () => {
     it('should throw when player two starts illegally', () => {
@@ -35,7 +37,7 @@ describe('playCard', () => {
       });
 
       const board = createBoardFromHand(
-        firstFiveCards,
+        hand,
         playerOne.label,
         playerTwo.label,
         1,
@@ -83,12 +85,7 @@ describe('playCard', () => {
         whoGoesFirst: Player.One,
       });
 
-      const board = createBoardFromHand(
-        firstFiveCards,
-        whoGoesFirst,
-        Player.Two,
-        7,
-      );
+      const board = createBoardFromHand(hand, whoGoesFirst, Player.Two, 7);
 
       expect(() =>
         playCard(board, whoGoesFirst, playerTwo, firstFiveCards[1], [0, 2]),
@@ -115,7 +112,7 @@ describe('playCard', () => {
       });
 
       const board = createBoardFromHand(
-        firstFiveCards,
+        hand,
         playerTwo.label,
         playerOne.label,
         1,
@@ -163,12 +160,7 @@ describe('playCard', () => {
         whoGoesFirst: Player.Two,
       });
 
-      const board = createBoardFromHand(
-        firstFiveCards,
-        whoGoesFirst,
-        Player.One,
-        7,
-      );
+      const board = createBoardFromHand(hand, whoGoesFirst, Player.One, 7);
 
       expect(() =>
         playCard(board, whoGoesFirst, playerOne, firstFiveCards[1], [0, 2]),
@@ -182,7 +174,7 @@ describe('playCard', () => {
     });
 
     const board = createBoardFromHand(
-      firstFiveCards,
+      hand,
       playerTwo.label,
       playerOne.label,
       1,
@@ -204,12 +196,7 @@ describe('playCard', () => {
       cards: firstFiveCards,
     });
 
-    const board = createBoardFromHand(
-      firstFiveCards,
-      Player.One,
-      Player.Two,
-      0,
-    );
+    const board = createBoardFromHand(hand, Player.One, Player.Two, 0);
 
     expect(() =>
       playCard(board, Player.One, playerOne, firstFiveCards[0], [0, 0]),
@@ -250,12 +237,7 @@ describe('playCard', () => {
       whoGoesFirst: Player.Two,
     });
 
-    const board = createBoardFromHand(
-      firstFiveCards,
-      Player.Two,
-      Player.One,
-      7,
-    );
+    const board = createBoardFromHand(hand, Player.Two, Player.One, 7);
 
     expect(() =>
       playCard(board, Player.Two, playerTwo, firstFiveCards[0], [0, 2]),

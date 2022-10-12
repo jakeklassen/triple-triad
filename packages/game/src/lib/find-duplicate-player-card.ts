@@ -1,15 +1,20 @@
 import { ReadonlyDeep } from 'type-fest';
-import { Board, Card } from './common-types';
+import { Board, Card, Cell } from './common-types';
 import { PlayerLabel } from './player';
 
 export const findDuplicatePlayerCard = (
   board: ReadonlyDeep<Board>,
   playerLabel: PlayerLabel,
-  ownerLabel: PlayerLabel,
   card: ReadonlyDeep<Card>,
 ) => {
-  const needle = `${playerLabel.toLowerCase()}:${ownerLabel}:${card.name.toLowerCase()}`;
-  const cells = board.flatMap((row) => row.filter((card) => card != null));
+  const cells = board.flatMap((row) =>
+    row.filter((cell): cell is NonNullable<Cell> => cell != null),
+  );
 
-  return cells.includes(needle);
+  const existingCard = cells.find(
+    (cell) =>
+      cell.startsWith(playerLabel) && cell.endsWith(card.name.toLowerCase()),
+  );
+
+  return existingCard != null;
 };
