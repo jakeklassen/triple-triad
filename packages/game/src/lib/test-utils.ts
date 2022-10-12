@@ -1,9 +1,9 @@
 import justSplit from 'just-split';
-import { Board, Card, Cell } from './common-types';
+import { Board, Cell, Hand } from './common-types';
 import { PlayerLabel } from './player';
 
 export const createBoardFromHand = (
-  hand: Card[],
+  hand: Hand,
   firstMove: PlayerLabel,
   otherPlayer: PlayerLabel,
   movesRemaining = 1,
@@ -16,7 +16,7 @@ export const createBoardFromHand = (
   while (moveCount > movesRemaining) {
     const card = hand[cardIndex];
 
-    cells.push(`${firstMove}:${firstMove}:${card.name.toLowerCase()}`);
+    cells.push(`${firstMove}:${firstMove}:${card?.name.toLowerCase()}`);
 
     --moveCount;
 
@@ -24,7 +24,7 @@ export const createBoardFromHand = (
       break;
     }
 
-    cells.push(`${otherPlayer}:${otherPlayer}:${card.name.toLowerCase()}`);
+    cells.push(`${otherPlayer}:${otherPlayer}:${card?.name.toLowerCase()}`);
 
     --moveCount;
 

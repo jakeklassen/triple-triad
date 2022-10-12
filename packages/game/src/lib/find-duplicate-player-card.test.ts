@@ -16,9 +16,7 @@ describe('findDuplicatePlayerCard', () => {
       Array(3).fill(undefined),
     ];
 
-    expect(findDuplicatePlayerCard(board, Player.One, Player.One, fungar)).toBe(
-      true,
-    );
+    expect(findDuplicatePlayerCard(board, Player.One, fungar)).toBe(true);
   });
 
   it('should return false when no duplicate cards exist', () => {
@@ -28,8 +26,6 @@ describe('findDuplicatePlayerCard', () => {
       Array(3).fill(undefined),
     ];
 
-    expect(findDuplicatePlayerCard(board, Player.One, Player.One, fungar)).toBe(
-      false,
-    );
+    expect(findDuplicatePlayerCard(board, Player.One, fungar)).toBe(false);
   });
 });

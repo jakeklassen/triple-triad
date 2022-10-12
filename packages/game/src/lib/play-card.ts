@@ -77,12 +77,7 @@ export const playCard = (
     throw new PositionAlreadyOccupiedError();
   }
 
-  const duplicateCard = findDuplicatePlayerCard(
-    board,
-    player.label,
-    player.label,
-    card,
-  );
+  const duplicateCard = findDuplicatePlayerCard(board, player.label, card);
 
   if (duplicateCard === true) {
     throw new DuplicateCardError(`${card.name} is already in play`);
