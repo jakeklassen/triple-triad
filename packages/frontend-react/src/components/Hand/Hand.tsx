@@ -42,7 +42,9 @@ export const Hand = ({ player, active = false, onCardSelected }: HandProps) => {
   });
 
   return (
-    <div className={clsx('flex', 'flex-col', 'm-auto')}>
+    <div
+      className={clsx('flex', 'flex-col', 'm-auto', 'col-span-1', 'row-span-1')}
+    >
       {/* Active hand indicator */}
       <span
         className={clsx('m-auto', active ? styles.active : null)}
@@ -53,18 +55,19 @@ export const Hand = ({ player, active = false, onCardSelected }: HandProps) => {
       />
 
       {/* Card container */}
-      <div
-        className={clsx(
-          'col-span-1',
-          'row-span-1',
-          'mt-[18px]',
-          'mb-[18px]',
-          'space-y-[-30px]',
-          'hand',
-        )}
-      >
+      <div className={clsx('mt-[18px]', 'mb-[18px]', 'space-y-[-30px]')}>
         {cards}
       </div>
+
+      {/* Score */}
+      <span
+        className={clsx('m-auto', styles.score)}
+        data-direction={
+          player.label == TripleTriad.Player.One ? 'left' : 'right'
+        }
+      >
+        5
+      </span>
     </div>
   );
 };
