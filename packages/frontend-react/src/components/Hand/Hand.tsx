@@ -4,10 +4,41 @@ import React from 'react';
 import { Card } from '../Card';
 import styles from './Hand.module.css';
 
+type ActiveHandIndicatorProps = {
+  active: boolean;
+  player: TripleTriad.Player;
+};
+
+const ActiveHandIndicator = ({ active, player }: ActiveHandIndicatorProps) => {
+  return (
+    <span
+      className={clsx('m-auto', active ? styles.active : null)}
+      hidden={active ? false : true}
+      data-direction={player.label == TripleTriad.Player.One ? 'left' : 'right'}
+    />
+  );
+};
+
+type ScoreProps = {
+  score: number;
+  player: TripleTriad.Player;
+};
+
+const Score = ({ score, player }: ScoreProps) => {
+  return (
+    <span
+      className={clsx('m-auto', styles.score)}
+      data-direction={player.label == TripleTriad.Player.One ? 'left' : 'right'}
+    >
+      {score}
+    </span>
+  );
+};
+
 type HandProps = {
   player: TripleTriad.Player;
   active?: boolean;
-  score?: number;
+  score: number;
   onCardSelected: (player: TripleTriad.Player, cardName: string) => void;
 };
 
@@ -51,29 +82,13 @@ export const Hand = ({
     <div
       className={clsx('flex', 'flex-col', 'm-auto', 'col-span-1', 'row-span-1')}
     >
-      {/* Active hand indicator */}
-      <span
-        className={clsx('m-auto', active ? styles.active : null)}
-        hidden={active ? false : true}
-        data-direction={
-          player.label == TripleTriad.Player.One ? 'left' : 'right'
-        }
-      />
+      <ActiveHandIndicator active={active} player={player} />
 
-      {/* Card container */}
       <div className={clsx('mt-[18px]', 'mb-[18px]', 'space-y-[-30px]')}>
         {cards}
       </div>
 
-      {/* Score */}
-      <span
-        className={clsx('m-auto', styles.score)}
-        data-direction={
-          player.label == TripleTriad.Player.One ? 'left' : 'right'
-        }
-      >
-        {score}
-      </span>
+      <Score score={score} player={player} />
     </div>
   );
 };
