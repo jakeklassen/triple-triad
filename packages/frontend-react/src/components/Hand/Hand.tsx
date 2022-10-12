@@ -7,6 +7,7 @@ import styles from './Hand.module.css';
 type HandProps = {
   player: TripleTriad.Player;
   active?: boolean;
+  score?: number;
   onCardSelected: (player: TripleTriad.Player, cardName: string) => void;
 };
 
@@ -14,7 +15,12 @@ const nonNullCard = (
   card: TripleTriad.CommonTypes.Hand[number],
 ): card is NonNullable<typeof card> => card != null;
 
-export const Hand = ({ player, active = false, onCardSelected }: HandProps) => {
+export const Hand = ({
+  player,
+  active = false,
+  score,
+  onCardSelected,
+}: HandProps) => {
   const [selectedCard, setSelectedCard] = React.useState<string>();
 
   const onCardClicked = (cardName: string) => {
@@ -66,7 +72,7 @@ export const Hand = ({ player, active = false, onCardSelected }: HandProps) => {
           player.label == TripleTriad.Player.One ? 'left' : 'right'
         }
       >
-        5
+        {score}
       </span>
     </div>
   );
