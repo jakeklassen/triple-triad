@@ -55,13 +55,10 @@ export const Hand = ({ player, active = false, onCardSelected }: HandProps) => {
       {/* Card container */}
       <div
         className={clsx(
-          'flex',
-          'flex-col',
-          'm-auto',
           'col-span-1',
           'row-span-1',
           'mt-[18px]',
-          'mb-[16px]',
+          'mb-[18px]',
           'space-y-[-30px]',
           'hand',
         )}

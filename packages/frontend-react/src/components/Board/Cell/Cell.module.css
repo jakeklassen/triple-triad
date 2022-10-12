@@ -1,3 +1,4 @@
 .cellHover {
-  border: 1px solid red;
+  background-color: blue;
+  opacity: 20%;
 }
