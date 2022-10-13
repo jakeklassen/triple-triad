@@ -1,10 +1,11 @@
 import * as TripleTriad from '@tripletriad/game';
 import clsx from 'clsx';
+import { ReadonlyDeep } from 'type-fest';
 import styles from './ActiveHandIndicator.module.css';
 
 type ActiveHandIndicatorProps = {
   active: boolean;
-  player: TripleTriad.Player;
+  player: ReadonlyDeep<TripleTriad.Player>;
 };
 
 export const ActiveHandIndicator = ({
