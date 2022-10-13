@@ -1,0 +1,98 @@
+:root {
+  --pyramid-width: 20px;
+  --pyramid-height: 20px;
+  --pyramid-border-side: 10px; /* Half of --pyramid-border-top */
+  --pyramid-border-top: 20px;
+  --perspective: 60px;
+  --border-color: hsla(61, 80%, 52%, 0.8);
+}
+
+.pyramidContainer {
+  position: absolute;
+  top: -5px;
+  width: var(--pyramid-width);
+  height: var(--pyramid-height);
+  perspective: var(--perspective);
+}
+
+.pyramidContainer[data-direction='left'] {
+  left: 39px;
+}
+
+.pyramidContainer[data-direction='right'] {
+  right: 39px;
+}
+
+.pyramid {
+  width: var(--pyramid-width);
+  height: var(--pyramid-height);
+  position: relative;
+  transform-style: preserve-3d;
+  animation: roty 4s linear infinite;
+}
+
+.pyramidFace {
+  position: absolute;
+  border: 1px solid var(--border-color);
+}
+
+.pyramidFaceFront {
+  transform-origin: top;
+  transform: translateZ(var(--pyramid-border-side)) rotateX(-30deg);
+
+  width: 0;
+  height: 0;
+  border-left: var(--pyramid-border-side) solid transparent;
+  border-right: var(--pyramid-border-side) solid transparent;
+  border-top: var(--pyramid-border-top) solid var(--border-color);
+}
+
+.pyramidFaceRight {
+  transform-origin: top;
+  transform: rotateY(90deg) translateZ(var(--pyramid-border-side))
+    rotateX(-30deg);
+
+  width: 0;
+  height: 0;
+  border-left: var(--pyramid-border-side) solid transparent;
+  border-right: var(--pyramid-border-side) solid transparent;
+  border-top: var(--pyramid-border-top) solid var(--border-color);
+}
+
+.pyramidFaceBack {
+  transform-origin: top;
+  transform: rotateY(180deg) translateZ(var(--pyramid-border-side))
+    rotateX(-30deg);
+
+  width: 0;
+  height: 0;
+  border-left: var(--pyramid-border-side) solid transparent;
+  border-right: var(--pyramid-border-side) solid transparent;
+  border-top: var(--pyramid-border-top) solid var(--border-color);
+}
+
+.pyramidFaceLeft {
+  transform-origin: top;
+  transform: rotateY(-90deg) translateZ(var(--pyramid-border-side))
+    rotateX(-30deg);
+
+  width: 0;
+  height: 0;
+  border-left: var(--pyramid-border-side) solid transparent;
+  border-right: var(--pyramid-border-side) solid transparent;
+  border-top: var(--pyramid-border-top) solid var(--border-color);
+}
+
+.pyramidFaceTop {
+  background: var(--border-color);
+  transform: rotateX(90deg) translateZ(var(--pyramid-border-side));
+
+  width: var(--pyramid-width);
+  height: var(--pyramid-height);
+}
+
+@keyframes roty {
+  100% {
+    transform: rotateY(360deg);
+  }
+}
