@@ -5,6 +5,10 @@
       "path": "."
     },
     {
+      "name": "💾 backend-colyseus",
+      "path": "packages/backend-colyseus"
+    },
+    {
       "name": "📦 frontend-react",
       "path": "packages/frontend-react"
     },
