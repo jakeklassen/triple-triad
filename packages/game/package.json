@@ -70,6 +70,9 @@
     "vitest": "^0.24.3"
   },
   "dependencies": {
-    "just-shuffle": "4.1.1"
+    "just-group-by": "2.1.2",
+    "just-random-integer": "4.1.1",
+    "just-shuffle": "4.1.1",
+    "tsup": "^6.3.0"
   }
 }
