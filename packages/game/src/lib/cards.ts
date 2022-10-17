@@ -3,6 +3,7 @@ import { Card } from './common-types';
 export const CARDS: Card[] = [
   {
     name: 'Geezard',
+    level: 1,
     stats: {
       north: 1,
       east: 4,
@@ -18,6 +19,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Fungar',
+    level: 1,
     stats: {
       north: 5,
       east: 1,
@@ -33,6 +35,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Bite Bug',
+    level: 1,
     stats: {
       north: 1,
       east: 3,
@@ -48,6 +51,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Red Bat',
+    level: 1,
     stats: {
       north: 6,
       east: 1,
@@ -63,6 +67,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Blobra',
+    level: 1,
     stats: {
       north: 2,
       east: 3,
@@ -78,6 +83,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Gayla',
+    level: 1,
     element: 'lightning',
     stats: {
       north: 2,
@@ -94,6 +100,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Gesper',
+    level: 1,
     stats: {
       north: 1,
       east: 5,
@@ -109,6 +116,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Fastitocalon-F',
+    level: 1,
     element: 'earth',
     stats: {
       north: 3,
@@ -125,6 +133,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Blood Soul',
+    level: 1,
     stats: {
       north: 2,
       east: 1,
@@ -140,6 +149,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Caterchipillar',
+    level: 1,
     stats: {
       north: 4,
       east: 2,
@@ -155,6 +165,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Cockatrice',
+    level: 1,
     element: 'lightning',
     stats: {
       north: 2,
@@ -171,6 +182,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Grat',
+    level: 2,
     stats: {
       north: 7,
       east: 1,
@@ -186,6 +198,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Buel',
+    level: 2,
     stats: {
       north: 6,
       east: 2,
@@ -201,6 +214,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Mesmerize',
+    level: 2,
     stats: {
       north: 5,
       east: 3,
@@ -216,6 +230,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Glacial Eye',
+    level: 2,
     element: 'ice',
     stats: {
       north: 6,
@@ -232,6 +247,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Belhelmel',
+    level: 2,
     stats: {
       north: 3,
       east: 4,
@@ -247,6 +263,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Thrustaevis',
+    level: 2,
     element: 'wind',
     stats: {
       north: 5,
@@ -263,6 +280,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Anacondaur',
+    level: 2,
     element: 'poison',
     stats: {
       north: 5,
@@ -279,6 +297,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Creeps',
+    level: 2,
     element: 'lightning',
     stats: {
       north: 5,
@@ -295,6 +314,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Grendel',
+    level: 2,
     element: 'lightning',
     stats: {
       north: 4,
@@ -311,6 +331,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Jelleye',
+    level: 2,
     stats: {
       north: 3,
       east: 2,
@@ -326,6 +347,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Grand Mantis',
+    level: 2,
     stats: {
       north: 5,
       east: 2,
@@ -341,6 +363,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Forbidden',
+    level: 3,
     stats: {
       north: 6,
       east: 6,
@@ -356,6 +379,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Armadodo',
+    level: 3,
     element: 'earth',
     stats: {
       north: 6,
@@ -372,6 +396,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Tri-Face',
+    level: 3,
     element: 'poison',
     stats: {
       north: 4,
@@ -388,6 +413,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Fastitocalon',
+    level: 3,
     element: 'earth',
     stats: {
       north: 7,
@@ -404,6 +430,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Snow Lion',
+    level: 3,
     element: 'ice',
     stats: {
       north: 7,
@@ -420,6 +447,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Ochu',
+    level: 3,
     stats: {
       north: 5,
       east: 6,
@@ -435,6 +463,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'SAM08G',
+    level: 3,
     element: 'fire',
     stats: {
       north: 5,
@@ -451,6 +480,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Death-Claw',
+    level: 3,
     element: 'fire',
     stats: {
       north: 4,
@@ -467,6 +497,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Cactuar',
+    level: 3,
     stats: {
       north: 6,
       east: 2,
@@ -482,6 +513,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Tonberry',
+    level: 3,
     stats: {
       north: 3,
       east: 6,
@@ -497,6 +529,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Abyss Worm',
+    level: 3,
     element: 'earth',
     stats: {
       north: 7,
@@ -513,6 +546,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Turtapod',
+    level: 4,
     stats: {
       north: 2,
       east: 3,
@@ -528,6 +562,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Vysage',
+    level: 4,
     stats: {
       north: 6,
       east: 5,
@@ -543,6 +578,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'T-Rexaur',
+    level: 4,
     stats: {
       north: 4,
       east: 6,
@@ -558,6 +594,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Bomb',
+    level: 4,
     element: 'fire',
     stats: {
       north: 2,
@@ -574,6 +611,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Blitz',
+    level: 4,
     element: 'lightning',
     stats: {
       north: 1,
@@ -590,6 +628,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Wendigo',
+    level: 4,
     stats: {
       north: 7,
       east: 3,
@@ -605,6 +644,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Torama',
+    level: 4,
     stats: {
       north: 7,
       east: 4,
@@ -620,6 +660,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Imp',
+    level: 4,
     stats: {
       north: 3,
       east: 7,
@@ -635,6 +676,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Blue Dragon',
+    level: 4,
     element: 'poison',
     stats: {
       north: 6,
@@ -651,6 +693,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Adamantoise',
+    level: 4,
     element: 'earth',
     stats: {
       north: 4,
@@ -667,6 +710,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Hexadragon',
+    level: 4,
     element: 'fire',
     stats: {
       north: 7,
@@ -683,6 +727,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Iron Giant',
+    level: 5,
     stats: {
       north: 6,
       east: 5,
@@ -698,6 +743,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Behemoth',
+    level: 5,
     stats: {
       north: 3,
       east: 6,
@@ -713,6 +759,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Chimera',
+    level: 5,
     element: 'water',
     stats: {
       north: 7,
@@ -729,6 +776,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'PuPu',
+    level: 5,
     stats: {
       north: 3,
       east: 10,
@@ -744,6 +792,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Elastoid',
+    level: 5,
     stats: {
       north: 7,
       east: 2,
@@ -759,6 +808,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'GIM47N',
+    level: 5,
     stats: {
       north: 5,
       east: 5,
@@ -774,6 +824,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Malboro',
+    level: 5,
     element: 'poison',
     stats: {
       north: 7,
@@ -790,6 +841,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Ruby Dragon',
+    level: 5,
     element: 'fire',
     stats: {
       north: 7,
@@ -806,6 +858,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Elnoyle',
+    level: 5,
     stats: {
       north: 5,
       east: 3,
@@ -821,6 +874,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Tonberry King',
+    level: 5,
     stats: {
       north: 4,
       east: 6,
@@ -836,6 +890,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Wedge, Biggs',
+    level: 5,
     stats: {
       north: 6,
       east: 6,
@@ -851,6 +906,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Fujin, Raijin',
+    level: 6,
     stats: {
       north: 2,
       east: 8,
@@ -866,6 +922,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Elvoret',
+    level: 6,
     element: 'wind',
     stats: {
       north: 7,
@@ -882,6 +939,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'X-ATM092',
+    level: 6,
     stats: {
       north: 4,
       east: 8,
@@ -897,6 +955,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Granaldo',
+    level: 6,
     stats: {
       north: 7,
       east: 2,
@@ -912,6 +971,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Gerogero',
+    level: 6,
     element: 'poison',
     stats: {
       north: 1,
@@ -928,6 +988,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Iguion',
+    level: 6,
     stats: {
       north: 8,
       east: 2,
@@ -943,6 +1004,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Abadon',
+    level: 6,
     stats: {
       north: 6,
       east: 8,
@@ -958,6 +1020,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Trauma',
+    level: 6,
     stats: {
       north: 4,
       east: 8,
@@ -973,6 +1036,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Oilboyle',
+    level: 6,
     stats: {
       north: 1,
       east: 8,
@@ -988,6 +1052,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Shumi Tribe',
+    level: 6,
     stats: {
       north: 6,
       east: 5,
@@ -1003,6 +1068,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Krysta',
+    level: 6,
     stats: {
       north: 7,
       east: 5,
@@ -1018,6 +1084,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Propagator',
+    level: 7,
     stats: {
       north: 8,
       east: 4,
@@ -1033,6 +1100,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Jumbo Cactuar',
+    level: 7,
     stats: {
       north: 8,
       east: 8,
@@ -1048,6 +1116,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Tri-Point',
+    level: 7,
     element: 'lightning',
     stats: {
       north: 8,
@@ -1064,6 +1133,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Gargantua',
+    level: 7,
     stats: {
       north: 5,
       east: 6,
@@ -1079,6 +1149,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Mobile Type 8',
+    level: 7,
     stats: {
       north: 8,
       east: 6,
@@ -1094,6 +1165,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Sphinxara',
+    level: 7,
     stats: {
       north: 8,
       east: 3,
@@ -1109,6 +1181,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Tiamat',
+    level: 7,
     stats: {
       north: 8,
       east: 8,
@@ -1124,6 +1197,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'BGH251F2',
+    level: 7,
     stats: {
       north: 5,
       east: 7,
@@ -1139,6 +1213,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Red Giant',
+    level: 7,
     stats: {
       north: 6,
       east: 8,
@@ -1154,6 +1229,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Catoblepas',
+    level: 7,
     stats: {
       north: 1,
       east: 8,
@@ -1169,6 +1245,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Ultima Weapon',
+    level: 7,
     stats: {
       north: 7,
       east: 7,
@@ -1184,6 +1261,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Chubby Chocobo',
+    level: 8,
     stats: {
       north: 4,
       east: 4,
@@ -1199,6 +1277,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Angelo',
+    level: 8,
     stats: {
       north: 9,
       east: 6,
@@ -1214,6 +1293,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Gilgamesh',
+    level: 8,
     stats: {
       north: 3,
       east: 7,
@@ -1229,6 +1309,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'MiniMog',
+    level: 8,
     stats: {
       north: 9,
       east: 3,
@@ -1244,6 +1325,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Chicobo',
+    level: 8,
     stats: {
       north: 9,
       east: 4,
@@ -1259,6 +1341,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Quezacotl',
+    level: 8,
     element: 'lightning',
     stats: {
       north: 2,
@@ -1275,6 +1358,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Shiva',
+    level: 8,
     element: 'ice',
     stats: {
       north: 6,
@@ -1291,6 +1375,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Ifrit',
+    level: 8,
     element: 'fire',
     stats: {
       north: 9,
@@ -1307,6 +1392,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Siren',
+    level: 8,
     stats: {
       north: 8,
       east: 9,
@@ -1322,6 +1408,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Sacred',
+    level: 8,
     element: 'earth',
     stats: {
       north: 5,
@@ -1338,6 +1425,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Minotaur',
+    level: 8,
     element: 'earth',
     stats: {
       north: 9,
@@ -1354,6 +1442,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Carbuncle',
+    level: 9,
     stats: {
       north: 8,
       east: 4,
@@ -1369,6 +1458,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Diablos',
+    level: 9,
     stats: {
       north: 3,
       east: 10,
@@ -1384,6 +1474,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Leviathan',
+    level: 9,
     element: 'water',
     stats: {
       north: 7,
@@ -1400,6 +1491,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Odin',
+    level: 9,
     stats: {
       north: 8,
       east: 10,
@@ -1415,6 +1507,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Pandemona',
+    level: 9,
     element: 'wind',
     stats: {
       north: 10,
@@ -1431,6 +1524,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Cerberus',
+    level: 9,
     stats: {
       north: 7,
       east: 4,
@@ -1446,6 +1540,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Alexander',
+    level: 9,
     element: 'holy',
     stats: {
       north: 9,
@@ -1462,6 +1557,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Phoenix',
+    level: 9,
     element: 'fire',
     stats: {
       north: 7,
@@ -1478,6 +1574,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Bahamut',
+    level: 9,
     stats: {
       north: 10,
       east: 8,
@@ -1493,6 +1590,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Doomtrain',
+    level: 9,
     element: 'poison',
     stats: {
       north: 3,
@@ -1509,6 +1607,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Eden',
+    level: 9,
     stats: {
       north: 4,
       east: 4,
@@ -1524,6 +1623,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Ward',
+    level: 10,
     stats: {
       north: 10,
       east: 7,
@@ -1539,6 +1639,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Kiros',
+    level: 10,
     stats: {
       north: 6,
       east: 7,
@@ -1554,6 +1655,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Laguna',
+    level: 10,
     stats: {
       north: 5,
       east: 10,
@@ -1569,6 +1671,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Selphie',
+    level: 10,
     stats: {
       north: 10,
       east: 8,
@@ -1584,6 +1687,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Quistis',
+    level: 10,
     stats: {
       north: 9,
       east: 6,
@@ -1599,6 +1703,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Irvine',
+    level: 10,
     stats: {
       north: 2,
       east: 6,
@@ -1614,6 +1719,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Zell',
+    level: 10,
     stats: {
       north: 8,
       east: 5,
@@ -1629,6 +1735,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Rinoa',
+    level: 10,
     stats: {
       north: 4,
       east: 10,
@@ -1644,6 +1751,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Edea',
+    level: 10,
     stats: {
       north: 10,
       east: 10,
@@ -1659,6 +1767,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Seifer',
+    level: 10,
     stats: {
       north: 6,
       east: 9,
@@ -1674,6 +1783,7 @@ export const CARDS: Card[] = [
   },
   {
     name: 'Squall',
+    level: 10,
     stats: {
       north: 10,
       east: 4,

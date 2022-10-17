@@ -5,6 +5,7 @@ export type Direction = 'north' | 'south' | 'east' | 'west';
 
 export type Card = {
   name: string;
+  level: number;
   // add it
   // description: string;
 

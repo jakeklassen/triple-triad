@@ -155,6 +155,8 @@ importers:
       eslint: ^8.25.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-prettier: 4.2.1
+      just-group-by: 2.1.2
+      just-random-integer: 4.1.1
       just-shuffle: 4.1.1
       just-split: 3.1.1
       nodemon: ^2.0.20
@@ -168,6 +170,8 @@ importers:
       vite-node: 0.24.3
       vitest: ^0.24.3
     dependencies:
+      just-group-by: 2.1.2
+      just-random-integer: 4.1.1
       just-shuffle: 4.1.1
     devDependencies:
       '@types/benchmark': 2.1.2
@@ -3188,6 +3192,14 @@ packages:
   /jsonc-parser/3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
     dev: true
+
+  /just-group-by/2.1.2:
+    resolution: {integrity: sha512-pl5PjWr/WAQx0XL7igWUMwQoiyhYt+tc/8STlNgjENqZjRch4V9dExBF1vd9SRob75vGXrUKyL2Dp4kRVeadPQ==}
+    dev: false
+
+  /just-random-integer/4.1.1:
+    resolution: {integrity: sha512-4BjDeKr8tJgi7G2YrUF9FY1DkiwO/ToJ6tzzXM0seLGXJCeBwZ/QiEaNECYuA+QFPqV5zJALo6LG9hHPCAwQEA==}
+    dev: false
 
   /just-random/3.1.1:
     resolution: {integrity: sha512-nb9chl3E511Zu68G1EfC6jGh/aU0lojFOo7zaSEPznktuQhr8TkH4z7DyWebgwdLki8ekLOmzia3UTlv4zBWHQ==}
