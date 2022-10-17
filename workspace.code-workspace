@@ -5,8 +5,12 @@
       "path": "."
     },
     {
-      "name": "💾 backend-colyseus",
-      "path": "packages/backend-colyseus"
+      "name": "💾 backend-socketio",
+      "path": "packages/backend-socketio"
+    },
+    {
+      "name": "💾 backend-template",
+      "path": "packages/backend-template"
     },
     {
       "name": "📦 frontend-react",
