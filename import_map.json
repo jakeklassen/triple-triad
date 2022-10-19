@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@tripletriad/game": "./packages/game/dist/index.js",
+    "just-shuffle": "https://esm.sh/just-shuffle@4.1.1"
+  }
+}

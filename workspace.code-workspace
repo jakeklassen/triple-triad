@@ -5,6 +5,10 @@
       "path": "."
     },
     {
+      "name": "💾 backend-deno",
+      "path": "packages/backend-deno"
+    },
+    {
       "name": "💾 backend-socketio",
       "path": "packages/backend-socketio"
     },
@@ -22,6 +26,9 @@
     }
   ],
   "settings": {
+    "deno.enable": true,
+    "deno.enablePaths": ["./packages/backend-deno"],
+    "deno.importMap": "./import_map.json",
     "editor.inlayHints.enabled": "on",
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.codeActionsOnSave": {
