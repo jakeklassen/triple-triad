@@ -13,6 +13,10 @@
       "path": "packages/backend-socketio"
     },
     {
+      "name": "💾 backend-supabase",
+      "path": "packages/backend-supabase"
+    },
+    {
       "name": "💾 backend-template",
       "path": "packages/backend-template"
     },
