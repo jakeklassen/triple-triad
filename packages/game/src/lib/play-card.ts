@@ -1,7 +1,7 @@
 import { ReadonlyDeep } from 'type-fest';
 import { CARDS } from './cards';
 import { Board, Card, Position } from './common-types';
-import { BOARD_SIZE } from './create-game';
+import { BOARD_SIZE } from './constants';
 import {
   BoardIsFullError,
   DuplicateCardError,

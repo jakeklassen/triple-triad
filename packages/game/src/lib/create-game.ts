@@ -2,6 +2,7 @@ import shuffle from 'just-shuffle';
 import { ReadonlyDeep } from 'type-fest';
 import { CARDS } from './cards';
 import { Board, Card } from './common-types';
+import { BOARD_SIZE } from './constants';
 import { Player, PlayerLabel } from './player';
 import { generateLevelLoadout, pullTieredHand } from './pull-tiered-hand';
 
@@ -10,8 +11,6 @@ export type GameOptions = {
   whoGoesFirst?: PlayerLabel;
   allowDuplicateCards?: boolean;
 };
-
-export const BOARD_SIZE = 3;
 
 const PLAYER_LABELS: [one: PlayerLabel, two: PlayerLabel] = [
   Player.One,
