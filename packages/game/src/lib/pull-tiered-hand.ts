@@ -1,27 +1,60 @@
 import groupBy from 'just-group-by';
+import randomInteger from 'just-random-integer';
 import shuffle from 'just-shuffle';
-import { CARDS } from './cards';
 import { Card, Hand } from './common-types';
-
-type LevelRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-type Levels = [LevelRange, LevelRange, LevelRange, LevelRange, LevelRange];
+import { InsufficientLevelRangeError } from './errors';
 
 const getAvailableLevels = (cards: Card[]) => {
-  const cardsByLevel = Array.from(new Set(CARDS.map((card) => card.level)));
-  return cardsByLevel;
+  const availableLevels = Array.from(new Set(cards.map((card) => card.level)));
+  return availableLevels;
 };
 
-export const pullTieredHand = (cards: Card[], levels: Levels): Hand => {
+export const generateLevelLoadout = (
+  cards: Card[],
+  allowDuplicates = false,
+) => {
+  const availableLevels = getAvailableLevels(cards);
+
+  if (allowDuplicates === false && availableLevels.length < 5) {
+    throw new InsufficientLevelRangeError();
+  }
+
+  const minimumLevel = availableLevels[0];
+  const maximumLevel = availableLevels[availableLevels.length - 1];
+  const levels: number[] = [];
+
+  while (levels.length < 5) {
+    const num = randomInteger(minimumLevel, maximumLevel);
+
+    if (allowDuplicates === false && levels.includes(num) === false) {
+      levels.push(num);
+      continue;
+    }
+
+    levels.push(num);
+  }
+
+  return levels.sort((a, b) => a - b);
+};
+
+export const pullTieredHand = (
+  cards: Card[],
+  levelLoadout: number[],
+  allowDuplicates = false,
+): Hand => {
   const cardsByLevel = groupBy(cards, (c) => c.level);
-  console.log(getAvailableLevels(cards));
+  const hand: Card[] = [];
 
-  const [one, two, three, four, five] = [
-    shuffle(cardsByLevel[levels[0]])[0],
-    shuffle(cardsByLevel[levels[1]])[0],
-    shuffle(cardsByLevel[levels[2]])[0],
-    shuffle(cardsByLevel[levels[3]])[0],
-    shuffle(cardsByLevel[levels[4]])[0],
-  ];
+  while (hand.length < 5) {
+    const card = shuffle(cardsByLevel[levelLoadout[hand.length]])[0];
 
-  return [one, two, three, four, five];
+    if (allowDuplicates === false && hand.includes(card) === false) {
+      hand.push(card);
+      continue;
+    }
+
+    hand.push(card);
+  }
+
+  return hand as Hand;
 };

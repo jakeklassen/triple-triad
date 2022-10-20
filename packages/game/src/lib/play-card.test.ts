@@ -23,6 +23,7 @@ describe('playCard', () => {
       const { board, playerOne, playerTwo } = createGame({
         cards: firstFiveCards,
         whoGoesFirst: Player.One,
+        allowDuplicateCards: true,
       });
 
       expect(() =>
@@ -34,6 +35,7 @@ describe('playCard', () => {
       const { playerOne, playerTwo } = createGame({
         cards: firstFiveCards,
         whoGoesFirst: Player.One,
+        allowDuplicateCards: true,
       });
 
       const board = createBoardFromHand(
@@ -58,6 +60,7 @@ describe('playCard', () => {
       const { board, playerOne } = createGame({
         cards: firstFiveCards,
         whoGoesFirst: Player.One,
+        allowDuplicateCards: true,
       });
 
       const { newBoard: turnOneBoard } = playCard(
@@ -83,6 +86,7 @@ describe('playCard', () => {
       const { playerTwo, whoGoesFirst } = createGame({
         cards: firstFiveCards,
         whoGoesFirst: Player.One,
+        allowDuplicateCards: true,
       });
 
       const board = createBoardFromHand(hand, whoGoesFirst, Player.Two, 7);
@@ -98,6 +102,7 @@ describe('playCard', () => {
       const { board, playerOne, playerTwo } = createGame({
         cards: firstFiveCards,
         whoGoesFirst: Player.Two,
+        allowDuplicateCards: true,
       });
 
       expect(() =>
@@ -109,6 +114,7 @@ describe('playCard', () => {
       const { playerOne, playerTwo } = createGame({
         cards: firstFiveCards,
         whoGoesFirst: Player.Two,
+        allowDuplicateCards: true,
       });
 
       const board = createBoardFromHand(
@@ -133,6 +139,7 @@ describe('playCard', () => {
       const { board, playerTwo } = createGame({
         cards: firstFiveCards,
         whoGoesFirst: Player.Two,
+        allowDuplicateCards: true,
       });
 
       const { newBoard: turnOneBoard } = playCard(
@@ -158,6 +165,7 @@ describe('playCard', () => {
       const { playerOne, whoGoesFirst } = createGame({
         cards: firstFiveCards,
         whoGoesFirst: Player.Two,
+        allowDuplicateCards: true,
       });
 
       const board = createBoardFromHand(hand, whoGoesFirst, Player.One, 7);
@@ -171,6 +179,7 @@ describe('playCard', () => {
   it('should indicate the game is over', () => {
     const { playerOne, playerTwo } = createGame({
       cards: firstFiveCards,
+      allowDuplicateCards: true,
     });
 
     const board = createBoardFromHand(
@@ -194,6 +203,7 @@ describe('playCard', () => {
   it('should throw when the board is already full', () => {
     const { playerOne } = createGame({
       cards: firstFiveCards,
+      allowDuplicateCards: true,
     });
 
     const board = createBoardFromHand(hand, Player.One, Player.Two, 0);
@@ -206,6 +216,7 @@ describe('playCard', () => {
   it('should throw error when playing card out of bounds', () => {
     const { board, playerOne } = createGame({
       cards: firstFiveCards,
+      allowDuplicateCards: true,
     });
 
     expect(() =>
@@ -216,6 +227,7 @@ describe('playCard', () => {
   it('should throw error when trying to play card on occupied cell', () => {
     const { board, playerOne, playerTwo } = createGame({
       cards: firstFiveCards,
+      allowDuplicateCards: true,
     });
 
     const { newBoard: turnOneBoard } = playCard(
@@ -235,6 +247,7 @@ describe('playCard', () => {
     const { playerTwo } = createGame({
       cards: firstFiveCards,
       whoGoesFirst: Player.Two,
+      allowDuplicateCards: true,
     });
 
     const board = createBoardFromHand(hand, Player.Two, Player.One, 7);

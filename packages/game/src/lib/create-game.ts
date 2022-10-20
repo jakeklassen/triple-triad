@@ -1,12 +1,14 @@
 import shuffle from 'just-shuffle';
 import { ReadonlyDeep } from 'type-fest';
 import { CARDS } from './cards';
-import { Board, Card, Hand } from './common-types';
+import { Board, Card } from './common-types';
 import { Player, PlayerLabel } from './player';
+import { generateLevelLoadout, pullTieredHand } from './pull-tiered-hand';
 
 export type GameOptions = {
   cards: Card[];
   whoGoesFirst?: PlayerLabel;
+  allowDuplicateCards?: boolean;
 };
 
 export const BOARD_SIZE = 3;
@@ -19,16 +21,26 @@ const PLAYER_LABELS: [one: PlayerLabel, two: PlayerLabel] = [
 export const createGame = (
   options: GameOptions = {
     cards: CARDS,
+    allowDuplicateCards: false,
   },
 ) => {
   const { cards } = options;
   const whoGoesFirst = options.whoGoesFirst || shuffle(PLAYER_LABELS)[0];
 
-  const [cardOne, cardTwo, cardThree, cardFour, cardFive] = shuffle(cards);
-  const hand: Hand = [cardOne, cardTwo, cardThree, cardFour, cardFive];
+  const levelLoadout = generateLevelLoadout(cards, options.allowDuplicateCards);
+  const playerOneHand = pullTieredHand(
+    cards,
+    levelLoadout,
+    options.allowDuplicateCards,
+  );
+  const playerTwoHand = pullTieredHand(
+    cards,
+    levelLoadout,
+    options.allowDuplicateCards,
+  );
 
-  const playerOne = new Player({ label: Player.One, hand });
-  const playerTwo = new Player({ label: Player.Two, hand });
+  const playerOne = new Player({ label: Player.One, hand: playerOneHand });
+  const playerTwo = new Player({ label: Player.Two, hand: playerTwoHand });
 
   const board: ReadonlyDeep<Board> = [
     Array(3).fill(undefined),

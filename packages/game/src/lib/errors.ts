@@ -45,3 +45,11 @@ export class InvalidDirectionError extends Error {
     super(message);
   }
 }
+
+export class InsufficientLevelRangeError extends Error {
+  constructor(
+    message = 'Cannot build hand from level range. Allow duplicates or expand range.',
+  ) {
+    super(message);
+  }
+}
