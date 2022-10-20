@@ -2,7 +2,7 @@ import { assert, describe, expect, it } from 'vitest';
 import { CARDS } from './cards';
 import { pullTieredHand } from './pull-tiered-hand';
 
-describe('pullTieredHand', () => {
+describe.only('pullTieredHand', () => {
   // const firstFiveCards = [CARDS[0], CARDS[1], CARDS[2], CARDS[3], CARDS[4]];
 
   it.only('should create a hand restricted by level limits', () => {
