@@ -46,8 +46,8 @@
   ],
   "devDependencies": {
     "@types/benchmark": "^2.1.0",
-    "@types/eslint": "^8.4.5",
-    "@types/node": "^18.11.2",
+    "@types/eslint": "^8.4.7",
+    "@types/node": "^18.11.3",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
     "@vitest/coverage-c8": "0.24.3",
