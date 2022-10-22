@@ -31,7 +31,10 @@
   ],
   "settings": {
     "deno.enable": true,
-    "deno.enablePaths": ["./packages/backend-deno"],
+    "deno.enablePaths": [
+      "./packages/backend-deno",
+      "./packages/backend-supabase/supabase/functions"
+    ],
     "deno.importMap": "./import_map.json",
     "editor.inlayHints.enabled": "on",
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
