@@ -2,7 +2,7 @@ import { RealtimeChannel } from '@supabase/supabase-js';
 import { createGame } from '@tripletriad/game';
 import { useEffect, useState } from 'react';
 import './App.css';
-import { Board } from './components/Board';
+import { Lobby } from './components/Lobby';
 import { supabase } from './lib/supabase';
 
 function App() {
@@ -31,14 +31,16 @@ function App() {
 
   return (
     <div className="flex items-center justify-center w-full h-full bg-black">
-      <Board
+      {/* <Board
         initialBoard={board}
         playerOne={playerOne}
         playerTwo={playerTwo}
         whoGoesFirst={whoGoesFirst}
         size={boardSize}
         channel={channel}
-      />
+      /> */}
+
+      <Lobby onGameReady={() => {}} />
     </div>
   );
 }
