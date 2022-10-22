@@ -1,11 +1,33 @@
+import { RealtimeChannel } from '@supabase/supabase-js';
 import { createGame } from '@tripletriad/game';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { Board } from './components/Board';
+import { supabase } from './lib/supabase';
 
 function App() {
+  const [channel, setChannel] = useState<RealtimeChannel | null>(null);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('room_1')
+      .on('broadcast', { event: 'INPUT_EVENT' }, ({ event, payload }) => {
+        console.log({ event, payload });
+      })
+      .subscribe();
+
+    setChannel(channel);
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, []);
+
   const { board, playerOne, playerTwo, whoGoesFirst, boardSize } = createGame();
 
-  console.log({ whoGoesFirst });
+  if (channel == null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex items-center justify-center w-full h-full bg-black">
@@ -15,6 +37,7 @@ function App() {
         playerTwo={playerTwo}
         whoGoesFirst={whoGoesFirst}
         size={boardSize}
+        channel={channel}
       />
     </div>
   );

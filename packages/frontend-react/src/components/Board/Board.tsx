@@ -1,3 +1,4 @@
+import { RealtimeChannel } from '@supabase/supabase-js';
 import * as TripleTriad from '@tripletriad/game';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -15,6 +16,7 @@ type BoardProps = {
   playerTwo: TripleTriad.Player;
   whoGoesFirst: TripleTriad.PlayerLabel;
   size: number;
+  channel: RealtimeChannel;
 };
 
 export const Board = ({
@@ -23,6 +25,7 @@ export const Board = ({
   playerTwo,
   whoGoesFirst,
   size,
+  channel,
 }: BoardProps) => {
   const [selectedCard, setSelectedCard] = useState<string>();
   const [currentTurn, setCurrentTurn] =
@@ -35,7 +38,16 @@ export const Board = ({
   const [scaleFactor] = useState(3);
 
   const onCardSelected = (player: TripleTriad.Player, cardName: string) => {
-    console.log(`${player.label}:${cardName.toLowerCase()}`);
+    // console.log(`${player.label}:${cardName.toLowerCase()}`);
+
+    channel.send({
+      type: 'broadcast',
+      event: 'INPUT_EVENT',
+      payload: {
+        player,
+        cardName,
+      },
+    });
 
     setSelectedCard(`${player.label}:${cardName.toLowerCase()}`);
   };
@@ -44,8 +56,6 @@ export const Board = ({
     if (selectedCard == null) {
       return;
     }
-
-    console.log({ row, column, selectedCard });
 
     const [, cardName] = selectedCard.split(':');
 
