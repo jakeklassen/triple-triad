@@ -2,12 +2,18 @@
 // https://deno.land/manual/getting_started/setup_your_environment
 // This enables autocomplete, go to definition, etc.
 
+import * as TripleTriad from '@tripletriad/game';
 import { serve } from 'https://deno.land/std@0.155.0/http/server.ts';
 
 serve((_req) => {
-  return new Response(JSON.stringify('Hello, world!'), {
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return new Response(
+    JSON.stringify({
+      version: TripleTriad.VERSION,
+    }),
+    {
+      headers: { 'Content-Type': 'application/json' },
+    },
+  );
 });
 
 // To invoke:
