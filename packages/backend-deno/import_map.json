@@ -1,8 +1,0 @@
-{
-  "imports": {
-    "@tripletriad/game": "../game/dist/index.js",
-    "just-shuffle": "https://esm.sh/just-shuffle@4.1.1",
-    "just-group-by": "https://esm.sh/just-group-by@2.1.2",
-    "just-random-integer": "https://esm.sh/just-random-integer@4.1.1"
-  }
-}
