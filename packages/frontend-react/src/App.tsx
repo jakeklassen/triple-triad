@@ -1,31 +1,40 @@
-import { RealtimeChannel } from '@supabase/supabase-js';
 import { createGame } from '@tripletriad/game';
 import { useEffect, useState } from 'react';
+import { io, Socket } from 'socket.io-client';
 import './App.css';
 import { Lobby } from './components/Lobby';
-import { supabase } from './lib/supabase';
 
 function App() {
-  const [channel, setChannel] = useState<RealtimeChannel | null>(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [isSocketConnected, setIsSocketConnected] = useState(false);
 
   useEffect(() => {
-    const channel = supabase
-      .channel('room_1')
-      .on('broadcast', { event: 'INPUT_EVENT' }, ({ event, payload }) => {
-        console.log({ event, payload });
-      })
-      .subscribe();
+    const socket = io('ws://localhost:3000');
 
-    setChannel(channel);
+    socket.on('error', (error) => {
+      console.error(error);
+    });
+
+    socket.on('connect', () => {
+      setIsSocketConnected(true);
+      console.log('connected');
+    });
+
+    socket.on('disconnect', () => {
+      setIsSocketConnected(false);
+      console.log('disconnected');
+    });
+
+    setSocket(socket);
 
     return () => {
-      channel.unsubscribe();
+      socket.disconnect();
     };
   }, []);
 
   const { board, playerOne, playerTwo, whoGoesFirst, boardSize } = createGame();
 
-  if (channel == null) {
+  if (isSocketConnected === false) {
     return <div>Loading...</div>;
   }
 
