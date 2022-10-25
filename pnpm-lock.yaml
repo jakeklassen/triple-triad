@@ -5,7 +5,7 @@ importers:
   packages/backend-socketio:
     specifiers:
       '@types/debug': 4.1.7
-      '@types/eslint': 8.4.7
+      '@types/eslint': 8.4.8
       '@types/express': 4.17.14
       '@types/node': 18.11.5
       '@typescript-eslint/eslint-plugin': 5.41.0
@@ -31,7 +31,7 @@ importers:
       socket.io: 4.5.3
     devDependencies:
       '@types/debug': 4.1.7
-      '@types/eslint': 8.4.7
+      '@types/eslint': 8.4.8
       '@types/express': 4.17.14
       '@types/node': 18.11.5
       '@typescript-eslint/eslint-plugin': 5.41.0_huremdigmcnkianavgfk3x6iou
@@ -52,7 +52,7 @@ importers:
   packages/backend-template:
     specifiers:
       '@types/debug': 4.1.7
-      '@types/eslint': 8.4.7
+      '@types/eslint': 8.4.8
       '@types/node': 18.11.5
       '@typescript-eslint/eslint-plugin': 5.41.0
       '@typescript-eslint/parser': 5.41.0
@@ -75,7 +75,7 @@ importers:
       reflect-metadata: 0.1.13
     devDependencies:
       '@types/debug': 4.1.7
-      '@types/eslint': 8.4.7
+      '@types/eslint': 8.4.8
       '@types/node': 18.11.5
       '@typescript-eslint/eslint-plugin': 5.41.0_huremdigmcnkianavgfk3x6iou
       '@typescript-eslint/parser': 5.41.0_wyqvi574yv7oiwfeinomdzmc3m
@@ -97,7 +97,7 @@ importers:
       '@supabase/supabase-js': 2.0.4
       '@tripletriad/game': workspace:0.1.0
       '@types/node': ^18.11.5
-      '@types/react': ^18.0.22
+      '@types/react': ^18.0.23
       '@types/react-dom': ^18.0.7
       '@typescript-eslint/eslint-plugin': ^5.41.0
       '@typescript-eslint/parser': ^5.41.0
@@ -131,7 +131,7 @@ importers:
       type-fest: 3.1.0
     devDependencies:
       '@types/node': 18.11.5
-      '@types/react': 18.0.22
+      '@types/react': 18.0.23
       '@types/react-dom': 18.0.7
       '@typescript-eslint/eslint-plugin': 5.41.0_huremdigmcnkianavgfk3x6iou
       '@typescript-eslint/parser': 5.41.0_wyqvi574yv7oiwfeinomdzmc3m
@@ -150,7 +150,7 @@ importers:
   packages/game:
     specifiers:
       '@types/benchmark': ^2.1.0
-      '@types/eslint': ^8.4.7
+      '@types/eslint': ^8.4.8
       '@types/node': ^18.11.5
       '@typescript-eslint/eslint-plugin': ^5.41.0
       '@typescript-eslint/parser': ^5.41.0
@@ -182,7 +182,7 @@ importers:
       just-shuffle: 4.1.1
     devDependencies:
       '@types/benchmark': 2.1.2
-      '@types/eslint': 8.4.7
+      '@types/eslint': 8.4.8
       '@types/node': 18.11.5
       '@typescript-eslint/eslint-plugin': 5.41.0_huremdigmcnkianavgfk3x6iou
       '@typescript-eslint/parser': 5.41.0_wyqvi574yv7oiwfeinomdzmc3m
@@ -995,8 +995,8 @@ packages:
       '@types/ms': 0.7.31
     dev: true
 
-  /@types/eslint/8.4.7:
-    resolution: {integrity: sha512-ehM7cCt2RSFs42mb+lcmhFT9ouIlV92PuaeRGn8N8c98oMjG4Z5pJHA9b1QiCcuqnbPSHcyfiD3mlhqMaHsQIw==}
+  /@types/eslint/8.4.8:
+    resolution: {integrity: sha512-zUCKQI1bUCTi+0kQs5ZQzQ/XILWRLIlh15FXWNykJ+NG3TMKMVvwwC6GP3DR1Ylga15fB7iAExSzc4PNlR5i3w==}
     dependencies:
       '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
@@ -1084,11 +1084,11 @@ packages:
   /@types/react-dom/18.0.7:
     resolution: {integrity: sha512-HaXc+BbqAZE1RdsK3tC8SbkFy6UL2xF76lT9rQs5JkPrJg3rWA3Ou/Lhw3YJQzEDkBpmJ79nBsfnd05WrBd2QQ==}
     dependencies:
-      '@types/react': 18.0.22
+      '@types/react': 18.0.23
     dev: true
 
-  /@types/react/18.0.22:
-    resolution: {integrity: sha512-4yWc5PyCkZN8ke8K9rQHkTXxHIWHxLzzW6RI1kXVoepkD3vULpKzC2sDtAMKn78h92BRYuzf+7b/ms7ajE6hFw==}
+  /@types/react/18.0.23:
+    resolution: {integrity: sha512-R1wTULtCiJkudAN2DJGoYYySbGtOdzZyUWAACYinKdiQC8auxso4kLDUhQ7AJ2kh3F6A6z4v69U6tNY39hihVQ==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
