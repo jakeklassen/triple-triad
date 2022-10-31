@@ -1,31 +1,68 @@
-import { createGame } from '@tripletriad/game';
+import { useRef, useState } from 'react';
 import styles from './Lobby.module.css';
 
 type LobbyProps = {
-  onGameReady: (data: ReturnType<typeof createGame>) => void;
+  onModeSelected: (
+    mode: { name: 'create' } | { name: 'join'; gameId: string },
+  ) => void;
 };
 
-export const Lobby = ({ onGameReady }: LobbyProps) => {
-  // This should be initialized from the server now
-  const { board, playerOne, playerTwo, whoGoesFirst, boardSize } = createGame();
+export const Lobby = ({ onModeSelected }: LobbyProps) => {
+  const [showJoinGameModal, setShowJoinGameModal] = useState(false);
 
-  onGameReady({ board, playerOne, playerTwo, whoGoesFirst, boardSize });
+  // This should be initialized from the server now
+  // const { board, playerOne, playerTwo, whoGoesFirst, boardSize } = createGame();
 
   const onCreateGameClick = () => {
     console.log('Create game');
+    onModeSelected({ name: 'create' });
   };
 
   const onJoinGameClick = () => {
     console.log('Join game');
+    setShowJoinGameModal(true);
   };
 
+  const render = () => {
+    if (showJoinGameModal) {
+      return <JoinGameModal onModeSelected={onModeSelected} />;
+    }
+
+    return (
+      <>
+        <button className={styles.button} onClick={onCreateGameClick}>
+          Create Game
+        </button>
+
+        <button className={styles.button} onClick={onJoinGameClick}>
+          Join Game
+        </button>
+      </>
+    );
+  };
+
+  return render();
+};
+
+type JoinGameModalProps = {
+  onModeSelected: LobbyProps['onModeSelected'];
+};
+
+const JoinGameModal = ({ onModeSelected }: JoinGameModalProps) => {
+  const gameIdRef = useRef<HTMLInputElement>(null);
   return (
     <>
-      <button className={styles.button} onClick={onCreateGameClick}>
-        Create Game
-      </button>
+      <input type="text" name="game-id" id="game-id" ref={gameIdRef} />
+      <button
+        className={styles.button}
+        onClick={() => {
+          if (gameIdRef.current == null) {
+            return;
+          }
 
-      <button className={styles.button} onClick={onJoinGameClick}>
+          onModeSelected({ name: 'join', gameId: gameIdRef.current.value });
+        }}
+      >
         Join Game
       </button>
     </>
