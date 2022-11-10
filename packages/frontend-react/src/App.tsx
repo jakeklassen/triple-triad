@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
+import {
+  ClientMessage,
+  ServerMessage,
+} from '../../backend-socketio/src/events';
 import './App.css';
 import { Lobby } from './components/Lobby';
 
@@ -10,6 +14,7 @@ function App() {
   const [selectedGameMode, setSelectedGameMode] = useState<
     { name: 'create' } | { name: 'join'; gameId: string } | null
   >(null);
+  const [gameId, setGameId] = useState<string | null>(null);
 
   useEffect(() => {
     const socket = io('ws://localhost:3000');
@@ -23,15 +28,15 @@ function App() {
       console.log('connected');
     });
 
-    socket.on('message', (message) => {
+    socket.on('message', (message: ServerMessage) => {
       // Handle game-start event.
       // When the game starts, we should load the Board component with
       // the game state.
 
       console.log(message);
 
-      if (message.event === 'game-start') {
-        setIsGameReady(true);
+      if (message.event === 'game-created') {
+        setGameId(message.gameId);
       }
     });
 
@@ -49,7 +54,20 @@ function App() {
 
   useEffect(() => {
     // Sent the proper `create` or `join` game event to the server
-    socket?.emit('message', {});
+    if (selectedGameMode?.name === 'create') {
+      const message: ClientMessage = { event: 'create-game' };
+
+      socket?.emit('message', message);
+    }
+
+    if (selectedGameMode?.name === 'join') {
+      const message: ClientMessage = {
+        event: 'join-game',
+        gameId: selectedGameMode.gameId,
+      };
+
+      socket?.emit('message', message);
+    }
   }, [selectedGameMode]);
 
   // const { board, playerOne, playerTwo, whoGoesFirst, boardSize } = createGame();
@@ -60,7 +78,13 @@ function App() {
 
   const renderScene = () => {
     if (selectedGameMode?.name === 'create') {
-      return <div className="text-white">Waiting for a player to join...</div>;
+      let message = 'Waiting for a player to join...';
+
+      if (gameId != null) {
+        message = `Share this game ID with a friend: ${gameId}`;
+      }
+
+      return <div className="text-white">{message}</div>;
     }
 
     if (selectedGameMode?.name === 'join') {
