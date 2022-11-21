@@ -1,20 +1,9 @@
-import { Player, PlayerLabel } from '@tripletriad/game';
-import { Board } from '@tripletriad/game/src/lib/common-types';
-import { toZod } from 'tozod';
 import { z } from 'zod';
-
-const gameId = z.string();
-const board: toZod<Board> = z.array(z.array(z.string().optional()));
-const whoGoesFirst = z.custom<PlayerLabel>();
-const boardSize = z.number();
-
-const GameDataSchema = z.object({
-  playerOne: z.instanceof(Player),
-  playerTwo: z.instanceof(Player),
-  board,
-  whoGoesFirst,
-  boardSize,
-});
+import {
+  GameDataDtoSchema,
+  GameIdSchema,
+  PlayerDtoSchema,
+} from './schemas/game-data-schema';
 
 export const ClientMessageSchema = z.discriminatedUnion('event', [
   z.object({
@@ -22,16 +11,16 @@ export const ClientMessageSchema = z.discriminatedUnion('event', [
   }),
   z.object({
     event: z.literal('join-game'),
-    gameId,
+    gameId: GameIdSchema,
   }),
   z.object({
     event: z.literal('play-card'),
-    gameId,
+    gameId: GameIdSchema,
   }),
   z.object({
     event: z.literal('select-card'),
-    gameId,
-    player: z.custom<Player>(),
+    gameId: GameIdSchema,
+    player: PlayerDtoSchema,
     cardName: z.string(),
   }),
 ]);
@@ -39,13 +28,17 @@ export const ClientMessageSchema = z.discriminatedUnion('event', [
 export const ServerMessageSchema = z.discriminatedUnion('event', [
   z.object({
     event: z.literal('game-created'),
-    gameId,
+    gameId: GameIdSchema,
   }),
-  z.object({ event: z.literal('start-game'), gameId, gameData }),
+  z.object({
+    event: z.literal('start-game'),
+    gameId: GameIdSchema,
+    gameData: GameDataDtoSchema,
+  }),
   z.object({
     event: z.literal('card-selected'),
-    gameId,
-    player: z.custom<Player>(),
+    gameId: GameIdSchema,
+    player: PlayerDtoSchema,
     cardName: z.string(),
   }),
 ]);
