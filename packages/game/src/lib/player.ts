@@ -32,4 +32,11 @@ export class Player {
 
     this.#hand[idx] = undefined;
   }
+
+  toJSON() {
+    return {
+      label: this.label,
+      hand: this.hand,
+    };
+  }
 }

@@ -57,6 +57,7 @@ type GameData = {
   whoGoesFirst: PlayerLabel;
   boardSize: number;
 };
+
 const games = new Map<string, GameData>();
 
 const handleMessage = async (message: ClientMessage, socket: Socket) => {
@@ -104,7 +105,7 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
           gameData: {
             playerOne: game.playerOne,
             playerTwo: game.playerTwo,
-            board: game.board,
+            board: game.board as Board,
             whoGoesFirst: game.whoGoesFirst,
             boardSize: game.boardSize,
           },
