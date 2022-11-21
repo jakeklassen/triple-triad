@@ -3,10 +3,8 @@ import * as TripleTriad from '@tripletriad/game/src/lib/common-types';
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ReadonlyDeep } from 'type-fest';
-import {
-  ClientMessage,
-  ServerMessage,
-} from '../../backend-socketio/src/events';
+import { ClientMessage } from '../../backend-socketio/src/schemas/client-message';
+import { ServerMessage } from '../../backend-socketio/src/schemas/server-message';
 import './App.css';
 import { Board } from './components/Board';
 import { Lobby } from './components/Lobby';

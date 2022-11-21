@@ -1,47 +1,32 @@
-import { z } from 'zod';
-import {
-  GameDataDtoSchema,
-  GameIdSchema,
-  PlayerDtoSchema,
-} from './schemas/game-data-schema';
+import { Player, PlayerLabel } from '@tripletriad/game';
+import { Board } from '@tripletriad/game/src/lib/common-types';
+import { ReadonlyDeep } from 'type-fest';
 
-export const ClientMessageSchema = z.discriminatedUnion('event', [
-  z.object({
-    event: z.literal('create-game'),
-  }),
-  z.object({
-    event: z.literal('join-game'),
-    gameId: GameIdSchema,
-  }),
-  z.object({
-    event: z.literal('play-card'),
-    gameId: GameIdSchema,
-  }),
-  z.object({
-    event: z.literal('select-card'),
-    gameId: GameIdSchema,
-    player: PlayerDtoSchema,
-    cardName: z.string(),
-  }),
-]);
+export type GameCreatedEvent = {
+  event: 'game-created';
+  gameId: string;
+};
 
-export const ServerMessageSchema = z.discriminatedUnion('event', [
-  z.object({
-    event: z.literal('game-created'),
-    gameId: GameIdSchema,
-  }),
-  z.object({
-    event: z.literal('start-game'),
-    gameId: GameIdSchema,
-    gameData: GameDataDtoSchema,
-  }),
-  z.object({
-    event: z.literal('card-selected'),
-    gameId: GameIdSchema,
-    player: PlayerDtoSchema,
-    cardName: z.string(),
-  }),
-]);
+export type StartGameEvent = {
+  event: 'start-game';
+  gameId: string;
+  gameData: {
+    playerOne: Player;
+    playerTwo: Player;
+    board: ReadonlyDeep<Board>;
+    whoGoesFirst: PlayerLabel;
+    boardSize: number;
+  };
+};
 
-export type ClientMessage = z.infer<typeof ClientMessageSchema>;
-export type ServerMessage = z.infer<typeof ServerMessageSchema>;
+export type CardSelectedEvent = {
+  event: 'card-selected';
+  gameId: string;
+  player: PlayerLabel;
+  cardName: string;
+};
+
+export type ServerGameEvent =
+  | GameCreatedEvent
+  | StartGameEvent
+  | CardSelectedEvent;

@@ -4,8 +4,9 @@ import express from 'express';
 import crypto from 'node:crypto';
 import http from 'node:http';
 import { Server, Socket } from 'socket.io';
+import { ClientMessage, ClientMessageSchema } from 'src/schemas/client-message';
 import { ReadonlyDeep } from 'type-fest';
-import { ClientMessage, ClientMessageSchema, ServerMessage } from './events';
+import { ServerGameEvent } from './events';
 
 const port = parseInt(process.env.PORT ?? '3000', 10);
 
@@ -78,7 +79,7 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
         whoGoesFirst,
       });
 
-      const message: ServerMessage = { event: 'game-created', gameId };
+      const message: ServerGameEvent = { event: 'game-created', gameId };
       socket.emit('message', message);
 
       break;
@@ -99,13 +100,13 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
 
         game.playerTwoSocket = socket;
 
-        const message: ServerMessage = {
+        const message: ServerGameEvent = {
           event: 'start-game',
           gameId,
           gameData: {
             playerOne: game.playerOne,
             playerTwo: game.playerTwo,
-            board: game.board as Board,
+            board: game.board,
             whoGoesFirst: game.whoGoesFirst,
             boardSize: game.boardSize,
           },
@@ -133,10 +134,10 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
     case 'select-card': {
       const { gameId, player, cardName } = message;
 
-      const serverMessage: ServerMessage = {
+      const serverMessage: ServerGameEvent = {
         event: 'card-selected',
         gameId,
-        player,
+        player: player.label,
         cardName,
       };
       io.to(gameId).emit('message', serverMessage);
