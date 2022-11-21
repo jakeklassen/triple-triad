@@ -1,8 +1,12 @@
-import { RealtimeChannel } from '@supabase/supabase-js';
 import * as TripleTriad from '@tripletriad/game';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Socket } from 'socket.io-client';
 import { ReadonlyDeep } from 'type-fest';
+import {
+  ClientMessage,
+  ServerMessage,
+} from '../../../../backend-socketio/src/events';
 import boardUrl from '../../assets/board.png';
 import { Hand } from '../Hand';
 import { Cell } from './Cell';
@@ -10,13 +14,26 @@ import { Cell } from './Cell';
 const BOARD_WIDTH = 384;
 const BOARD_HEIGHT = 224;
 
+/**
+ * Board needs a mechanism now to know which player it's dealing with.
+ * Remember that this is in the context of one client in one game, so
+ * determine which player that is, and restrict their controls based on
+ * the active turn, then refine from there.
+ */
+
+type MatchData = {
+  socket: Socket;
+  gameId: string;
+  whichPlayer: 'one' | 'two';
+};
+
 type BoardProps = {
   initialBoard: ReadonlyDeep<TripleTriad.CommonTypes.Board>;
   playerOne: TripleTriad.Player;
   playerTwo: TripleTriad.Player;
   whoGoesFirst: TripleTriad.PlayerLabel;
   size: number;
-  channel: RealtimeChannel;
+  matchData: MatchData;
 };
 
 export const Board = ({
@@ -25,7 +42,7 @@ export const Board = ({
   playerTwo,
   whoGoesFirst,
   size,
-  channel,
+  matchData,
 }: BoardProps) => {
   const [selectedCard, setSelectedCard] = useState<string>();
   const [currentTurn, setCurrentTurn] =
@@ -37,17 +54,28 @@ export const Board = ({
   // TODO: react to window resize and update scale factor using Jake's pixel art game code
   const [scaleFactor] = useState(3);
 
-  const onCardSelected = (player: TripleTriad.Player, cardName: string) => {
-    // console.log(`${player.label}:${cardName.toLowerCase()}`);
-
-    channel.send({
-      type: 'broadcast',
-      event: 'INPUT_EVENT',
-      payload: {
-        player,
-        cardName,
-      },
+  useEffect(() => {
+    matchData.socket.on('message', (message: ServerMessage) => {
+      if (message.event === 'card-selected') {
+        console.log(
+          `${message.player.label}:${message.cardName.toLowerCase()}`,
+        );
+      }
     });
+  }, []);
+
+  const onCardSelected = (player: TripleTriad.Player, cardName: string) => {
+    if (matchData.whichPlayer != currentTurn) {
+      return;
+    }
+
+    const message: ClientMessage = {
+      event: 'select-card',
+      gameId: matchData.gameId,
+      player,
+      cardName,
+    };
+    matchData.socket.emit('message', message);
 
     setSelectedCard(`${player.label}:${cardName.toLowerCase()}`);
   };
@@ -87,6 +115,12 @@ export const Board = ({
     player.removeCard(card);
     setSelectedCard(undefined);
     setCurrentTurn(currentTurn === 'one' ? 'two' : 'one');
+
+    const message: ClientMessage = {
+      event: 'play-card',
+      gameId: matchData.gameId,
+    };
+    matchData.socket.emit('message', message);
   };
 
   const cells = board.flat().map((cell, idx) => {
@@ -105,7 +139,9 @@ export const Board = ({
         card={card}
         playerLabel={playerLabel as TripleTriad.PlayerLabel}
         ownerLabel={ownerLabel as TripleTriad.PlayerLabel}
-        selectable={selectedCard != null}
+        selectable={
+          selectedCard != null && matchData.whichPlayer === currentTurn
+        }
         onClick={onCellSelected}
       />
     );

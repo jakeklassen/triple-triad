@@ -1,8 +1,10 @@
-import { createGame } from '@tripletriad/game';
+import { createGame, Player, PlayerLabel } from '@tripletriad/game';
+import { Board } from '@tripletriad/game/src/lib/common-types';
 import express from 'express';
 import crypto from 'node:crypto';
 import http from 'node:http';
 import { Server, Socket } from 'socket.io';
+import { ReadonlyDeep } from 'type-fest';
 import { ClientMessage, ClientMessageSchema, ServerMessage } from './events';
 
 const port = parseInt(process.env.PORT ?? '3000', 10);
@@ -46,11 +48,34 @@ server.listen(port, () => {
   console.log(`[GameServer] Listening on Port: ${port}`);
 });
 
-const handleMessage = (message: ClientMessage, socket: Socket) => {
+type GameData = {
+  playerOne: Player;
+  playerTwo: Player;
+  playerOneSocket: Socket;
+  playerTwoSocket?: Socket;
+  board: ReadonlyDeep<Board>;
+  whoGoesFirst: PlayerLabel;
+  boardSize: number;
+};
+const games = new Map<string, GameData>();
+
+const handleMessage = async (message: ClientMessage, socket: Socket) => {
   switch (message.event) {
     case 'create-game': {
       const gameId = crypto.randomUUID();
       socket.join(gameId);
+
+      const { playerOne, playerTwo, board, whoGoesFirst, boardSize } =
+        createGame();
+
+      games.set(gameId, {
+        board,
+        boardSize,
+        playerOne,
+        playerTwo,
+        playerOneSocket: socket,
+        whoGoesFirst,
+      });
 
       const message: ServerMessage = { event: 'game-created', gameId };
       socket.emit('message', message);
@@ -64,19 +89,56 @@ const handleMessage = (message: ClientMessage, socket: Socket) => {
       if (socket.rooms.has(gameId) === false) {
         socket.join(gameId);
 
-        // create game state,
-        // map sockets to play one, player two
-        // store the game state
-        // send start game message to both players
-        //   - player, board, whoGoesFirst
-        const { playerOne, playerTwo, board, boardSize, whoGoesFirst } =
-          createGame();
+        const game = games.get(gameId);
 
-        const message: ServerMessage = { event: 'start-game' };
+        if (game == null) {
+          console.log("Couldn't find game");
+          break;
+        }
+
+        game.playerTwoSocket = socket;
+
+        const message: ServerMessage = {
+          event: 'start-game',
+          gameId,
+          gameData: {
+            playerOne: game.playerOne,
+            playerTwo: game.playerTwo,
+            board: game.board,
+            whoGoesFirst: game.whoGoesFirst,
+            boardSize: game.boardSize,
+          },
+        };
+
+        console.log('p1 hand', game.playerOne.hand);
+
+        /**
+         * 1. Need to track which socket belongs to which player
+         * 2. On the front-end, need to know which player I am, and restrict input when it isn't my turn
+         * 3. Use start-game gameData.whoGoesFirst to control first turn, server play-card should emit a
+         *    response that includes data indicating whose turn it is
+         */
+
         io.to(gameId).emit('message', message);
       }
 
       break;
+    }
+
+    case 'play-card': {
+      break;
+    }
+
+    case 'select-card': {
+      const { gameId, player, cardName } = message;
+
+      const serverMessage: ServerMessage = {
+        event: 'card-selected',
+        gameId,
+        player,
+        cardName,
+      };
+      io.to(gameId).emit('message', serverMessage);
     }
   }
 };
