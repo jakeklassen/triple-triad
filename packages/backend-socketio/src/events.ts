@@ -1,18 +1,16 @@
 import { Player, PlayerLabel } from '@tripletriad/game';
 import { Board } from '@tripletriad/game/src/lib/common-types';
-import { ReadonlyDeep } from 'type-fest';
+import { toZod } from 'tozod';
 import { z } from 'zod';
 
 const gameId = z.string();
-const playerOne = z.custom<Player>();
-const playerTwo = z.custom<Player>();
-const board = z.custom<ReadonlyDeep<Board>>();
+const board: toZod<Board> = z.array(z.array(z.string().optional()));
 const whoGoesFirst = z.custom<PlayerLabel>();
 const boardSize = z.number();
 
-const gameData = z.object({
-  playerOne,
-  playerTwo,
+const GameDataSchema = z.object({
+  playerOne: z.instanceof(Player),
+  playerTwo: z.instanceof(Player),
   board,
   whoGoesFirst,
   boardSize,

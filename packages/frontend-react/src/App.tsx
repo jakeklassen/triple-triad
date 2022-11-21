@@ -133,7 +133,7 @@ function App() {
       playerInfo?.whichPlayer != null &&
       gameData != null
     ) {
-      // const { board, playerOne, playerTwo } = createGame();
+      // const { playerOne, playerTwo } = createGame();
 
       const { board, playerOne, playerTwo } = gameData;
 
