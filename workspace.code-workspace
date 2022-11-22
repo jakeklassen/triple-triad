@@ -43,6 +43,5 @@
       "source.organizeImports": true
     },
     "typescript.tsdk": "💾 backend-socketio/node_modules/typescript/lib"
-    // "typescript.preferences.importModuleSpecifierEnding": "js"
   }
 }

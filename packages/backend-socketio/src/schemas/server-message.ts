@@ -1,9 +1,9 @@
+import { z } from 'zod';
 import {
   GameDataDtoSchema,
   GameIdSchema,
   PlayerLabelSchema,
-} from 'src/schemas/game-data-schema';
-import { z } from 'zod';
+} from './game-data-schema';
 
 export const ServerMessageSchema = z.discriminatedUnion('event', [
   z.object({
