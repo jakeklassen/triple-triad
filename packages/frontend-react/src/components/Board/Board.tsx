@@ -3,10 +3,8 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import { ReadonlyDeep } from 'type-fest';
-import {
-  ClientMessage,
-  ServerMessage,
-} from '../../../../backend-socketio/src/events';
+import { ClientMessage } from '../../../../backend-socketio/src/schemas/client-message';
+import { ServerMessage } from '../../../../backend-socketio/src/schemas/server-message';
 import boardUrl from '../../assets/board.png';
 import { Hand } from '../Hand';
 import { Cell } from './Cell';

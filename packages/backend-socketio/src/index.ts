@@ -4,9 +4,9 @@ import express from 'express';
 import crypto from 'node:crypto';
 import http from 'node:http';
 import { Server, Socket } from 'socket.io';
-import { ClientMessage, ClientMessageSchema } from 'src/schemas/client-message';
 import { ReadonlyDeep } from 'type-fest';
 import { ServerGameEvent } from './events';
+import { ClientMessage, ClientMessageSchema } from './schemas/client-message';
 
 const port = parseInt(process.env.PORT ?? '3000', 10);
 
