@@ -45,7 +45,24 @@ function App() {
     socket.on('message', (message: ServerMessage) => {
       if (message.event === 'start-game') {
         setIsGameReady(true);
-        setGameData(message.gameData);
+
+        const playerOne = new Player({
+          label: message.gameData.playerOne.label,
+          hand: message.gameData.playerOne.hand as TripleTriad.Hand,
+        });
+
+        const playerTwo = new Player({
+          label: message.gameData.playerTwo.label,
+          hand: message.gameData.playerTwo.hand as TripleTriad.Hand,
+        });
+
+        const gameData = {
+          ...message.gameData,
+          playerOne,
+          playerTwo,
+        };
+
+        setGameData(gameData);
       }
 
       console.log(message);
