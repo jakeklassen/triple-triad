@@ -22,7 +22,7 @@ const BOARD_HEIGHT = 224;
 type MatchData = {
   socket: Socket;
   gameId: string;
-  whichPlayer: 'one' | 'two';
+  whichPlayer: TripleTriad.PlayerLabel.One | TripleTriad.PlayerLabel.Two;
 };
 
 type BoardProps = {
@@ -110,9 +110,13 @@ export const Board = ({
     );
 
     setBoard(newBoard);
-    player.removeCard(card);
+    player.hand = TripleTriad.removeCard(player.hand, card);
     setSelectedCard(undefined);
-    setCurrentTurn(currentTurn === 'one' ? 'two' : 'one');
+    setCurrentTurn(
+      currentTurn === TripleTriad.PlayerLabel.One
+        ? TripleTriad.PlayerLabel.Two
+        : TripleTriad.PlayerLabel.One,
+    );
 
     const message: ClientMessage = {
       event: 'play-card',

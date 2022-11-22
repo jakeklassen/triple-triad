@@ -46,16 +46,16 @@ export const playCard = (
     const { playerOneMoveCount, playerTwoMoveCount } = sumPlayerTurns(board);
 
     if (
-      whoWentFirst === Player.One &&
-      player.label === Player.One &&
+      whoWentFirst === PlayerLabel.One &&
+      player.label === PlayerLabel.One &&
       playerOneMoveCount > playerTwoMoveCount
     ) {
       throw new IllegalMoveError();
     }
 
     if (
-      whoWentFirst === Player.Two &&
-      player.label === Player.Two &&
+      whoWentFirst === PlayerLabel.Two &&
+      player.label === PlayerLabel.Two &&
       playerTwoMoveCount > playerOneMoveCount
     ) {
       throw new IllegalMoveError();

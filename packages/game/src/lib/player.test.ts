@@ -1,7 +1,7 @@
 import { assert, describe, expect, it } from 'vitest';
 import { CARDS } from './cards';
 import { Hand } from './common-types';
-import { Player } from './player';
+import { Player, PlayerLabel, removeCard } from './player';
 
 describe('player', () => {
   const firstFiveCards: Hand = [
@@ -14,11 +14,11 @@ describe('player', () => {
 
   describe('removeCard', () => {
     it('should replace card with undefined', () => {
-      const player = new Player({ label: 'one', hand: firstFiveCards });
+      const player: Player = { label: PlayerLabel.One, hand: firstFiveCards };
 
       assert(firstFiveCards[0]);
 
-      player.removeCard(firstFiveCards[0]);
+      player.hand = removeCard(player.hand, firstFiveCards[0]);
 
       expect(player.hand.length).toBe(5);
       expect(player.hand[0]).toBeUndefined();

@@ -2,7 +2,7 @@ import { assert, describe, expect, it } from 'vitest';
 import { CARDS } from './cards';
 import { Board } from './common-types';
 import { findDuplicatePlayerCard } from './find-duplicate-player-card';
-import { Player } from './player';
+import { PlayerLabel } from './player';
 
 describe('findDuplicatePlayerCard', () => {
   const fungar = CARDS.find((card) => card?.name?.toLowerCase() === 'fungar');
@@ -16,7 +16,7 @@ describe('findDuplicatePlayerCard', () => {
       Array(3).fill(undefined),
     ];
 
-    expect(findDuplicatePlayerCard(board, Player.One, fungar)).toBe(true);
+    expect(findDuplicatePlayerCard(board, PlayerLabel.One, fungar)).toBe(true);
   });
 
   it('should return false when no duplicate cards exist', () => {
@@ -26,6 +26,6 @@ describe('findDuplicatePlayerCard', () => {
       Array(3).fill(undefined),
     ];
 
-    expect(findDuplicatePlayerCard(board, Player.One, fungar)).toBe(false);
+    expect(findDuplicatePlayerCard(board, PlayerLabel.One, fungar)).toBe(false);
   });
 });

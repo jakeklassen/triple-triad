@@ -39,9 +39,11 @@ export const Hand = ({
         key={`${cardIndex}`}
         card={{
           ...card,
-          color: player.label == TripleTriad.Player.One ? 'red' : 'blue',
+          color: player.label == TripleTriad.PlayerLabel.One ? 'red' : 'blue',
         }}
-        direction={player.label == TripleTriad.Player.One ? 'left' : 'right'}
+        direction={
+          player.label == TripleTriad.PlayerLabel.One ? 'left' : 'right'
+        }
         onClick={onCardClicked}
         selected={selectedCard === card.name}
       />

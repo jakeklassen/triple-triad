@@ -1,13 +1,36 @@
-import { Player } from '@tripletriad/game';
-import { Board } from '@tripletriad/game/src/lib/common-types';
+import * as TripleTriad from '@tripletriad/game';
+import { Board, Card } from '@tripletriad/game/src/lib/common-types';
 import { toZod } from 'tozod';
 import { z } from 'zod';
 
-export const PlayerLabelSchema = z.enum([Player.One, Player.Two]);
+export const PlayerLabelSchema = z.enum([
+  TripleTriad.PlayerLabel.One,
+  TripleTriad.PlayerLabel.Two,
+]);
+
+export const CardSchema: toZod<Card> = z.object({
+  name: z.string(),
+  level: z.number(),
+
+  element: z.string().optional(),
+
+  stats: z.object({
+    north: z.number(),
+    south: z.number(),
+    east: z.number(),
+    west: z.number(),
+  }),
+
+  image: z.object({
+    base64: z.string(),
+    width: z.number(),
+    height: z.number(),
+  }),
+});
 
 export const PlayerDtoSchema = z.object({
   label: PlayerLabelSchema,
-  hand: z.array(z.union([z.undefined(), z.string()])),
+  hand: z.array(z.union([CardSchema, z.undefined()])),
 });
 
 export const GameIdSchema = z.string();
