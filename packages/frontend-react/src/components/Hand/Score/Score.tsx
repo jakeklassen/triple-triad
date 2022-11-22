@@ -12,7 +12,9 @@ export const Score = ({ score, player }: ScoreProps) => {
   return (
     <span
       className={clsx('m-auto', styles.score)}
-      data-direction={player.label == TripleTriad.Player.One ? 'left' : 'right'}
+      data-direction={
+        player.label == TripleTriad.PlayerLabel.One ? 'left' : 'right'
+      }
     >
       {score}
     </span>

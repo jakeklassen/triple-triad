@@ -1,5 +1,4 @@
-import { Player, PlayerLabel } from '@tripletriad/game';
-import * as TripleTriad from '@tripletriad/game/src/lib/common-types';
+import * as TripleTriad from '@tripletriad/game';
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ReadonlyDeep } from 'type-fest';
@@ -18,13 +17,13 @@ function App() {
   >(null);
   const [gameId, setGameId] = useState<string | null>(null);
   const [playerInfo, setPlayerInfo] = useState<{
-    whichPlayer: 'one' | 'two';
+    whichPlayer: TripleTriad.PlayerLabel.One | TripleTriad.PlayerLabel.Two;
   } | null>(null);
 
   const [gameData, setGameData] = useState<{
-    board: ReadonlyDeep<TripleTriad.Board>;
-    playerOne: Player;
-    playerTwo: Player;
+    board: ReadonlyDeep<TripleTriad.CommonTypes.Board>;
+    playerOne: TripleTriad.Player;
+    playerTwo: TripleTriad.Player;
     whoGoesFirst: string;
     boardSize: number;
   } | null>(null);
@@ -46,15 +45,15 @@ function App() {
       if (message.event === 'start-game') {
         setIsGameReady(true);
 
-        const playerOne = new Player({
+        const playerOne: TripleTriad.Player = {
           label: message.gameData.playerOne.label,
-          hand: message.gameData.playerOne.hand as TripleTriad.Hand,
-        });
+          hand: message.gameData.playerOne.hand as TripleTriad.CommonTypes.Hand,
+        };
 
-        const playerTwo = new Player({
+        const playerTwo: TripleTriad.Player = {
           label: message.gameData.playerTwo.label,
-          hand: message.gameData.playerTwo.hand as TripleTriad.Hand,
-        });
+          hand: message.gameData.playerTwo.hand as TripleTriad.CommonTypes.Hand,
+        };
 
         const gameData = {
           ...message.gameData,
@@ -91,7 +90,7 @@ function App() {
 
       socket?.emit('message', message);
 
-      setPlayerInfo({ whichPlayer: 'one' });
+      setPlayerInfo({ whichPlayer: TripleTriad.PlayerLabel.One });
     }
 
     if (selectedGameMode?.name === 'join') {
@@ -102,7 +101,7 @@ function App() {
 
       socket?.emit('message', message);
       setGameId(selectedGameMode.gameId);
-      setPlayerInfo({ whichPlayer: 'two' });
+      setPlayerInfo({ whichPlayer: TripleTriad.PlayerLabel.Two });
     }
   }, [selectedGameMode]);
 
@@ -159,7 +158,7 @@ function App() {
           initialBoard={board}
           playerOne={playerOne}
           playerTwo={playerTwo}
-          whoGoesFirst={gameData.whoGoesFirst as PlayerLabel}
+          whoGoesFirst={gameData.whoGoesFirst as TripleTriad.PlayerLabel}
           size={gameData.boardSize}
           matchData={{ socket, gameId, whichPlayer: playerInfo?.whichPlayer }}
         />

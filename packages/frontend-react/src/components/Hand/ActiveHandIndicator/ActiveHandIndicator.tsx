@@ -16,7 +16,9 @@ export const ActiveHandIndicator = ({
     <div
       className={clsx('m-auto', active ? styles.pyramidContainer : null)}
       hidden={active ? false : true}
-      data-direction={player.label == TripleTriad.Player.One ? 'left' : 'right'}
+      data-direction={
+        player.label == TripleTriad.PlayerLabel.One ? 'left' : 'right'
+      }
     >
       <div className={styles.pyramid}>
         <span className={clsx(styles.pyramidFace, styles.pyramidFaceFront)} />

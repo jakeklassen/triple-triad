@@ -11,7 +11,7 @@ import {
   PositionAlreadyOccupiedError,
 } from './errors';
 import { playCard } from './play-card';
-import { Player } from './player';
+import { PlayerLabel } from './player';
 import { createBoardFromHand } from './test-utils';
 
 describe('playCard', () => {
@@ -22,7 +22,7 @@ describe('playCard', () => {
     it('should throw when player two starts illegally', () => {
       const { board, playerOne, playerTwo } = createGame({
         cards: firstFiveCards,
-        whoGoesFirst: Player.One,
+        whoGoesFirst: PlayerLabel.One,
         allowDuplicateCards: true,
       });
 
@@ -34,7 +34,7 @@ describe('playCard', () => {
     it('should indicate player one non-zero score change', () => {
       const { playerOne, playerTwo } = createGame({
         cards: firstFiveCards,
-        whoGoesFirst: Player.One,
+        whoGoesFirst: PlayerLabel.One,
         allowDuplicateCards: true,
       });
 
@@ -59,7 +59,7 @@ describe('playCard', () => {
     it('should throw when player one tries to go twice in a row', () => {
       const { board, playerOne } = createGame({
         cards: firstFiveCards,
-        whoGoesFirst: Player.One,
+        whoGoesFirst: PlayerLabel.One,
         allowDuplicateCards: true,
       });
 
@@ -85,11 +85,11 @@ describe('playCard', () => {
     it('should throw when moves are tied and player two attempts to play', () => {
       const { playerTwo, whoGoesFirst } = createGame({
         cards: firstFiveCards,
-        whoGoesFirst: Player.One,
+        whoGoesFirst: PlayerLabel.One,
         allowDuplicateCards: true,
       });
 
-      const board = createBoardFromHand(hand, whoGoesFirst, Player.Two, 7);
+      const board = createBoardFromHand(hand, whoGoesFirst, PlayerLabel.Two, 7);
 
       expect(() =>
         playCard(board, whoGoesFirst, playerTwo, firstFiveCards[1], [0, 2]),
@@ -101,7 +101,7 @@ describe('playCard', () => {
     it('should throw when player one starts illegally', () => {
       const { board, playerOne, playerTwo } = createGame({
         cards: firstFiveCards,
-        whoGoesFirst: Player.Two,
+        whoGoesFirst: PlayerLabel.Two,
         allowDuplicateCards: true,
       });
 
@@ -113,7 +113,7 @@ describe('playCard', () => {
     it('should indicate player two non-zero score change', () => {
       const { playerOne, playerTwo } = createGame({
         cards: firstFiveCards,
-        whoGoesFirst: Player.Two,
+        whoGoesFirst: PlayerLabel.Two,
         allowDuplicateCards: true,
       });
 
@@ -138,7 +138,7 @@ describe('playCard', () => {
     it('should throw when player two tries to go twice in a row', () => {
       const { board, playerTwo } = createGame({
         cards: firstFiveCards,
-        whoGoesFirst: Player.Two,
+        whoGoesFirst: PlayerLabel.Two,
         allowDuplicateCards: true,
       });
 
@@ -164,11 +164,11 @@ describe('playCard', () => {
     it('should throw when moves are tied and player one attempts to play', () => {
       const { playerOne, whoGoesFirst } = createGame({
         cards: firstFiveCards,
-        whoGoesFirst: Player.Two,
+        whoGoesFirst: PlayerLabel.Two,
         allowDuplicateCards: true,
       });
 
-      const board = createBoardFromHand(hand, whoGoesFirst, Player.One, 7);
+      const board = createBoardFromHand(hand, whoGoesFirst, PlayerLabel.One, 7);
 
       expect(() =>
         playCard(board, whoGoesFirst, playerOne, firstFiveCards[1], [0, 2]),
@@ -206,10 +206,15 @@ describe('playCard', () => {
       allowDuplicateCards: true,
     });
 
-    const board = createBoardFromHand(hand, Player.One, Player.Two, 0);
+    const board = createBoardFromHand(
+      hand,
+      PlayerLabel.One,
+      PlayerLabel.Two,
+      0,
+    );
 
     expect(() =>
-      playCard(board, Player.One, playerOne, firstFiveCards[0], [0, 0]),
+      playCard(board, PlayerLabel.One, playerOne, firstFiveCards[0], [0, 0]),
     ).toThrowError(BoardIsFullError);
   });
 
@@ -220,7 +225,7 @@ describe('playCard', () => {
     });
 
     expect(() =>
-      playCard(board, Player.One, playerOne, firstFiveCards[0], [0, 3]),
+      playCard(board, PlayerLabel.One, playerOne, firstFiveCards[0], [0, 3]),
     ).toThrowError(OutOfBoundsError);
   });
 
@@ -232,28 +237,39 @@ describe('playCard', () => {
 
     const { newBoard: turnOneBoard } = playCard(
       board,
-      Player.One,
+      PlayerLabel.One,
       playerOne,
       firstFiveCards[0],
       [0, 0],
     );
 
     expect(() =>
-      playCard(turnOneBoard, Player.One, playerTwo, firstFiveCards[1], [0, 0]),
+      playCard(
+        turnOneBoard,
+        PlayerLabel.One,
+        playerTwo,
+        firstFiveCards[1],
+        [0, 0],
+      ),
     ).toThrowError(PositionAlreadyOccupiedError);
   });
 
   it('should throw error when player attempts to play a duplicate card', () => {
     const { playerTwo } = createGame({
       cards: firstFiveCards,
-      whoGoesFirst: Player.Two,
+      whoGoesFirst: PlayerLabel.Two,
       allowDuplicateCards: true,
     });
 
-    const board = createBoardFromHand(hand, Player.Two, Player.One, 7);
+    const board = createBoardFromHand(
+      hand,
+      PlayerLabel.Two,
+      PlayerLabel.One,
+      7,
+    );
 
     expect(() =>
-      playCard(board, Player.Two, playerTwo, firstFiveCards[0], [0, 2]),
+      playCard(board, PlayerLabel.Two, playerTwo, firstFiveCards[0], [0, 2]),
     ).toThrowError(DuplicateCardError);
   });
 });

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { CARDS } from './cards';
 import { Hand } from './common-types';
 import { isBoardEmpty } from './is-board-empty';
-import { Player } from './player';
+import { PlayerLabel } from './player';
 import { createBoardFromHand } from './test-utils';
 
 describe('isBoardEmpty', () => {
@@ -17,8 +17,8 @@ describe('isBoardEmpty', () => {
   it('should return true if every cell is null or undefined', () => {
     const board = createBoardFromHand(
       firstFiveCards,
-      Player.One,
-      Player.Two,
+      PlayerLabel.One,
+      PlayerLabel.Two,
       9,
     );
 
@@ -28,8 +28,8 @@ describe('isBoardEmpty', () => {
   it('should return false if any cell is not null or undefined', () => {
     const board = createBoardFromHand(
       firstFiveCards,
-      Player.One,
-      Player.Two,
+      PlayerLabel.One,
+      PlayerLabel.Two,
       1,
     );
 

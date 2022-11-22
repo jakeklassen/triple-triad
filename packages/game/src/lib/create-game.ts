@@ -13,8 +13,8 @@ export type GameOptions = {
 };
 
 const PLAYER_LABELS: [one: PlayerLabel, two: PlayerLabel] = [
-  Player.One,
-  Player.Two,
+  PlayerLabel.One,
+  PlayerLabel.Two,
 ];
 
 export const createGame = (
@@ -38,8 +38,8 @@ export const createGame = (
     options.allowDuplicateCards,
   );
 
-  const playerOne = new Player({ label: Player.One, hand: playerOneHand });
-  const playerTwo = new Player({ label: Player.Two, hand: playerTwoHand });
+  const playerOne: Player = { label: PlayerLabel.One, hand: playerOneHand };
+  const playerTwo: Player = { label: PlayerLabel.Two, hand: playerTwoHand };
 
   const board: ReadonlyDeep<Board> = [
     Array(3).fill(undefined),
