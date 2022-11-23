@@ -16,8 +16,8 @@ export function removeCard(hand: ReadonlyDeep<Hand>, card: Card): Hand {
     (_card) => _card?.name?.toLowerCase() == card.name.toLowerCase(),
   );
 
-  const temp: Hand = [...hand];
-  temp[idx] = undefined;
+  const newHand: Hand = [...hand];
+  newHand[idx] = undefined;
 
-  return temp;
+  return newHand;
 }
