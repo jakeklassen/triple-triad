@@ -124,7 +124,7 @@ function App() {
 
       return (
         <div className="text-white">
-          {message.value}: <p className="text-red">{message.gameId}</p>
+          {message.value}: <p style={{ color: 'yellow' }}>{message.gameId}</p>
           <button
             className={styles.button}
             onClick={() => {
