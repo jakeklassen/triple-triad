@@ -30,7 +30,13 @@ export const CardSchema: toZod<Card> = z.object({
 
 export const PlayerDtoSchema = z.object({
   label: PlayerLabelSchema,
-  hand: z.array(z.union([CardSchema, z.undefined()])),
+  hand: z.tuple([
+    z.union([CardSchema, z.undefined()]),
+    z.union([CardSchema, z.undefined()]),
+    z.union([CardSchema, z.undefined()]),
+    z.union([CardSchema, z.undefined()]),
+    z.union([CardSchema, z.undefined()]),
+  ]),
 });
 
 export const GameIdSchema = z.string();

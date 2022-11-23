@@ -7,6 +7,7 @@ import { ServerMessage } from '../../backend-socketio/src/schemas/server-message
 import './App.css';
 import { Board } from './components/Board';
 import { Lobby } from './components/Lobby';
+import styles from './components/Lobby/Lobby.module.css';
 
 function App() {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -111,13 +112,29 @@ function App() {
 
   const renderScene = () => {
     if (selectedGameMode?.name === 'create' && isGameReady === false) {
-      let message = 'Waiting for a player to join...';
+      const message = {
+        value: 'Waiting for a player to join...',
+        gameId: '',
+      };
 
       if (gameId != null) {
-        message = `Share this game ID with a friend: ${gameId}`;
+        message.value = `Share this game ID with a friend`;
+        message.gameId = gameId;
       }
 
-      return <div className="text-white">{message}</div>;
+      return (
+        <div className="text-white">
+          {message.value}: <p className="text-red">{message.gameId}</p>
+          <button
+            className={styles.button}
+            onClick={() => {
+              navigator.clipboard.writeText(message.gameId);
+            }}
+          >
+            Copy to Clipboard
+          </button>
+        </div>
+      );
     }
 
     if (selectedGameMode?.name === 'join' && isGameReady === false) {
@@ -147,30 +164,17 @@ function App() {
       playerInfo?.whichPlayer != null &&
       gameData != null
     ) {
-      // const { playerOne, playerTwo } = createGame();
-
-      const { board, playerOne, playerTwo } = gameData;
-
-      console.log(playerOne);
+      const { board, boardSize, playerOne, playerTwo, whoGoesFirst } = gameData;
 
       return (
         <Board
           initialBoard={board}
           playerOne={playerOne}
           playerTwo={playerTwo}
-          whoGoesFirst={gameData.whoGoesFirst as TripleTriad.PlayerLabel}
-          size={gameData.boardSize}
+          whoGoesFirst={whoGoesFirst as TripleTriad.PlayerLabel}
+          size={boardSize}
           matchData={{ socket, gameId, whichPlayer: playerInfo?.whichPlayer }}
         />
-
-        // <Board
-        //   initialBoard={gameData?.board}
-        //   playerOne={gameData.playerOne}
-        //   playerTwo={gameData.playerTwo}
-        //   whoGoesFirst={gameData.whoGoesFirst as PlayerLabel}
-        //   size={gameData.boardSize}
-        //   matchData={{ socket, gameId, whichPlayer: playerInfo?.whichPlayer }}
-        // />
       );
     }
   };

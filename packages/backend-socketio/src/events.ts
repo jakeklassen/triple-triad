@@ -22,7 +22,7 @@ export type StartGameEvent = {
 export type CardSelectedEvent = {
   event: 'card-selected';
   gameId: string;
-  player: PlayerLabel;
+  player: Player;
   cardName: string;
 };
 
