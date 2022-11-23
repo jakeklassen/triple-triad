@@ -3,10 +3,7 @@ import { Board, Card } from '@tripletriad/game/src/lib/common-types';
 import { toZod } from 'tozod';
 import { z } from 'zod';
 
-export const PlayerLabelSchema = z.enum([
-  TripleTriad.PlayerLabel.One,
-  TripleTriad.PlayerLabel.Two,
-]);
+export const PlayerLabelSchema = z.nativeEnum(TripleTriad.PlayerLabel);
 
 export const CardSchema: toZod<Card> = z.object({
   name: z.string(),
