@@ -12,17 +12,10 @@ import { Cell } from './Cell';
 const BOARD_WIDTH = 384;
 const BOARD_HEIGHT = 224;
 
-/**
- * Board needs a mechanism now to know which player it's dealing with.
- * Remember that this is in the context of one client in one game, so
- * determine which player that is, and restrict their controls based on
- * the active turn, then refine from there.
- */
-
-type MatchData = {
+export type MatchData = {
   socket: Socket;
   gameId: string;
-  whichPlayer: TripleTriad.PlayerLabel.One | TripleTriad.PlayerLabel.Two;
+  whichPlayer: TripleTriad.PlayerLabel;
 };
 
 type BoardProps = {
@@ -54,13 +47,38 @@ export const Board = ({
 
   useEffect(() => {
     matchData.socket.on('message', (message: ServerMessage) => {
-      if (message.event === 'card-selected') {
-        console.log(
-          `${message.player.label}:${message.cardName.toLowerCase()}`,
+      if (message.event === 'card-played') {
+        setBoard(message.board);
+        setCurrentTurn(message.nextTurn);
+
+        const player =
+          message.nextTurn === TripleTriad.PlayerLabel.One
+            ? playerTwo
+            : playerOne;
+
+        const card = TripleTriad.CARDS.find(
+          (card) => card.name.toLowerCase() === message.cardName.toLowerCase(),
+        );
+
+        if (card != null) {
+          player.hand = TripleTriad.removeCard(player.hand, card);
+        }
+
+        setPlayerOneScore(
+          playerOneScore +
+            (player.label === 'one'
+              ? message.scoreChange
+              : -message.scoreChange),
+        );
+        setPlayerTwoScore(
+          playerTwoScore +
+            (player.label === 'two'
+              ? message.scoreChange
+              : -message.scoreChange),
         );
       }
     });
-  }, []);
+  }, [playerOneScore, playerTwoScore]);
 
   const onCardSelected = (player: TripleTriad.Player, cardName: string) => {
     if (matchData.whichPlayer != currentTurn) {
@@ -102,13 +120,6 @@ export const Board = ({
       [row, column],
     );
 
-    setPlayerOneScore(
-      playerOneScore + (currentTurn === 'one' ? scoreChange : -scoreChange),
-    );
-    setPlayerTwoScore(
-      playerTwoScore + (currentTurn === 'two' ? scoreChange : -scoreChange),
-    );
-
     setBoard(newBoard);
     player.hand = TripleTriad.removeCard(player.hand, card);
     setSelectedCard(undefined);
@@ -121,6 +132,10 @@ export const Board = ({
     const message: ClientMessage = {
       event: 'play-card',
       gameId: matchData.gameId,
+      playerLabel: matchData.whichPlayer,
+      cardName: selectedCard.split(':')[1],
+      row,
+      column,
     };
     matchData.socket.emit('message', message);
   };
@@ -166,6 +181,8 @@ export const Board = ({
         active={currentTurn === playerOne.label}
         score={playerOneScore}
         onCardSelected={onCardSelected}
+        matchData={matchData}
+        currentTurn={currentTurn}
       />
 
       {/* Grid */}
@@ -190,6 +207,8 @@ export const Board = ({
         active={currentTurn === playerTwo.label}
         score={playerTwoScore}
         onCardSelected={onCardSelected}
+        matchData={matchData}
+        currentTurn={currentTurn}
       />
     </div>
   );

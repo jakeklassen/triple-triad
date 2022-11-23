@@ -26,7 +26,17 @@ export type CardSelectedEvent = {
   cardName: string;
 };
 
+export type CardPlayedEvent = {
+  event: 'card-played';
+  gameId: string;
+  board: Board;
+  nextTurn: PlayerLabel;
+  cardName: string;
+  scoreChange: number;
+};
+
 export type ServerGameEvent =
   | GameCreatedEvent
   | StartGameEvent
-  | CardSelectedEvent;
+  | CardSelectedEvent
+  | CardPlayedEvent;

@@ -1,10 +1,13 @@
 import { z } from 'zod';
 import {
+  BoardDtoSchema,
   GameDataDtoSchema,
   GameIdSchema,
   PlayerDtoSchema,
+  PlayerLabelSchema,
 } from './game-data-schema';
 
+// TODO: cardName should be validated against possible card names from the game lib
 export const ServerMessageSchema = z.discriminatedUnion('event', [
   z.object({
     event: z.literal('game-created'),
@@ -20,6 +23,14 @@ export const ServerMessageSchema = z.discriminatedUnion('event', [
     gameId: GameIdSchema,
     player: PlayerDtoSchema,
     cardName: z.string(),
+  }),
+  z.object({
+    event: z.literal('card-played'),
+    gameId: GameIdSchema,
+    board: BoardDtoSchema,
+    nextTurn: PlayerLabelSchema,
+    cardName: z.string(),
+    scoreChange: z.number(),
   }),
 ]);
 
