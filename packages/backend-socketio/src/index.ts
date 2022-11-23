@@ -137,7 +137,7 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
       const serverMessage: ServerGameEvent = {
         event: 'card-selected',
         gameId,
-        player: player.label,
+        player: player,
         cardName,
       };
       io.to(gameId).emit('message', serverMessage);

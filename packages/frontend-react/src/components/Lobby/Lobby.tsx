@@ -52,7 +52,13 @@ const JoinGameModal = ({ onModeSelected }: JoinGameModalProps) => {
   const gameIdRef = useRef<HTMLInputElement>(null);
   return (
     <>
-      <input type="text" name="game-id" id="game-id" ref={gameIdRef} />
+      <input
+        type="text"
+        name="game-id"
+        id="game-id"
+        ref={gameIdRef}
+        autoFocus
+      />
       <button
         className={styles.button}
         onClick={() => {
