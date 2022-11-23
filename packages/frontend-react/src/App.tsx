@@ -65,8 +65,6 @@ function App() {
         setGameData(gameData);
       }
 
-      console.log(message);
-
       if (message.event === 'game-created') {
         setGameId(message.gameId);
       }

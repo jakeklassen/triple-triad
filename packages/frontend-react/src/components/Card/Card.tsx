@@ -5,6 +5,7 @@ import { CardStats } from './CardStats';
 
 export type CardPropsCard = {
   name: string;
+  level: number;
   element?: string;
   stats: {
     north: number;

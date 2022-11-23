@@ -1,4 +1,10 @@
-import { createGame, Player, PlayerLabel } from '@tripletriad/game';
+import {
+  CARDS,
+  createGame,
+  playCard,
+  Player,
+  PlayerLabel,
+} from '@tripletriad/game';
 import { Board } from '@tripletriad/game/src/lib/common-types';
 import express from 'express';
 import crypto from 'node:crypto';
@@ -112,15 +118,6 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
           },
         };
 
-        console.log('p1 hand', game.playerOne.hand);
-
-        /**
-         * 1. Need to track which socket belongs to which player
-         * 2. On the front-end, need to know which player I am, and restrict input when it isn't my turn
-         * 3. Use start-game gameData.whoGoesFirst to control first turn, server play-card should emit a
-         *    response that includes data indicating whose turn it is
-         */
-
         io.to(gameId).emit('message', message);
       }
 
@@ -128,6 +125,55 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
     }
 
     case 'play-card': {
+      const { gameId, cardName } = message;
+      const game = games.get(gameId);
+
+      if (game == null) {
+        console.log("Couldn't find game");
+        break;
+      }
+
+      const card = CARDS.find(
+        (card) => card.name.toLowerCase() === cardName.toLowerCase(),
+      );
+
+      if (card == null) {
+        console.log("Couldn't find card");
+        break;
+      }
+
+      const activePlayer =
+        message.playerLabel === PlayerLabel.One
+          ? game.playerOne
+          : game.playerTwo;
+
+      const { newBoard, scoreChange } = playCard(
+        game.board,
+        game.whoGoesFirst,
+        activePlayer,
+        card,
+        [message.row, message.column],
+      );
+
+      const nextTurn =
+        activePlayer.label === PlayerLabel.One
+          ? PlayerLabel.Two
+          : PlayerLabel.One;
+
+      const serverMessage: ServerGameEvent = {
+        event: 'card-played',
+        gameId,
+        board: newBoard as Board,
+        nextTurn,
+        cardName,
+        scoreChange,
+      };
+
+      io.to(gameId).emit('message', serverMessage);
+
+      game.board = newBoard;
+      games.set(gameId, game);
+
       break;
     }
 
@@ -140,7 +186,10 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
         player: player,
         cardName,
       };
+
       io.to(gameId).emit('message', serverMessage);
+
+      break;
     }
   }
 };

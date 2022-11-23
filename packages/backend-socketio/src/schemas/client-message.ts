@@ -1,5 +1,9 @@
 import { z } from 'zod';
-import { GameIdSchema, PlayerDtoSchema } from './game-data-schema';
+import {
+  GameIdSchema,
+  PlayerDtoSchema,
+  PlayerLabelSchema,
+} from './game-data-schema';
 
 export const ClientMessageSchema = z.discriminatedUnion('event', [
   z.object({
@@ -10,14 +14,18 @@ export const ClientMessageSchema = z.discriminatedUnion('event', [
     gameId: GameIdSchema,
   }),
   z.object({
-    event: z.literal('play-card'),
-    gameId: GameIdSchema,
-  }),
-  z.object({
     event: z.literal('select-card'),
     gameId: GameIdSchema,
     player: PlayerDtoSchema,
     cardName: z.string(),
+  }),
+  z.object({
+    event: z.literal('play-card'),
+    gameId: GameIdSchema,
+    playerLabel: PlayerLabelSchema,
+    cardName: z.string(),
+    row: z.number(),
+    column: z.number(),
   }),
 ]);
 
