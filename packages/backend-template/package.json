@@ -30,7 +30,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "esno": "0.16.3",
     "expect": "29.3.1",
-    "prettier": "2.7.1",
+    "prettier": "2.8.0",
     "shx": "0.3.4",
     "ts-node": "10.9.1",
     "ts-node-dev": "2.0.0",
