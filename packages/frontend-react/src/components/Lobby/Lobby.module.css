@@ -4,6 +4,7 @@
   padding: 15px;
   color: white;
   box-shadow: -5px 5px black, -5px 5px 0px 3px white;
+  min-width: 125px;
 }
 
 .button:hover {

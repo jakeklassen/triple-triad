@@ -1,4 +1,5 @@
 import * as TripleTriad from '@tripletriad/game';
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ReadonlyDeep } from 'type-fest';
@@ -9,10 +10,14 @@ import { Board } from './components/Board';
 import { Lobby } from './components/Lobby';
 import styles from './components/Lobby/Lobby.module.css';
 
+type GameState = 'waiting:creating' | 'waiting:joining' | 'playing';
+
 function App() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
-  const [isGameReady, setIsGameReady] = useState(false);
+  const [currentGameState, setCurrentGameState] = useState<GameState | null>(
+    null,
+  );
   const [selectedGameMode, setSelectedGameMode] = useState<
     { name: 'create' } | { name: 'join'; gameId: string } | null
   >(null);
@@ -44,29 +49,13 @@ function App() {
 
     socket.on('message', (message: ServerMessage) => {
       if (message.event === 'start-game') {
-        setIsGameReady(true);
-
-        const playerOne: TripleTriad.Player = {
-          label: message.gameData.playerOne.label,
-          hand: message.gameData.playerOne.hand as TripleTriad.CommonTypes.Hand,
-        };
-
-        const playerTwo: TripleTriad.Player = {
-          label: message.gameData.playerTwo.label,
-          hand: message.gameData.playerTwo.hand as TripleTriad.CommonTypes.Hand,
-        };
-
-        const gameData = {
-          ...message.gameData,
-          playerOne,
-          playerTwo,
-        };
-
-        setGameData(gameData);
+        setCurrentGameState('playing');
+        setGameData(message.gameData);
       }
 
       if (message.event === 'game-created') {
         setGameId(message.gameId);
+        setCurrentGameState('waiting:creating');
       }
     });
 
@@ -100,6 +89,7 @@ function App() {
 
       socket?.emit('message', message);
       setGameId(selectedGameMode.gameId);
+      setCurrentGameState('waiting:joining');
       setPlayerInfo({ whichPlayer: TripleTriad.PlayerLabel.Two });
     }
   }, [selectedGameMode]);
@@ -109,41 +99,11 @@ function App() {
   }
 
   const renderScene = () => {
-    if (selectedGameMode?.name === 'create' && isGameReady === false) {
-      const message = {
-        value: 'Waiting for a player to join...',
-        gameId: '',
-      };
-
-      if (gameId != null) {
-        message.value = `Share this game ID with a friend`;
-        message.gameId = gameId;
-      }
-
-      return (
-        <div className="text-white">
-          {message.value}: <p style={{ color: 'yellow' }}>{message.gameId}</p>
-          <button
-            className={styles.button}
-            onClick={() => {
-              navigator.clipboard.writeText(message.gameId);
-            }}
-          >
-            Copy to Clipboard
-          </button>
-        </div>
-      );
+    if (socket == null) {
+      return <div>Loading...</div>;
     }
 
-    if (selectedGameMode?.name === 'join' && isGameReady === false) {
-      return (
-        <div className="text-white">
-          Attempting to join game {selectedGameMode.gameId}...
-        </div>
-      );
-    }
-
-    if (selectedGameMode === null) {
+    if (currentGameState === null) {
       return (
         <Lobby
           onModeSelected={(mode) => {
@@ -155,14 +115,45 @@ function App() {
       );
     }
 
-    if (
-      isGameReady === true &&
-      socket != null &&
-      gameId != null &&
-      playerInfo?.whichPlayer != null &&
-      gameData != null
-    ) {
+    if (currentGameState === 'waiting:creating') {
+      const message = {
+        value: 'Waiting for a player to join...',
+        gameId: '',
+      };
+
+      if (gameId != null) {
+        message.value = `Share this game ID with a friend`;
+        message.gameId = gameId;
+      }
+
+      return (
+        <>
+          <p className="text-white">{message.value}</p>
+          <p className="text-yellow-300">{message.gameId}</p>
+          <button
+            className={clsx(styles.button, 'text-white')}
+            onClick={() => {
+              navigator.clipboard.writeText(message.gameId);
+            }}
+          >
+            Copy to Clipboard
+          </button>
+        </>
+      );
+    } else if (currentGameState === 'waiting:joining') {
+      return (
+        <div className="text-white">Attempting to join game {gameId}...</div>
+      );
+    } else if (currentGameState === 'playing' && gameData != null) {
       const { board, boardSize, playerOne, playerTwo, whoGoesFirst } = gameData;
+
+      if (playerInfo == null) {
+        throw new Error('playerInfo is null');
+      }
+
+      if (gameId == null) {
+        throw new Error('gameId is null');
+      }
 
       return (
         <Board
@@ -178,7 +169,7 @@ function App() {
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-full bg-black">
+    <div className="flex flex-col items-center justify-center w-full h-full bg-black">
       {renderScene()}
     </div>
   );

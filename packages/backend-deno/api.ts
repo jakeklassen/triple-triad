@@ -1,4 +1,7 @@
+import { createGame } from '@tripletriad/game';
 import { serve } from 'https://deno.land/std@0.160.0/http/server.ts';
+
+const game = createGame();
 
 const sockets = new Set<WebSocket>();
 
