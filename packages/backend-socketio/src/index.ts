@@ -7,7 +7,7 @@ import {
 } from '@tripletriad/game';
 import { Board } from '@tripletriad/game/src/lib/common-types';
 import express from 'express';
-import crypto from 'node:crypto';
+import { nanoid } from 'nanoid';
 import http from 'node:http';
 import { Server, Socket } from 'socket.io';
 import { ReadonlyDeep } from 'type-fest';
@@ -56,13 +56,16 @@ server.listen(port, () => {
 });
 
 type GameData = {
+  activePlayer: Player;
+  board: ReadonlyDeep<Board>;
+  boardSize: number;
   playerOne: Player;
   playerTwo: Player;
+  playerOneScore: number;
+  playerTwoScore: number;
   playerOneSocket: Socket;
   playerTwoSocket?: Socket;
-  board: ReadonlyDeep<Board>;
   whoGoesFirst: PlayerLabel;
-  boardSize: number;
 };
 
 const games = new Map<string, GameData>();
@@ -70,17 +73,20 @@ const games = new Map<string, GameData>();
 const handleMessage = async (message: ClientMessage, socket: Socket) => {
   switch (message.event) {
     case 'create-game': {
-      const gameId = crypto.randomUUID();
+      const gameId = nanoid(8);
       socket.join(gameId);
 
       const { playerOne, playerTwo, board, whoGoesFirst, boardSize } =
         createGame();
 
       games.set(gameId, {
+        activePlayer: whoGoesFirst === PlayerLabel.One ? playerOne : playerTwo,
         board,
         boardSize,
         playerOne,
         playerTwo,
+        playerOneScore: 5,
+        playerTwoScore: 5,
         playerOneSocket: socket,
         whoGoesFirst,
       });
@@ -142,36 +148,51 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
         break;
       }
 
-      const activePlayer =
-        message.playerLabel === PlayerLabel.One
-          ? game.playerOne
-          : game.playerTwo;
+      if (game.activePlayer.label !== message.playerLabel) {
+        console.log('Not your turn');
+        break;
+      }
 
       const { newBoard, scoreChange } = playCard(
         game.board,
         game.whoGoesFirst,
-        activePlayer,
+        game.activePlayer,
         card,
         [message.row, message.column],
       );
 
-      const nextTurn =
-        activePlayer.label === PlayerLabel.One
-          ? PlayerLabel.Two
-          : PlayerLabel.One;
+      const nextPlayer =
+        game.activePlayer.label === PlayerLabel.One
+          ? game.playerTwo
+          : game.playerOne;
+
+      const playerOneScore =
+        game.activePlayer.label === PlayerLabel.One
+          ? game.playerOneScore + scoreChange
+          : game.playerOneScore - scoreChange;
+
+      const playerTwoScore =
+        game.activePlayer.label === PlayerLabel.Two
+          ? game.playerTwoScore + scoreChange
+          : game.playerTwoScore - scoreChange;
 
       const serverMessage: ServerGameEvent = {
         event: 'card-played',
         gameId,
         board: newBoard as Board,
-        nextTurn,
+        nextTurn: nextPlayer.label,
         cardName,
         scoreChange,
+        playerOneScore,
+        playerTwoScore,
       };
 
       io.to(gameId).emit('message', serverMessage);
 
       game.board = newBoard;
+      game.activePlayer = nextPlayer;
+      game.playerOneScore = playerOneScore;
+      game.playerTwoScore = playerTwoScore;
       games.set(gameId, game);
 
       break;

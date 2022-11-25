@@ -31,6 +31,8 @@ export const ServerMessageSchema = z.discriminatedUnion('event', [
     nextTurn: PlayerLabelSchema,
     cardName: z.string(),
     scoreChange: z.number(),
+    playerOneScore: z.number(),
+    playerTwoScore: z.number(),
   }),
 ]);
 

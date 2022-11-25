@@ -33,6 +33,8 @@ export type CardPlayedEvent = {
   nextTurn: PlayerLabel;
   cardName: string;
   scoreChange: number;
+  playerOneScore: number;
+  playerTwoScore: number;
 };
 
 export type ServerGameEvent =

@@ -64,18 +64,8 @@ export const Board = ({
           player.hand = TripleTriad.removeCard(player.hand, card);
         }
 
-        setPlayerOneScore(
-          playerOneScore +
-            (player.label === 'one'
-              ? message.scoreChange
-              : -message.scoreChange),
-        );
-        setPlayerTwoScore(
-          playerTwoScore +
-            (player.label === 'two'
-              ? message.scoreChange
-              : -message.scoreChange),
-        );
+        setPlayerOneScore(message.playerOneScore);
+        setPlayerTwoScore(message.playerTwoScore);
       }
     });
   }, [playerOneScore, playerTwoScore]);
@@ -112,7 +102,7 @@ export const Board = ({
       throw new Error('Card not found');
     }
 
-    const { newBoard, scoreChange } = TripleTriad.playCard(
+    const { newBoard } = TripleTriad.playCard(
       board,
       whoGoesFirst,
       player,

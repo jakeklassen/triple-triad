@@ -104,15 +104,7 @@ function App() {
     }
 
     if (currentGameState === null) {
-      return (
-        <Lobby
-          onModeSelected={(mode) => {
-            console.log(mode);
-
-            setSelectedGameMode(mode);
-          }}
-        />
-      );
+      return <Lobby onModeSelected={(mode) => setSelectedGameMode(mode)} />;
     }
 
     if (currentGameState === 'waiting:creating') {
