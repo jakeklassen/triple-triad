@@ -6,5 +6,5 @@ cmds = ["npm install -g corepack", "corepack enable", "corepack prepare pnpm@7.1
 [phases.build]
 cmd = "pnpm -r build"
 
-# [start]
-# cmd = "pnpm --filter backend-socketio start:prod"
+[start]
+cmds = ["pnpm --filter backend-socketio start:prod", "pnpm --filter frontend-react start"]

@@ -9,7 +9,8 @@
     "dev:vite": "vite",
     "generate:css": "npx tailwindcss -i ./styles/tailwind.css -o ./src/tailwind.css",
     "build": "tsc && npm run generate:css && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "npx http-server -P http://127.0.0.1:${PORT} ./dist"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.1.1",
