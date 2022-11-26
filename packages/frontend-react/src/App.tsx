@@ -10,8 +10,6 @@ import { Board } from './components/Board';
 import { Lobby } from './components/Lobby';
 import styles from './components/Lobby/Lobby.module.css';
 
-console.log(import.meta.env.BASE_URL);
-
 type GameState = 'waiting:creating' | 'waiting:joining' | 'playing';
 
 function App() {
