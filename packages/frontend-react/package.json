@@ -8,7 +8,7 @@
     "dev:css": "npm run generate:css -- --watch",
     "dev:vite": "vite",
     "generate:css": "npx tailwindcss -i ./styles/tailwind.css -o ./src/tailwind.css",
-    "build": "tsc && vite build",
+    "build": "tsc && npm run generate:css && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
