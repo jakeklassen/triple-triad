@@ -10,6 +10,8 @@ import { Board } from './components/Board';
 import { Lobby } from './components/Lobby';
 import styles from './components/Lobby/Lobby.module.css';
 
+console.log(import.meta.env.BASE_URL);
+
 type GameState = 'waiting:creating' | 'waiting:joining' | 'playing';
 
 function App() {
@@ -36,7 +38,7 @@ function App() {
 
   // Open socket to server, handle incoming server events
   useEffect(() => {
-    const socket = io('ws://localhost:3000');
+    const socket = io(import.meta.env.VITE_BACKEND_URL);
 
     socket.on('error', (error) => {
       console.error(error);
