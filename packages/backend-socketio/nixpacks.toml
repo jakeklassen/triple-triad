@@ -1,5 +1,8 @@
 providers = ["node"]
 
+[phases.setup]
+nixPkgs = ["pnpm"]
+
 [phases.build]
 cmd = "pnpm -r build"
 
