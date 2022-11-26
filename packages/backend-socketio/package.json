@@ -4,6 +4,9 @@
   "main": "dist/index.js",
   "author": "Jake Klassen",
   "license": "MIT",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "prebuild": "shx rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
