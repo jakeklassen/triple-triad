@@ -1,1 +1,7 @@
 providers = ["node"]
+
+[phases.build]
+cmd = "pnpm -r build"
+
+[start]
+cmd = "pnpm --filter backend-socketio start:prod"
