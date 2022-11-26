@@ -1,7 +1,7 @@
 providers = ["node"]
 
-[phases.setup]
-nixPkgs = ["pnpm"]
+[phases.install]
+cmds = ["npm install -g corepack", "corepack enable", "corepack prepare pnpm@7.17.0 --activate", "pnpm install"]
 
 [phases.build]
 cmd = "pnpm -r build"
