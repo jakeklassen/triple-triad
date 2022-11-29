@@ -34,14 +34,12 @@ io.on('connection', (socket) => {
   console.log('a user connected');
 
   socket.on('message', (unknownMessage: unknown) => {
-    console.log(unknownMessage);
-
     const message = ClientMessageSchema.safeParse(unknownMessage);
 
     if (message.success === true) {
       handleMessage(message.data, socket);
     } else {
-      console.log(message.error);
+      console.error(message.error);
       // send error to client
     }
   });

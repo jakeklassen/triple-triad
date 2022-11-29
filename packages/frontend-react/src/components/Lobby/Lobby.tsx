@@ -14,12 +14,10 @@ export const Lobby = ({ onModeSelected }: LobbyProps) => {
   // const { board, playerOne, playerTwo, whoGoesFirst, boardSize } = createGame();
 
   const onCreateGameClick = () => {
-    console.log('Create game');
     onModeSelected({ name: 'create' });
   };
 
   const onJoinGameClick = () => {
-    console.log('Join game');
     setShowJoinGameModal(true);
   };
 

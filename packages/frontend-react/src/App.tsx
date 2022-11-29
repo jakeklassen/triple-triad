@@ -177,6 +177,7 @@ function App() {
             setIsGameOver(false);
             setGameOverMessage(null);
             setCurrentGameState(null);
+            setGameData(null);
           }}
         />
       );
