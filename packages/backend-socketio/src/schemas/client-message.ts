@@ -29,4 +29,7 @@ export const ClientMessageSchema = z.discriminatedUnion('event', [
   }),
 ]);
 
+/**
+ * This message schema is used to describe the message that is sent from the client to the server.
+ */
 export type ClientMessage = z.infer<typeof ClientMessageSchema>;

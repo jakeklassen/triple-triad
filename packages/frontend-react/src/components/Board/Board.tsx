@@ -25,6 +25,7 @@ type BoardProps = {
   whoGoesFirst: TripleTriad.PlayerLabel;
   size: number;
   matchData: MatchData;
+  onGameOver: (gameOverMessage: string) => void;
 };
 
 export const Board = ({
@@ -34,6 +35,7 @@ export const Board = ({
   whoGoesFirst,
   size,
   matchData,
+  onGameOver,
 }: BoardProps) => {
   const [selectedCard, setSelectedCard] = useState<string>();
   const [currentTurn, setCurrentTurn] =
@@ -66,6 +68,23 @@ export const Board = ({
 
         setPlayerOneScore(message.playerOneScore);
         setPlayerTwoScore(message.playerTwoScore);
+
+        if (message.gameOver === true) {
+          const winner =
+            message.playerOneScore > message.playerTwoScore
+              ? playerOne.label
+              : playerTwo.label;
+
+          let gameOverMessage = `You ${
+            winner === matchData.whichPlayer ? 'win' : 'lose'
+          }!`;
+
+          if (message.playerOneScore === message.playerTwoScore) {
+            gameOverMessage = `It's a draw!`;
+          }
+
+          onGameOver(gameOverMessage);
+        }
       }
     });
   }, [playerOneScore, playerTwoScore]);

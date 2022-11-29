@@ -28,6 +28,7 @@ export type CardSelectedEvent = {
 
 export type CardPlayedEvent = {
   event: 'card-played';
+  gameOver: boolean;
   gameId: string;
   board: Board;
   nextTurn: PlayerLabel;
@@ -37,6 +38,10 @@ export type CardPlayedEvent = {
   playerTwoScore: number;
 };
 
+/**
+ * This is the type of the message that is sent from the server to the client.
+ * We use this for intellisense when constructing the message.
+ */
 export type ServerGameEvent =
   | GameCreatedEvent
   | StartGameEvent

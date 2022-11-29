@@ -7,10 +7,15 @@ import { ClientMessage } from '../../backend-socketio/src/schemas/client-message
 import { ServerMessage } from '../../backend-socketio/src/schemas/server-message';
 import './App.css';
 import { Board } from './components/Board';
+import { GameOver } from './components/GameOver';
 import { Lobby } from './components/Lobby';
 import styles from './components/Lobby/Lobby.module.css';
 
-type GameState = 'waiting:creating' | 'waiting:joining' | 'playing';
+type GameState =
+  | 'waiting:creating'
+  | 'waiting:joining'
+  | 'playing'
+  | 'game-over';
 
 function App() {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -22,6 +27,8 @@ function App() {
     { name: 'create' } | { name: 'join'; gameId: string } | null
   >(null);
   const [gameId, setGameId] = useState<string | null>(null);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [gameOverMessage, setGameOverMessage] = useState<string | null>(null);
   const [playerInfo, setPlayerInfo] = useState<{
     whichPlayer: TripleTriad.PlayerLabel.One | TripleTriad.PlayerLabel.Two;
   } | null>(null);
@@ -155,6 +162,22 @@ function App() {
           whoGoesFirst={whoGoesFirst as TripleTriad.PlayerLabel}
           size={boardSize}
           matchData={{ socket, gameId, whichPlayer: playerInfo?.whichPlayer }}
+          onGameOver={(gameOverMessage: string) => {
+            setIsGameOver(true);
+            setGameOverMessage(gameOverMessage);
+            setCurrentGameState('game-over');
+          }}
+        />
+      );
+    } else if (isGameOver && gameOverMessage != null) {
+      return (
+        <GameOver
+          gameOverMessage={gameOverMessage}
+          onPlayAgainClicked={() => {
+            setIsGameOver(false);
+            setGameOverMessage(null);
+            setCurrentGameState(null);
+          }}
         />
       );
     }

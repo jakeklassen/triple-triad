@@ -1,0 +1,18 @@
+.button {
+  border: 1px solid white;
+  margin: 15px;
+  padding: 15px;
+  color: white;
+  box-shadow: -5px 5px black, -5px 5px 0px 3px white;
+  min-width: 125px;
+}
+
+.button:hover {
+  background-color: white;
+  color: black;
+}
+
+.button:active {
+  box-shadow: -3px 3px black, -3px 3px 0px 3px white;
+  transform: translate(-2px, 2px);
+}

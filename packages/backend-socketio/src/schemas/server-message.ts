@@ -26,6 +26,7 @@ export const ServerMessageSchema = z.discriminatedUnion('event', [
   }),
   z.object({
     event: z.literal('card-played'),
+    gameOver: z.boolean(),
     gameId: GameIdSchema,
     board: BoardDtoSchema,
     nextTurn: PlayerLabelSchema,
@@ -36,4 +37,7 @@ export const ServerMessageSchema = z.discriminatedUnion('event', [
   }),
 ]);
 
+/**
+ * This message schema is used to describe the message that is sent from the server to the client.
+ */
 export type ServerMessage = z.infer<typeof ServerMessageSchema>;

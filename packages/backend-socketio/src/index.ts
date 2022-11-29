@@ -153,7 +153,7 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
         break;
       }
 
-      const { newBoard, scoreChange } = playCard(
+      const { gameOver, newBoard, scoreChange } = playCard(
         game.board,
         game.whoGoesFirst,
         game.activePlayer,
@@ -178,6 +178,7 @@ const handleMessage = async (message: ClientMessage, socket: Socket) => {
 
       const serverMessage: ServerGameEvent = {
         event: 'card-played',
+        gameOver,
         gameId,
         board: newBoard as Board,
         nextTurn: nextPlayer.label,
