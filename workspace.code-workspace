@@ -39,8 +39,8 @@
     "editor.inlayHints.enabled": "on",
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.codeActionsOnSave": {
-      "source.fixAll": true,
-      "source.organizeImports": true
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
     },
     "typescript.tsdk": "💾 backend-socketio/node_modules/typescript/lib"
   }

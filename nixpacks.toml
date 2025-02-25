@@ -1,4 +1,4 @@
 providers = ["node"]
 
 [phases.install]
-cmds = ["npm install -g corepack", "corepack enable", "corepack prepare pnpm@7.17.0 --activate", "pnpm install"]
+cmds = ["npm install -g corepack", "corepack enable", "corepack prepare pnpm@9.15.4 --activate", "pnpm install"]
