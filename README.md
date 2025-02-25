@@ -2,6 +2,10 @@
 
 Monorepo for Triple Triad.
 
+## Game
+
+Build the `game` package first so that `dist` paths will be resolved.
+
 ## Backend
 
 ### Persistence
